@@ -1,5 +1,11 @@
 # Person 4 integration contract
 
+## Final submission status: targeted engineering study
+
+The deadline-limited final dataset is **16 real cases: 15 successful, 1 censored, 0 invalid**, at the accepted **0.25 s** step. The original 108-case pilot was discontinued; no production sweep is approved or authorized. The final four explicitly selected geometry-0 cases were the last engineering simulations.
+
+Use `data/processed/targeted/records.jsonl`, `summary.json`, `validation.json`, `results_table.csv`, and `manifest.json`. Histories are referenced by each record. Three final figures are in `figures/targeted` and `report/figures`. The final report is `report/main.tex`; `report/Overleaf_submission.zip` bundles its dependencies. Reproduction commands and interrupted-attempt accounting are in `docs/pilot_validation/README.md`. This final status supersedes the earlier planned-sweep discussion below.
+
 No other owner's physics or RK4 module is implemented here. Provide a small team_adapter.py after interfaces settle.
 
 simulate(case, dt_s) -> dict` must return finite arrays `t (N,)`, `states (N,7)`, `raw_dipole (N,3)`, `dipole (N,3)`, `torque (N,3)`. Time begins at zero and ends exactly at `case['metrics']['deadline_s']`. All cases run the full horizon even after success. Evaluate forcing and control at every RK4 stage. Use only the team's scratch RK4. Retain quaternion norm diagnostics as an additional return array. The runner saves all returned arrays.

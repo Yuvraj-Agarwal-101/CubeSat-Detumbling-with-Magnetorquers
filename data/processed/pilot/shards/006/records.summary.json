@@ -1,0 +1,13 @@
+{
+  "total": 1,
+  "valid": 1,
+  "invalid": 0,
+  "successes": 1,
+  "success_fraction": 1.0,
+  "conditional_median_time_s": 9529.17027739096,
+  "censored": 0,
+  "synthetic": false,
+  "runtime_s": 405.6765849999938,
+  "mean_case_runtime_s": 405.6657200999907,
+  "proposed_1152_runtime_s": 467326.9095551893
+}

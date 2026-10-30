@@ -1,4 +1,33 @@
 \section{Conclusions}
-The physics, inputs, numerical methods, and verification studies are separated in the implementation. Independent scalar and spherical rotation tests support first order Euler, second order Heun, and fourth order RK4 on smooth problems. Torque free energy and inertial momentum errors decrease with refinement. These results establish method verification for the stated cases. Engineering conclusions about controller gain, actuator capability, and detumbling time require the production field and controller, saturation studies, and a justified production time step.
+The integrated model combines a real idealized orbital magnetic field,
+normalized B-dot feedback, vector-norm actuator clipping, quaternion
+attitude dynamics, and scratch RK4. Independent physics checks, smooth
+convergence tests, saturation-aware and high-spin refinement, and separate
+event-output checks support the accepted $0.25\ \mathrm{s}$ timestep within
+the verified scope. The canonical $0.1\ \mathrm{A\,m^2}$ baseline actuator
+is unsaturated; the broader tested regimes include saturation.
 
-The integration preserves the numerical architecture, real idealized field and controller, and experiment pipeline. Historical verification evidence is retained. Verification of the merged source and the engineering sweep remain pending.
+The final targeted engineering study contains 16 real cases: 15 recoveries,
+one censored deadline failure, and no invalid simulations. It does not show
+that every tested case meets the six-orbit requirement. The failed case is
+geometry 0 at $30\ \mathrm{deg/s}$, gain $3\times10^{-6}\ \mathrm{kg\,m^2/s}$,
+and limit $0.03\ \mathrm{A\,m^2}$. Its recovery time is unknown within the
+study horizon rather than set equal to the deadline.
+
+The matched comparisons show greater difficulty at higher initial spin,
+a strong benefit from the tested tenfold gain increase, and a substantial
+actuator benefit when clipping is active. For the high-spin, higher-gain
+case, a tenfold larger dipole limit reduces recovery time by 61.00\%.
+For the low-spin, lower-gain cases, larger limits have no measured effect
+because even the smallest bound is inactive. Recovery times across the
+four common geometries differ by a factor of 3.89, emphasizing the role of
+initial attitude, spin direction, and orbital phase.
+
+These conclusions apply to the tested parameter combinations under the
+stated assumed inertia and idealized field. They do not establish a global
+optimum, a population recovery probability, eventual impossibility for a
+censored trajectory, or recovery for every CubeSat configuration. The
+planned 108-case pilot and 1152-case production sweep were not completed;
+production-sweep readiness is not claimed. The saved real histories,
+configuration hashes, tested revision, and reproducible figures provide
+the evidence for the submitted targeted study.

@@ -1,5 +1,5 @@
 {
-  "scope": "Integrated numerical and physics verification artifacts; engineering outputs remain gated and ungenerated.",
+  "scope": "Integrated numerical and physics verification plus final measured 16-case targeted engineering study; full pilot and production sweep not completed.",
   "artifacts": [
     {
       "artifact": "figures/convergence.png",
@@ -57,6 +57,19 @@
         "data/processed/production_validation/baseline.json"
       ],
       "seed": null
+    },
+    {
+      "artifact": "data/processed/targeted/manifest.json",
+      "generator": ".venv/Scripts/python.exe docs/pilot_validation/build_submission.py",
+      "configuration": "configs/study.json",
+      "data": "data/processed/targeted/records.jsonl",
+      "seed": 3702026,
+      "scope": "16 targeted real cases; 15 successful, 1 censored, 0 invalid"
+    },
+    {
+      "artifact": "report/Overleaf_submission.zip",
+      "generator": ".venv/Scripts/python.exe docs/pilot_validation/check_report.py",
+      "scope": "Report dependency bundle; compile main.tex in Overleaf"
     }
   ],
   "related_manifest": "docs/verification_manifest.json",
