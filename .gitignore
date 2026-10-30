@@ -12,3 +12,7 @@ report/*.out
 report/*.toc
 report/*.synctex.gz
 report/*.pdf
+
+pytest-cache-files-*/
+data/processed/test_runs/
+data/processed/synthetic_*/

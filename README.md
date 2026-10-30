@@ -14,7 +14,7 @@ The full project includes attitude dynamics, magnetic forcing and control, a num
 
 The engineering premise and quaternion utility layer are complete. The premise is in `report/sections/premise.tex`. It defines the question, full initial value problem, numerical motivation, assumptions, actuator constraint, and deadline criterion. Quaternion utilities and their independent geometry tests are implemented. All numerical values remain proposed study inputs.
 
-The repository contains the agreed folder structure and a local development environment. Dynamics and control modules, the numerical integrator, convergence drivers, engineering studies, and results remain pending. There is no reproduction runner yet. No simulation or convergence claim is made by this repository state.
+The repository contains the agreed folder structure and a local development environment. Dynamics and control modules, the numerical integrator, convergence drivers, engineering results remain pending. Person 4 metrics, experiment generators, study runner, monochrome plotting, and run_all.py are now available. The synthetic pipeline is verified. Real physics, convergence, production step selection, and engineering results remain pending.
 
 ## Local environment
 
@@ -76,3 +76,43 @@ Before submission, a teammate must follow only this README in a clean clone and 
 ## Team progress records
 
 Each member should record completed work, checks, dependencies, and AI use as their contributions are added. The existing records in `report/WORKCHUNK_1.md` and `report/WORKCHUNK_2.md` document the first premise and quaternion contributions. Copyable report source for quaternion verification is in `report/sections/quaternion_verification.tex`. These records describe individual contributions within the shared project rather than limiting the repository's scope.
+
+
+## Person 4 implementation and commands
+
+The checked implementation includes metrics, deterministic ensembles, persisted case records and histories, production evidence gates, grayscale maps, gain comparisons, paired field plots, report fragments, and a figure manifest. See `report/PERSON4_HANDOFF.md` for the physics adapter contract and exact metric conventions. Ownership of other members' modules is preserved.
+
+The Person 4 check used Python 3.13.14, NumPy 2.3.2, Matplotlib 3.10.5, and pytest 8.4.2 on Windows. `requirements-person4-tested.txt` records those direct versions separately from the team's macOS lock. Create a clean virtual environment and install one compatible environment. On Windows use `.venv\Scripts\python` instead of `.venv/bin/python` in subsequent commands.
+
+```sh
+python -m venv .venv
+.venv/bin/python -m pip install -r requirements-person4-tested.txt
+.venv/bin/python -m pip check
+.venv/bin/python -m pytest -q -p no:cacheprovider
+.venv/bin/python run_all.py --demo
+```
+
+Observed checks are recorded in `report/PERSON4_VERIFICATION.md`. Demonstration mode runs 18 orbital and 36 paired synthetic cases, retaining outputs under `data/processed/synthetic_demo`. It creates JSONL records, `.npz` histories, summary JSON, figure manifests, PDF and PNG figures, and paired outcome records. Each synthetic figure is explicitly labeled. This is a pipeline demonstration rather than the submitted engineering study. Output paths are protected against overwrite; choose a new `--output` directory to rerun.
+
+### Real engineering workflow after upstream integration
+
+1. Finalize `configs/study.json` assumptions with Person 1. The deadline currently uses six circular periods from radius 6871000 m and gravitational parameter 3.986004418e14 m³/s². Recompute the common deadline if these assumptions change. Match `configs/paired.json` except for field modes. The sampled initial attitudes are uniform on SO(3) via normalized Gaussian four-vectors. Spin directions are uniform on the sphere via normalized Gaussian three-vectors. Orbital phase is uniform on [0, 2 pi). Seed 3702026 is fixed. Geometries are shared across all settings and field modes.
+2. Connect the physics and scratch RK4 through the documented adapter. Commit the integration. Person 2 supplies convergence, independent checks, output-grid refinement evidence, and an accepted step. `studies/convergence.py` and `studies/timestep_selection.py` are reserved for Person 2 and are not supplied by this contribution. Their executable commands must be added when those drivers exist. No external integrator is used by Person 4.
+3. Copy `configs/verification.example.json` to `configs/verification.json` and record actual evidence, its SHA256 digests, accepted step, adapter, tested commit and reviewer. Do not set completion flags for pending checks. Run the 108-case pilot using the command below.
+4. Review the pilot summary runtime and accuracy before production. Add its records path to verification.json. The tentative production grid has 1152 orbital cases. The paired grid has 216 cases. The same deadline is used for all cases. Synthetic runtime estimates do not estimate physics runtime.
+5. Run production and paired studies, regenerate figures and tables, then copy the verified PDFs into `report/figures`. Replace pending report text with measured engineering interpretations. The full runner executes tests, production, paired studies, and figure generation. It relies on previously supplied numerical verification evidence rather than inventing Person 2's studies.
+
+```sh
+python -m studies.parameter_sweep --grid pilot --verification configs/verification.json --output data/processed/pilot/records.jsonl
+python run_all.py --verification configs/verification.json
+python -m studies.make_figures --records data/processed/production/records.jsonl --output figures/production
+python -m studies.make_figures --records data/processed/production/paired.jsonl --output figures/paired
+```
+
+Every case stores all physical parameters, initial conditions, seed, step, configuration hash, tested commit, elapsed runtime, metrics and failure reason. Histories contain the full deadline interval. Interrupted JSONL runs retain completed records but do not currently resume automatically. Use a new output path for a restart. Invalid simulations are reported separately from right-censored deadline failures. Group success fractions show their valid denominator and invalid count. Time medians are conditional on success. No unconditional finite median is inferred from censored cases. Saturation fractions use time-weighted linearly interpolated raw norms; effort is actuator activity, not electrical energy.
+
+The plots and `summary_table.json` report results for each gain, spin and dipole limit. `paired_outcomes.json` retains unsuccessful and invalid pairs, beyond the scatter conditional on success in both fields. Generated `manifest.json` files record generating commands, data paths, seeds and configuration hashes. The handoff includes a report figure table. Paths are repository relative when the documented commands are used. Figure regeneration needs only saved JSONL records; compressed histories permit metric audits and reanalysis.
+
+### Final reproduction status
+
+A clean clone reproduction of the completed physics study, final tested commit, evaluator access, real pilot runtime and production runtime remain pending. The supplied GitHub repository was cloned successfully at base commit 79161bc. This local contribution is on branch `person4-experiments` and has not been pushed. Final publication must include the implementation, accepted configuration, verification evidence and either processed data or executable generation steps for all report figures. Do not include the ignored synthetic fixture directory as engineering evidence.

@@ -1,0 +1,114 @@
+{
+  "seed": 3702026,
+  "physical": {
+    "inertia_kg_m2": [
+      [
+        0.03,
+        0,
+        0
+      ],
+      [
+        0,
+        0.035,
+        0
+      ],
+      [
+        0,
+        0,
+        0.007
+      ]
+    ],
+    "altitude_m": 500000,
+    "inclination_rad": 0.9599310885968813,
+    "raan_rad": 0,
+    "parameter_status": "proposed assumptions; Person 1 must finalize",
+    "field_model": "rotating tilted dipole; Person 3 must supply constants"
+  },
+  "field_modes": [
+    "orbital"
+  ],
+  "metrics": {
+    "threshold_rad_s": 0.008726646259971648,
+    "hold_s": 600,
+    "deadline_s": 34008.86621436699
+  },
+  "grids": {
+    "pilot": {
+      "spin_deg_s": [
+        1,
+        10,
+        30
+      ],
+      "gain_kg_m2_s": [
+        3e-06,
+        1e-05,
+        3e-05
+      ],
+      "dipole_limit_Am2": [
+        0.03,
+        0.1,
+        0.3
+      ],
+      "geometries": 4
+    },
+    "production": {
+      "spin_deg_s": [
+        1,
+        3,
+        5,
+        10,
+        20,
+        30
+      ],
+      "gain_kg_m2_s": [
+        1e-06,
+        3e-06,
+        1e-05,
+        3e-05,
+        0.0001,
+        0.0003
+      ],
+      "dipole_limit_Am2": [
+        0.01,
+        0.03,
+        0.1,
+        0.3
+      ],
+      "geometries": 8
+    },
+    "paired": {
+      "spin_deg_s": [
+        1,
+        10,
+        30
+      ],
+      "gain_kg_m2_s": [
+        3e-06,
+        1e-05,
+        3e-05
+      ],
+      "dipole_limit_Am2": [
+        0.03,
+        0.1,
+        0.3
+      ],
+      "geometries": 4
+    },
+    "demo": {
+      "spin_deg_s": [
+        1,
+        10,
+        30
+      ],
+      "gain_kg_m2_s": [
+        1e-05
+      ],
+      "dipole_limit_Am2": [
+        0.03,
+        0.1,
+        0.3
+      ],
+      "geometries": 2
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "independent_physics_checks_passed": false,
+  "smooth_convergence_passed": false,
+  "output_grid_refinement_passed": false,
+  "person2_accepted": false,
+  "accepted_by": null,
+  "dt_s": null,
+  "adapter": "team_adapter:simulate",
+  "tested_commit": null,
+  "evidence_files": [],
+  "pilot_records": null
+}

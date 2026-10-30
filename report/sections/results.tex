@@ -1,0 +1,26 @@
+\section{Engineering results}
+Engineering results remain pending. The dynamics, orbit and magnetic field,
+controller, and numerical integrator must be connected and independently
+verified before the engineering study can run. Synthetic pipeline fixtures
+are excluded from the engineering conclusions.
+
+The planned comparisons measure detumbling time conditional on success,
+success fraction before the common deadline, and time weighted saturation
+fraction. Each map will state the gain, initial spin, dipole limit, ensemble
+size, and assumed physical parameters. Cases without a complete qualifying
+hold interval will remain censored. Invalid simulation records will be
+reported separately from valid cases that miss the deadline.
+
+A paired comparison will use identical initial conditions for the orbital
+and frozen inertial magnetic fields. The latter holds the inertial field
+at its initial value and sets its inertial derivative to zero, while
+continuing to transform it into the body frame.
+
+% After real studies, copy the verified PDF figures into report/figures.
+% Include using the following pattern after loading graphicx in main.tex.
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=\linewidth]{figures/maps_gain_1e-05.pdf}
+% \caption{Replace with measured results, gain, geometry count, assumptions,
+% and a statement that recovery times are conditional on success.}
+% \end{figure}
