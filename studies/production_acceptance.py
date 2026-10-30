@@ -64,17 +64,17 @@ def report():
     text=(r'\paragraph{Historical source evidence} '+'The one second acceptance and measurements below belong to the original source snapshot. The merged numerical architecture requires renewed verification before new production approval.'+'\n' if historical else '')
     text+=r'''\subsection{Accepted numerical production step}
 The production setting in the canonical configuration is
-'''+f"${accepted['accepted_step_s']:g}$ second.\n"+r'''The two successive comparisons from one to half a second and from half to
-a quarter second pass every declared metric tolerance in both saturation
-regimes. Success classification remains unchanged. The earlier two second
-saturated failure is retained in the record rather than discarded.
+'''+f"${accepted['accepted_step_s']:g}$ second.\n"+r'''Two successive halvings starting at the accepted step pass every declared
+metric tolerance in the unsaturated, saturated, and audited high-spin cases.
+Success classification remains unchanged. Failed coarser comparisons are
+retained in the record rather than discarded.
 
-To separate output sampling from integration error, each quarter second
+To separate output sampling from integration error, each finest integrated
 trajectory is held fixed while output spacing is coarsened. Complete hold
 intervals use piecewise linear interpolation of rate norm, and saturation
 duration uses crossings of the raw dipole norm. Equality qualifies in this
-diagnostic, matching the Person 4 convention; the original sampled strict
-threshold metric is retained for the integrator comparisons.
+diagnostic, matching the Person 4 convention; the original sampled endpoint
+metric is retained for the integrator comparisons.
 \begin{center}
 \begin{tabular}{lrrr}
 Case & Output spacing & Interpolated start & Saturation fraction \\

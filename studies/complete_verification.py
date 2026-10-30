@@ -58,15 +58,16 @@ def trace_metrics(t, rate, raw, torque, threshold, hold, limit):
                 saturation_fraction=crossing_fraction(t,raw,limit))
 
 
-def run_case(name):
+def run_case(parameters):
+    name,step=parameters
     # Replay the archived case, even after a production solver setting is set
     # in the canonical baseline. Physics hashes are checked in main().
     archived=json.loads((ROOT/'data/processed/timestep_selection.json').read_text())
     saved=next(c for c in archived['cases'] if c['name']==name)
     case=dict(config_record=saved['config'],y0=saved['y0'])
     started=time.perf_counter()
-    print('Starting quarter-second confirmation for '+name,flush=True)
-    history=simulate(dict(document=case['config_record'],field_mode='orbital',y0=case['y0']),.25)
+    print(f'Starting {step:g}-second confirmation for '+name,flush=True)
+    history=simulate(dict(document=case['config_record'],field_mode='orbital',y0=case['y0']),step)
     t,y=history['t'],history['states']
     raw=np.linalg.norm(history['raw_dipole'],axis=1)
     command=np.linalg.norm(history['dipole'],axis=1)
@@ -76,14 +77,14 @@ def run_case(name):
     limit=case['config_record']['physical']['controller']['max_dipole_a_m2']
     metric=sampled_metrics(t,y,history['torque'],raw>limit,timing['rate_threshold_rad_s'],timing['hold_duration_s'])
     metric['dipole_effort_A_m2_s']=float(np.trapezoid(command,t))
-    record=dict(step_s=.25,metrics=metric,runtime_s=time.perf_counter()-started,
+    record=dict(step_s=step,metrics=metric,runtime_s=time.perf_counter()-started,
                 max_preprojection_norm_error=float(max(abs(history['preprojection_norm_error']))),
                 rhs_evaluations=4*(len(t)-1))
     audits=[]
     person4=[]
     for stride in [4,2,1]:
         nodes=np.unique(np.r_[np.arange(0,len(t),stride),len(t)-1])
-        audits.append(dict(output_spacing_s=.25*stride,
+        audits.append(dict(output_spacing_s=step*stride,
             metrics=trace_metrics(t[nodes],rate[nodes],raw[nodes],torque[nodes],
                 timing['rate_threshold_rad_s'],timing['hold_duration_s'],limit)))
         person4.append(compute_metrics(**{key:history[key][nodes] for key in
@@ -109,7 +110,7 @@ def run_case(name):
     return result
 
 
-def main():
+def main(fine_step=.25):
     old=json.loads((ROOT/'data/processed/timestep_selection.json').read_text())
     evidence=old.get('source_hashes')
     if evidence is None:
@@ -119,12 +120,12 @@ def main():
         if digest!=expected:
             raise ValueError('Coarser evidence uses different physics: '+name)
     with ProcessPoolExecutor(max_workers=2) as pool:
-        completed=list(pool.map(run_case,['unsaturated','saturated']))
-    settings=old['settings']; steps=[2,1,.5,.25]; settings['step_sizes_s']=steps
+        completed=list(pool.map(run_case,[(name,fine_step) for name in ['unsaturated','saturated']]))
+    settings=old['settings']; steps=sorted(set(settings['step_sizes_s']+[fine_step]),reverse=True); settings['step_sizes_s']=steps
     for case,new in zip(old['cases'],completed):
         if case['config']!=new['config']:
             raise ValueError('Case parameters changed')
-        case['runs']=[r for r in case['runs'] if r['step_s']!=.25]+[new['run']]
+        case['runs']=sorted([r for r in case['runs'] if r['step_s']!=fine_step]+[new['run']],key=lambda r:-r['step_s'])
         case['comparisons']=[compare(a['metrics'],b['metrics'],settings['tolerances'])
                              for a,b in zip(case['runs'][:-1],case['runs'][1:])]
         new['output_comparisons']=[compare(a['metrics'],b['metrics'],settings['tolerances'])
@@ -136,10 +137,16 @@ def main():
     final=dict(selected_step_s=chosen,output_grid_pass=output_pass,cases=completed,
                scope='Canonical geometry at gain 1e-5, with unsaturated and saturated bounds; larger engineering grids require their own audit',
                event_assumption='Piecewise linear rate norm, threshold equality qualifies; unresolved excursions cannot be proven absent',
-               command='python -m studies.complete_verification')
+               command=f'python -m studies.complete_verification --fine-step {fine_step:g}')
     (ROOT/'data/processed/production_validation/confirmation.json').write_text(json.dumps(final,indent=2)+'\n')
     print('Selected step: '+str(chosen)+'; output audit pass: '+str(output_pass),flush=True)
 
 
 if __name__=='__main__':
-    main()
+    import argparse
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--fine-step',type=float,default=.25)
+    args=parser.parse_args()
+    if args.fine_step<=0 or not np.isfinite(args.fine_step):
+        parser.error('fine-step must be positive and finite')
+    main(args.fine_step)
