@@ -150,7 +150,9 @@ def run(adapter, settings_path=None):
                       limitation='Sampled events can miss intervening excursions and narrow saturation or torque peaks. Independent physics verification and team approval remain necessary.')
         result['source_hashes']={name:hashlib.sha256((ROOT/name).read_bytes().replace(b'\r\n',b'\n')).hexdigest()
                                 for name in ['src/orbit_field.py','src/controller.py','team_adapter.py',
-                                             'src/dynamics.py','src/integrators.py'] if (ROOT/name).exists()}
+                                             'src/dynamics.py','src/integrators.py','src/physics/dynamics.py',
+                                             'src/physics/quaternion.py','src/numerics/integrators.py',
+                                             'src/numerics/algebra.py','src/inputs/case.py'] if (ROOT/name).exists()}
     out = ROOT/'data/processed/timestep_selection.json'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2))

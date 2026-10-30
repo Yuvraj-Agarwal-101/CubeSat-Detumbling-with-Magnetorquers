@@ -1,4 +1,4 @@
-"""Regenerate all delivered Person 2 results, not the unavailable team sweep."""
+"""Reproduce numerical verification or an explicitly selected engineering workflow."""
 from pathlib import Path
 import argparse
 import importlib.metadata
@@ -17,7 +17,21 @@ def main():
     parser.add_argument('--settings',help='Full model refinement settings JSON')
     parser.add_argument('--complete-verification',action='store_true',
                         help='Expensive full reproduction of coarse/fine runs and baseline confirmation')
+    group=parser.add_mutually_exclusive_group()
+    group.add_argument('--demo',action='store_true',help='Explicit synthetic engineering demonstration')
+    group.add_argument('--verification',help='Reviewed evidence gate for real engineering runs')
+    parser.add_argument('--output',help='Engineering output directory')
     args=parser.parse_args()
+    if args.demo or args.verification:
+        if args.adapter or args.settings or args.complete_verification:
+            parser.error('Choose a numerical verification workflow or an engineering workflow')
+        command=[sys.executable,'-m','studies.engineering_pipeline']
+        command+=['--demo'] if args.demo else ['--verification',args.verification]
+        if args.output: command+=['--output',args.output]
+        subprocess.run(command,cwd=ROOT,check=True)
+        return
+    if args.output:
+        parser.error('--output requires --demo or --verification')
     start=time.perf_counter()
     out=ROOT/'data/processed'; out.mkdir(parents=True,exist_ok=True)
     subprocess.run([sys.executable,'-m','tools.export_report_inputs'], cwd=ROOT, check=True)

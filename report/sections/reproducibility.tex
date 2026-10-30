@@ -1,5 +1,5 @@
 \section{Reproducibility}
-The shared code is available in the \href{https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers/tree/aleksandar}{project repository}. The README records environment setup, module ownership, current commands, and outstanding reproduction requirements.
+The shared code is available in the \href{https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers/tree/codex/merge-team-branches}{project repository}. The README records environment setup, module ownership, current commands, and outstanding reproduction requirements.
 
 The available configuration and correctness checks can be reproduced from the repository root using
 \begin{quote}
@@ -36,3 +36,25 @@ The explicit full command \texttt{python run\_all.py --complete-verification}
 also recomputes the expensive six orbit simulations and acceptance. The
 recorded numerical acceptance applies to the documented baseline scope.
 The remaining engineering sweep and final team submission are separate.
+
+The Person 4 pipeline now provides \texttt{run\_all.py}, seeded study
+configurations, metric tests, persisted case records, saved histories,
+monochrome figure drivers, and figure manifests. Run
+\texttt{python run\_all.py \string--demo} for an explicitly synthetic
+pipeline demonstration. Run
+\texttt{python \string-m studies.metric\_refinement} for the analytic
+metric check. The latter uses exact sampled functions and no IVP integrator.
+The README documents all generating commands.
+
+The preliminary refinement audit compares three integration steps, audits
+output spacing separately, and optionally records frozen Jacobian spectra.
+Its outputs provide evidence for the numerical methods owner and do not
+automatically approve a production step. The real study runner requires
+independent physics checks, smooth convergence evidence, output grid
+refinement and a step accepted by the numerical methods owner. The production
+study also requires the real 108 case pilot. Broader real runtime measurements, and a clean clone reproduction of all final
+engineering results remain required before submission. Evaluator access and the final tested revision must be checked after the remaining modules and results are merged.
+
+Historical production evidence belongs to the original source snapshots.
+The merged numerical architecture requires renewed Person 3 verification
+before extending that acceptance to new engineering runs.

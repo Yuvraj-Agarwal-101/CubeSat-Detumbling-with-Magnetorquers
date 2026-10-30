@@ -23,7 +23,9 @@ def test_production_setting_matches_accepted_evidence_and_physics():
         # Unmoved physics and adapter must still match the measured source.
         if name not in ('src/dynamics.py','src/integrators.py'):
             assert hashlib.sha256((ROOT/name).read_bytes().replace(b'\r\n',b'\n')).hexdigest()==digest
-    assert evidence.get('integration_status', '').startswith('Historical baseline evidence retained.')
+    if evidence.get('source_snapshot_root'):
+        assert evidence['integration_status'].startswith('Historical baseline evidence retained.')
+        assert evidence['source_revision']=='7f0a3de'
     for name,digest in hashes.items():
         actual=hashlib.sha256((ROOT/name).read_bytes().replace(b'\r\n',b'\n')).hexdigest()
         assert actual==digest

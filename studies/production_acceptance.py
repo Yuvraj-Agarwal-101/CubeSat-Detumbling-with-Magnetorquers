@@ -60,7 +60,9 @@ def report():
     if not path.exists():
         return
     accepted=json.loads(path.read_text());audit=json.loads((path.parent/'confirmation.json').read_text())
-    text=r'''\subsection{Accepted numerical production step}
+    historical=bool(accepted.get('source_snapshot_root'))
+    text=(r'\paragraph{Historical source evidence} '+'The one second acceptance and measurements below belong to the original source snapshot. The merged numerical architecture requires renewed verification before new production approval.'+'\n' if historical else '')
+    text+=r'''\subsection{Accepted numerical production step}
 The production setting in the canonical configuration is
 '''+f"${accepted['accepted_step_s']:g}$ second.\n"+r'''The two successive comparisons from one to half a second and from half to
 a quarter second pass every declared metric tolerance in both saturation

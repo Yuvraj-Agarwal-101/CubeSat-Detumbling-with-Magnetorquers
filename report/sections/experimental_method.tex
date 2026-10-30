@@ -1,0 +1,90 @@
+\subsection{Experiment design and numerical reliability}
+The experiments follow the IVP framework of Lecture 10, the truncation
+error convention of Lecture 11, and the stability and stiffness analysis
+of Lectures 12 and 13~\cite{ae370lecture10,ae370lecture11,ae370lecture12,ae370lecture13}.
+Lecture 3 motivates stating the norm used for every error comparison~\cite{ae370lecture3}. These lecture connections describe the methodology.
+They do not establish that the pending spacecraft simulations are accurate.
+
+Write the seven component IVP as $\dot{\mathbf y}=f(\mathbf y,t)$ with
+initial data at one time. The implementation interface accepts time first.
+Classical RK4 is the implemented explicit four stage method. With
+$h=\Delta t$, its stages evaluate $f$ at the initial time, twice at the
+midpoint, and at the final time. The update weights are
+$(1,2,2,1)/6$. Magnetic forcing and feedback must be reevaluated at each
+stage. The integrator implementation and full derivation belong to the
+numerical methods contribution.
+
+Lecture 11 divides the exact starting value step defect by $h$ when defining
+$\tau_k$. Under the smoothness assumptions for classical RK4, the unscaled
+step defect is $O(h^5)$, this convention gives $\tau_k=O(h^4)$, and stable
+integration over a fixed interval gives global error $O(h^4)$. The smooth
+verification case must be tested separately from trajectories crossing the
+actuator saturation boundary. Such crossings can invalidate a smooth
+Taylor expansion across a step.
+
+For example, on $\dot u=\lambda u$, direct substitution of the four stages
+gives
+\[
+ R(z)=1+z+\frac{z^2}{2}+\frac{z^3}{6}+\frac{z^4}{24},
+ \qquad z=h\lambda.
+\]
+The expansion of $e^z-R(z)$ starts at $z^5/120$, which verifies the step
+defect order on this scalar test. This calculation alone is not a general
+nonlinear order proof. For a frozen decaying linear mode, absolute stability
+requires $|R(h\lambda)|<1$. The negative real boundary is approximately
+$h|\lambda|=2.785$. The Jacobian spectrum can change along a nonlinear
+trajectory. Neutral quaternion modes and growing modes must be recorded
+separately. A ratio of nonzero decaying eigenvalue magnitudes is a local
+indicator of separated time scales, not proof of stiffness or nonlinear
+stability. Production step selection also requires trajectory and metric
+refinement, especially near saturation switches.
+
+For paired histories sampled at common nodes, let $d_{q,k}$ be the smaller
+of $\|\widehat q_k-\widehat q^{\rm ref}_k\|_2$ and
+$\|\widehat q_k+\widehat q^{\rm ref}_k\|_2$, where the hats denote locally
+normalized copies. This removes the equivalent quaternion sign choice.
+Set $\omega_*=\omega_{\rm threshold}$ and define
+\[
+ D_k^2=d_{q,k}^2+
+ \frac{\|\boldsymbol\omega_k-\boldsymbol\omega_k^{\rm ref}\|_2^2}{\omega_*^2},
+ \qquad
+ E=\left[\frac{1}{T}\sum_k
+ \frac{t_{k+1}-t_k}{2}(D_k^2+D_{k+1}^2)\right]^{1/2}.
+\]
+The recorded sampled maximum accompanies this dimensionless time RMS.
+Raw quaternion norm defects are retained separately. Reference values are
+compared only at nested output nodes, without introducing interpolation
+error into the state order estimate. For equal refinement ratios,
+\[
+ p_{\rm obs}=\log_2\left(\frac{E_{h,h/2}}{E_{h/2,h/4}}\right).
+\]
+An estimate is absent when a difference is zero. Self convergence verifies
+neither the physical equations nor the frame convention, so independent
+checks remain necessary.
+
+Recovery time is the start of the earliest complete qualifying hold interval
+ending by the deadline. Rate threshold equality qualifies. The crossing is
+estimated from a linear interpolant of sampled rate norms, an application
+of local interpolation from Lecture 4~\cite{ae370lecture4}. The interpolation error for a smooth
+scalar history has an $O(h^2)$ bound. At a transverse threshold crossing,
+dividing that error by a nonzero crossing slope gives an $O(h^2)$ time error.
+Tangencies and unresolved excursions require separate attention. Thus RK4
+state accuracy does not imply fourth order recovery time measurements.
+Output spacing is refined on the same finest trajectory separately from
+integration step refinement. This cannot certify an unresolved excursion
+between all retained samples.
+
+The initial pilot uses three spin magnitudes, three gains, three dipole
+limits and four common geometries, giving 108 orbital cases. The tentative
+production grid has 1152 orbital cases. Attitudes are generated from
+normalized Gaussian four vectors, spin directions from normalized Gaussian
+three vectors, and orbital phases uniformly on $[0,2\pi)$. The seed is
+recorded and geometries are paired across settings. Physical inputs and
+derived deadlines come from the validated canonical baseline.
+
+Report recovery times conditional on success, with unsuccessful valid cases
+retained as censored. Report simulation errors separately. A missed deadline
+is not proof that eventual recovery is impossible. The paired field study
+freezes the initial inertial field and its inertial derivative while retaining
+the transformation into body components. Parameter choices and the numerical
+acceptance tolerances must be agreed before production results are interpreted.

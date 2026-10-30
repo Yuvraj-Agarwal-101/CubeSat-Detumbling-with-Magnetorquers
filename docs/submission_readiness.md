@@ -37,3 +37,5 @@ The parameter table exporter is needed only after canonical inputs change. Saved
 ## Interpretation
 
 Fourth order is supported for the tested smooth cases. It is not asserted across every saturation transition. A bounded linear amplification factor does not establish nonlinear stability or engineering accuracy. The production model has not yet been classified as nonstiff.
+
+Integration status and historical-source scope are recorded in docs/INTEGRATION.md. The real field, controller, adapter and Person 4 pipeline are merged; engineering sweeps, renewed merged-source verification and final team review remain pending.
