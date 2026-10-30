@@ -1,0 +1,24 @@
+{
+  "status": "numerical verification complete",
+  "accepted_step_s": 1,
+  "accepted_by": "Automated numerical checks executed by Codex at the user request",
+  "student_review": "Not claimed; students must review and understand the generated work",
+  "scope": "Canonical geometry at gain 1e-5, with unsaturated and saturated bounds; larger engineering grids require their own audit",
+  "baseline_max_raw_dipole_A_m2": 0.07030255292146413,
+  "maximum_output_event_change_s": 0.00036599915983970277,
+  "output_event_absolute_tolerance_s": 1.0,
+  "baseline_checks": 136036,
+  "physics_source_sha256": {
+    "src/orbit_field.py": "8b996c9a5ccccba8d40ed8a5e6758c5af25856a404c818b84d2963594a316433",
+    "src/controller.py": "0fd808cb3f698ff9601b8cde740abda9b4e7b24556a360b6083318333aed9ecb",
+    "team_adapter.py": "8cf024498e3583ac47f238b1dac8bcf74ad16c00770ea48f8d6dfb79846123c5",
+    "src/dynamics.py": "6c303c4cd5218fd3dbcc0fd4794929171a5c835d9aca2467abc5eb2917b7578a",
+    "src/integrators.py": "add75ddbaffd295585e1fb67e5f6deff4a50e706651c65b0e38483cc04c34a90"
+  },
+  "evidence_sha256": {
+    "data/processed/timestep_selection.json": "ca17640432e388183182035e9a1dac545325cf877c3e4086aeb79be4cc641f81",
+    "data/processed/production_validation/confirmation.json": "7444e69cbdb714d66230cff7351b6719da474442598cfcf68f2d659ff4f4fbc5",
+    "data/processed/production_validation/baseline.json": "22154c75a68073a0457a76ba3168e3c8d09f8256215af6306a73d6744c081faa"
+  },
+  "limitations": "Finite sampled verification for declared physical settings; other sweep gains, rates and geometries require their own numerical audit. This is not final team submission approval."
+}

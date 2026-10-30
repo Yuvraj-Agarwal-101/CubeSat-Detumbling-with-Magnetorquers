@@ -58,7 +58,7 @@
     }
   },
   "seed": null,
-  "python": "3.12.14",
+  "python": "3.9.6",
   "numpy": "2.0.2",
   "results": [
     {
@@ -70,7 +70,7 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 40,
-      "runtime_s": 0.0011163000017404556
+      "runtime_s": 0.00042637499999999273
     },
     {
       "case": "scalar",
@@ -81,7 +81,7 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 80,
-      "runtime_s": 0.001196300028823316
+      "runtime_s": 0.0005702080000000026
     },
     {
       "case": "scalar",
@@ -92,7 +92,7 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 160,
-      "runtime_s": 0.002089399960823357
+      "runtime_s": 0.0010835409999999934
     },
     {
       "case": "scalar",
@@ -103,7 +103,7 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 320,
-      "runtime_s": 0.005894200061447918
+      "runtime_s": 0.002125625000000006
     },
     {
       "case": "scalar",
@@ -114,7 +114,7 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 640,
-      "runtime_s": 0.0095446000341326
+      "runtime_s": 0.004198625000000011
     },
     {
       "case": "scalar",
@@ -125,73 +125,73 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 1280,
-      "runtime_s": 0.01988169993273914
+      "runtime_s": 0.008157207999999999
     },
     {
       "case": "spherical",
       "step_s": 1.0,
-      "error": 0.0017599047408231223,
+      "error": 0.0017599047408231635,
       "order": null,
-      "quaternion_component_error": 0.0008799523420215178,
+      "quaternion_component_error": 0.0008799523420215233,
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 1.3351529561500541e-05,
       "rhs_evaluations": 80,
-      "runtime_s": 0.0037842000601813197
+      "runtime_s": 0.0010402080000000008
     },
     {
       "case": "spherical",
       "step_s": 0.5,
-      "error": 0.0001138071424168376,
-      "order": 3.950834333929645,
-      "quaternion_component_error": 5.690357120075067e-05,
+      "error": 0.00011380714241684155,
+      "order": 3.9508343339296284,
+      "quaternion_component_error": 5.690357120076617e-05,
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 2.1109980596900613e-07,
       "rhs_evaluations": 160,
-      "runtime_s": 0.004348000045865774
+      "runtime_s": 0.0016860830000000049
     },
     {
       "case": "spherical",
       "step_s": 0.25,
-      "error": 7.173002402931608e-06,
-      "order": 3.9878701782186625,
-      "quaternion_component_error": 3.5865012014530948e-06,
+      "error": 7.173002402701982e-06,
+      "order": 3.987870178264897,
+      "quaternion_component_error": 3.586501201354461e-06,
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 3.3081355432784676e-09,
       "rhs_evaluations": 320,
-      "runtime_s": 0.00842149998061359
+      "runtime_s": 0.003151082999999999
     },
     {
       "case": "spherical",
       "step_s": 0.125,
-      "error": 4.492528317587527e-07,
-      "order": 3.9969776115059616,
-      "quaternion_component_error": 2.2462641586892482e-07,
+      "error": 4.492528313053886e-07,
+      "order": 3.996977612915675,
+      "quaternion_component_error": 2.2462641564511314e-07,
       "omega_error_rad_s": 0.0,
-      "max_preprojection_norm_error": 5.1727622185637756e-11,
+      "max_preprojection_norm_error": 5.172773320794022e-11,
       "rhs_evaluations": 640,
-      "runtime_s": 0.0240446999669075
+      "runtime_s": 0.006045459000000003
     },
     {
       "case": "spherical",
       "step_s": 0.0625,
-      "error": 2.8092999071876544e-08,
-      "order": 3.999245044549451,
-      "quaternion_component_error": 1.4046499511094807e-08,
+      "error": 2.8093000524212064e-08,
+      "order": 3.9992449685099465,
+      "quaternion_component_error": 1.4046500264599718e-08,
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 8.085754288345015e-13,
       "rhs_evaluations": 1280,
-      "runtime_s": 0.035609800019301474
+      "runtime_s": 0.01193962500000001
     },
     {
       "case": "spherical",
       "step_s": 0.03125,
-      "error": 1.7560417037050913e-09,
-      "order": 3.999811635265657,
-      "quaternion_component_error": 8.780208477527101e-10,
+      "error": 1.7560416683785544e-09,
+      "order": 3.9998117388721623,
+      "quaternion_component_error": 8.78020819913895e-10,
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 1.27675647831893e-14,
       "rhs_evaluations": 2560,
-      "runtime_s": 0.07447240001056343
+      "runtime_s": 0.02370325000000001
     }
   ]
 }

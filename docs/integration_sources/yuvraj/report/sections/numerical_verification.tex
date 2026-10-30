@@ -1,0 +1,52 @@
+\subsection{Time integration convergence}
+The scalar test is \(\dot u=-u\), \(u(0)=1\), with exact solution \(u(t)=e^{-t}\) on \(0\leq t\leq2\). Five steps from \(0.2\) through \(0.0125\) are used. The error at each sample is the exact value minus the computed value. It is measured using
+\[
+\|e\|_{\Delta t}
+=\left(\sum_k\frac{t_{k+1}-t_k}{2}
+\left(\|e_k\|_2^2+\|e_{k+1}\|_2^2\right)\right)^{1/2}.
+\]
+The time weights approximate an integral norm and prevent the measurement from growing merely because refinement adds samples.
+
+A separate spherical body test sets \(J=2I_3\) and torque to zero. With constant body rate \(\omega_0\), the exact quaternion is
+\[
+q(t)=q(0)\otimes
+\left(\cos(\|\omega_0\|t/2),
+\frac{\omega_0}{\|\omega_0\|}\sin(\|\omega_0\|t/2)\right).
+\]
+The zero rate case is handled separately. The study uses \(\omega_0=(0.3,-0.2,0.4)^T\ \mathrm{rad/s}\), a nonidentity initial quaternion, \(t_f=4\ \mathrm{s}\), and five steps from \(0.4\) through \(0.025\ \mathrm{s}\). The attitude error is
+\[
+d_q=\min\bigl(\|q_{\rm exact}-q_k\|_2,\|q_{\rm exact}+q_k\|_2\bigr).
+\]
+This accounts for the two quaternion signs representing one orientation. Angular velocity and quaternion errors are not combined into an unscaled mixed unit norm.
+
+Orders are estimated by fitting \(\log\|e\|_{\Delta t}=a+p\log h\). Centering \(\log h\) makes the constant and linear basis columns orthogonal under the sample inner product, so \(p\) is obtained by a projection ratio rather than a poorly conditioned polynomial fit.
+\begin{table}[htbp]
+\centering
+\input{sections/verification_orders}
+\caption{Measured orders from the saved five grid studies. Finite step effects account for small departures from the asymptotic integer orders.}
+\end{table}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\linewidth]{verification_convergence.png}
+\caption{Exact scalar decay convergence. Euler, Heun, and RK4 approach first, second, and fourth order respectively. The vertical axis uses the time weighted error norm.}
+\end{figure}
+
+\subsection{Conservation over finite trajectories}
+The asymmetric torque free study uses \(J=\operatorname{diag}(0.030,0.035,0.007)\ \mathrm{kg\,m^2}\), initial rate \((0.4,0.3,0.5)^T\ \mathrm{rad/s}\), and a duration of \(20\ \mathrm{s}\). Energy and the full inertial momentum vector are compared with their initial values. These are independent physical invariants rather than a finer numerical trajectory used as truth.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\linewidth]{verification_invariants.png}
+\caption{Maximum relative energy and inertial momentum errors for the asymmetric torque free body. Both decrease under refinement. Their measured powers need not coincide on every grid.}
+\end{figure}
+Quaternion correction norms are saved separately. Projection controls the unit constraint but does not by itself establish correct rotational dynamics.
+
+\subsection{Linear stability checks}
+For \(\lambda=-1\), the implemented RK4 step agrees with its analytic amplification polynomial. In particular, \(R(-2)=1/3\) gives decay, whereas \(R(-3)=1.375\) gives numerical growth for the same decaying differential equation. This checks stability separately from convergence order.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\linewidth]{verification_stability.png}
+\caption{Amplification magnitude on the negative real axis. The horizontal line is one. Values below it represent decay for the scalar linear model. A stable factor alone does not establish accuracy.}
+\end{figure}
+
+\subsection{Production verification still required}
+These are exact solution and conservation studies for stated special cases. Production field and controller checks, saturation transition refinement, local spectral assessment along magnetic trajectories, and a production time step remain required. No detumbling time or engineering success fraction is inferred from the special cases.

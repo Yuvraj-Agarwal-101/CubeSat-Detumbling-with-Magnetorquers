@@ -1,0 +1,8 @@
+{
+  "figure": "metric_refinement.pdf",
+  "command": "python -m studies.metric_refinement --output data/processed/lecture_metric_check",
+  "source": "analytic functions in studies/metric_refinement.py",
+  "seed": null,
+  "data": "evidence.json",
+  "scope": "Exact analytic sampled histories; no spacecraft physics or IVP integration"
+}

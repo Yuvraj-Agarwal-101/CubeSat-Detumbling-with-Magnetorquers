@@ -1,0 +1,47 @@
+{
+  "orders": {
+    "euler": 1.0266708626549874,
+    "heun": 2.04984690979094,
+    "rk4": 4.054002166542537,
+    "spherical_rotation": 3.99947089153322
+  },
+  "scope": "Exact IVP verification and torque free invariants only",
+  "scalar_duration": 2,
+  "scalar_steps": [
+    0.2,
+    0.1,
+    0.05,
+    0.025,
+    0.0125
+  ],
+  "spherical_steps_s": [
+    0.4,
+    0.2,
+    0.1,
+    0.05,
+    0.025
+  ],
+  "initial_quaternion_before_normalization": [
+    0.7,
+    0.2,
+    -0.1,
+    0.3
+  ],
+  "initial_rate_rad_s": [
+    0.3,
+    -0.2,
+    0.4
+  ],
+  "spherical_duration_s": 4,
+  "invariant_duration_s": 20,
+  "invariant_inertia_kg_m2": [
+    0.03,
+    0.035,
+    0.007
+  ],
+  "invariant_initial_rate_rad_s": [
+    0.4,
+    0.3,
+    0.5
+  ]
+}

@@ -1,17 +1,17 @@
 {
-  "scope": "All currently supplied report figures and generated numerical tables",
+  "scope": "Integrated numerical and physics verification artifacts; engineering outputs remain gated and ungenerated.",
   "artifacts": [
     {
-      "artifact": "figures/convergence.pdf",
-      "also": "figures/convergence.png",
+      "artifact": "figures/convergence.png",
       "generator": "python -m studies.make_figures",
       "data_generator": "python -m studies.convergence",
       "configuration": "configs/convergence.json",
       "data": "data/processed/convergence.json",
-      "seed": null
+      "seed": null,
+      "legacy_snapshot": "figures/convergence.pdf"
     },
     {
-      "artifact": "report/sections/numerical_verification.tex",
+      "artifact": "report/sections/person2_verification.tex",
       "table": "tab:person2convergence",
       "generator": "python -m studies.report_fragments",
       "data_generator": "python -m studies.convergence",
@@ -25,6 +25,49 @@
       "configuration": "configs/baseline.json",
       "data": "configs/baseline.json",
       "seed": null
+    },
+    {
+      "artifact": "report/sections/lecture_alignment.tex",
+      "generator": "python -m studies.lecture_validation",
+      "configuration": "Fixture settings embedded and recorded in lecture_validation.json",
+      "data": "data/processed/lecture_validation.json",
+      "seed": null
+    },
+    {
+      "artifact": "report/sections/physics_verification.tex",
+      "generator": "python -m studies.physics_verification",
+      "data": "data/processed/physics_verification.json",
+      "configuration": "configs/baseline.json",
+      "seed": null
+    },
+    {
+      "artifact": "report/sections/full_model_verification.tex",
+      "generator": "python -m studies.full_model_report",
+      "data": "data/processed/timestep_selection.json",
+      "configuration": "configs/full_model_refinement.json; complete overridden cases stored in data",
+      "seed": null
+    },
+    {
+      "artifact": "report/sections/production_step.tex",
+      "generator": "python -m studies.production_acceptance",
+      "configuration": "configs/baseline.json",
+      "data": [
+        "data/processed/production_validation/acceptance.json",
+        "data/processed/production_validation/confirmation.json",
+        "data/processed/production_validation/baseline.json"
+      ],
+      "seed": null
     }
-  ]
+  ],
+  "related_manifest": "docs/verification_manifest.json",
+  "engineering_pipeline": {
+    "generator": "python run_all.py --verification PATH --output DIRECTORY",
+    "configurations": [
+      "configs/study.json",
+      "configs/paired.json"
+    ],
+    "manifest": "Output figure directories contain their generated manifest.json",
+    "status": "pending; no engineering sweep run during integration"
+  },
+  "historical_sources": "docs/integration_sources"
 }

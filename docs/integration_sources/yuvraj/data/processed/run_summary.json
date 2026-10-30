@@ -1,0 +1,16 @@
+{
+  "status": "Available numerical verification workflow completed",
+  "full_model": "pending, no model supplied",
+  "python": "3.9.6",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "dependencies": {
+    "numpy": "2.0.2",
+    "matplotlib": "3.9.4",
+    "pytest": "8.4.2"
+  },
+  "command": "python run_all.py",
+  "elapsed_s": 4.369729375,
+  "seed": null,
+  "repository": "https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers",
+  "teammate_clean_clone_test": "pending"
+}

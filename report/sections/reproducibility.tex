@@ -1,5 +1,5 @@
 \section{Reproducibility}
-The shared code is available in the \href{https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers}{project repository}. The README records environment setup, module ownership, current commands, and outstanding reproduction requirements.
+The shared code is available in the \href{https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers/tree/codex/merge-team-branches}{project repository}. The README records environment setup, module ownership, current commands, and outstanding reproduction requirements.
 
 The available configuration and correctness checks can be reproduced from the repository root using
 \begin{quote}
@@ -7,6 +7,12 @@ The available configuration and correctness checks can be reproduced from the re
 \texttt{.venv/bin/python \string-m tools.check\_project}.
 \end{quote}
 The second command runs the current test suite and records the Git revision, working tree status, Python version, test counts, and derived baseline timings in \texttt{report/build/verification.json}. These generated records describe available checks rather than a full engineering simulation.
+
+The saved convergence, invariant, and amplification data and figures are regenerated with
+\begin{quote}
+\texttt{.venv/bin/python \string-m studies.verification}.
+\end{quote}
+The data are stored in \texttt{data/processed}. The three monochrome figures are stored in \texttt{figures}. Their generating command, inputs, and scope are recorded in the verification manifest. The studies use the numerical algorithms in this repository and exact special cases rather than an external time integrator.
 
 \IfFileExists{build/revision.tex}{
 Current checked revision is \input{build/revision.tex}.
@@ -20,4 +26,35 @@ The parameter table is generated with
 \end{quote}
 A consistency test fails if the stored table differs from the baseline configuration.
 
-The top level \texttt{run\_all.py} now regenerates the canonical parameter table, executes all available tests, and recreates the exact solution convergence data, numerical table and monochrome figure. It records the full model step selection as pending unless a real model adapter is supplied. A figure and table manifest and measured runtimes are included. Engineering sweep commands, saved production configurations and seeds, and independent teammate clean clone reproduction of all final results remain required before submission. Evaluator access and the final tested revision must be checked after the remaining modules and results are merged.
+The top level \texttt{run\_all.py} now regenerates the canonical parameter table, executes all available tests, and recreates the exact solution convergence data, numerical table and monochrome figure. The real adapter is now available. The quick command retains full model evidence; use the explicit adapter and settings arguments documented in the README to rerun the expensive six orbit numerical study. No pending placeholder overwrites completed full model evidence. A figure and table manifest and measured runtimes are included. Engineering sweep commands, saved production configurations and seeds, and independent teammate clean clone reproduction of all final results remain required before submission. Evaluator access and the final tested revision must be checked after the remaining modules and results are merged.
+
+The completed numerical contribution has a dedicated standalone source
+\texttt{person2.tex}. Its exact convergence, physics, full model and output
+sampling evidence and the accepted baseline solver setting are committed.
+The inexpensive reproduction command is \texttt{python run\_all.py}.
+The explicit full command \texttt{python run\_all.py --complete-verification}
+also recomputes the expensive six orbit simulations and acceptance. The
+recorded numerical acceptance applies to the documented baseline scope.
+The remaining engineering sweep and final team submission are separate.
+
+The Person 4 pipeline now provides \texttt{run\_all.py}, seeded study
+configurations, metric tests, persisted case records, saved histories,
+monochrome figure drivers, and figure manifests. Run
+\texttt{python run\_all.py \string--demo} for an explicitly synthetic
+pipeline demonstration. Run
+\texttt{python \string-m studies.metric\_refinement} for the analytic
+metric check. The latter uses exact sampled functions and no IVP integrator.
+The README documents all generating commands.
+
+The preliminary refinement audit compares three integration steps, audits
+output spacing separately, and optionally records frozen Jacobian spectra.
+Its outputs provide evidence for the numerical methods owner and do not
+automatically approve a production step. The real study runner requires
+independent physics checks, smooth convergence evidence, output grid
+refinement and a step accepted by the numerical methods owner. The production
+study also requires the real 108 case pilot. Broader real runtime measurements, and a clean clone reproduction of all final
+engineering results remain required before submission. Evaluator access and the final tested revision must be checked after the remaining modules and results are merged.
+
+Historical production evidence belongs to the original source snapshots.
+The merged numerical architecture requires renewed Person 3 verification
+before extending that acceptance to new engineering runs.

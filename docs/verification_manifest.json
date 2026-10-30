@@ -1,0 +1,39 @@
+{
+  "generator": ".venv/bin/python -m studies.verification",
+  "scope": "Numerical verification only",
+  "entries": [
+    {
+      "figure": "figures/verification_convergence.png",
+      "data": "data/processed/verification_convergence.csv",
+      "problem": "u_dot equals minus u with u0 equal to one",
+      "final_time": 2,
+      "step_sizes": [0.2, 0.1, 0.05, 0.025, 0.0125],
+      "methods": ["euler", "heun", "rk4"]
+    },
+    {
+      "figure": "figures/verification_invariants.png",
+      "data": "data/processed/verification_invariants.csv",
+      "problem": "Asymmetric torque free rotation",
+      "inertia_diagonal_kg_m2": [0.030, 0.035, 0.007],
+      "initial_quaternion_before_normalization": [0.7, 0.2, -0.1, 0.3],
+      "initial_rate_rad_s": [0.4, 0.3, 0.5],
+      "final_time_s": 20,
+      "step_sizes_s": [0.4, 0.2, 0.1, 0.05, 0.025],
+      "method": "rk4",
+      "projection": "Quaternion normalization after completed steps"
+    },
+    {
+      "figure": "figures/verification_stability.png",
+      "data": "data/processed/verification_stability.csv",
+      "problem": "Analytic amplification on the negative real axis",
+      "plot_interval": [-3.5, 0],
+      "plot_samples": 500,
+      "methods": ["euler", "heun", "rk4"]
+    },
+    {
+      "table": "report/sections/verification_orders.tex",
+      "data": "data/processed/verification_summary.json",
+      "problem": "Centered logarithmic order fit for exact cases"
+    }
+  ]
+}
