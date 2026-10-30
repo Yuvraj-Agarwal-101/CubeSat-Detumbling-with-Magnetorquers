@@ -14,7 +14,7 @@ The passive matrix `C_BI` maps inertial components into body components. Quatern
 2. `field_model` is a pure callable with signature `field_model(t, config)`.
 3. `controller` is a pure callable with signature `controller(t, q, omega, B_B, dB_B_dt, config)`.
 
-Additional configuration entries pass through unchanged to both callbacks. Concrete baseline parameter storage and solver settings belong to the next configuration workchunk.
+Additional configuration entries pass through unchanged to both callbacks. The canonical case is now in configs/baseline.json. src.config.runtime_config binds callbacks and exports inertia, orbit, magnetic, and controller_settings. The numerical method, step size, and study success criteria remain separate from the physics dictionary.
 
 ## Field callback
 
@@ -48,4 +48,4 @@ Missing callbacks and malformed callback outputs raise `ValueError`. No fallback
 
 ## Reproduction
 
-Run `.venv/bin/python -m pytest -q tests/test_dynamics.py` for the 62 dynamics cases. Run `.venv/bin/python -m pytest -q` for all 124 current cases. These are instantaneous algebraic, geometry, and interface checks. Time integration and convergence studies remain pending.
+Run `.venv/bin/python -m pytest -q tests/test_dynamics.py` for the 62 dynamics cases. Run `.venv/bin/python -m tools.check_project` for all 175 current cases and generated revision evidence. These are instantaneous algebraic, geometry, interface, configuration, and report consistency checks. Time integration and convergence studies remain pending.

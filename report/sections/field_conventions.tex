@@ -1,0 +1,25 @@
+\subsection{Shared orbit and field conventions}
+The canonical baseline is stored in \texttt{configs/baseline.json}. Its values and the callback contract define the proposed connection to the magnetic field and controller work package. Production integration and teammate acceptance remain pending.
+
+The orbit and dipole rotations use the inertial basis and active rotation matrices specified above. At \(t=0\), orbital and Earth rotation phases are their configured initial values. There is no calendar epoch in this idealized field. For a circular orbit, let \(u=nt+\phi\). Then
+\[
+\dot r_I=nr_oR_3(\Omega)R_1(i)
+\begin{bmatrix}
+-\sin u\\ \cos u\\ 0
+\end{bmatrix},
+\qquad
+\dot{\hat r}=\dot r_I/r_o,
+\qquad
+\dot d_I=\omega_E e_3\times d_I.
+\]
+With \(g=d_I^T\hat r\), the derivative along the orbit obeys
+\[
+\dot g=\dot d_I^T\hat r+d_I^T\dot{\hat r},
+\qquad
+\dot B_I+b\dot d_I=3b(\dot g\hat r+g\dot{\hat r}).
+\]
+The scale \(b=B_{\rm eq}(R_E/r_o)^3\) is constant on this prescribed circular orbit. Both orbital motion and rotation of the dipole axis contribute to the field derivative.
+
+The field callback returns the inertial field and this total derivative. The dynamics layer alone applies the body rotation correction. The controller receives \(B_B\) and \(\dot B_B\), uses the normalized gain definition, and applies vector norm saturation. Body rotation must not be counted twice. Dipole effort is \(\int\|m\|\,dt\), an actuator activity measure rather than electrical energy.
+
+Before a combined simulation, the magnetic field owner must check dipole scaling, equatorial and polar geometry, the analytic derivative against independent centered differences, and the callback contract. The controller owner must check saturation boundaries and magnetic torque geometry. The static inertial field energy identity does not imply monotonic rotational energy for every orbital field case.

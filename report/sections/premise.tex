@@ -94,33 +94,7 @@ Together, these definitions specify
 \subsection{Proposed study assumptions}
 Table~\ref{tab_premise_inputs} records preliminary inputs. They define an idealized study rather than a particular flight spacecraft. The inertia, controller settings, and success criterion are team assumptions. Field constants are preliminary model inputs and must be reviewed before production studies. Sensitivity studies will vary the designated inputs while retaining a recorded configuration for every case.
 
-\begin{table}[htbp]
-\centering
-\small
-\begin{tabular}{lll}
-\hline
-Quantity & Symbol & Proposed value\\
-\hline
-Body inertia & \(J\) & \(\operatorname{diag}(0.030,0.035,0.007)\ \mathrm{kg\,m^2}\)\\
-Orbit altitude & \(h_o\) & \(500\ \mathrm{km}\)\\
-Orbit inclination & \(i\) & \(55^\circ\)\\
-Ascending node and orbit phase & \(\Omega,\phi\) & \(0,\ 0\)\\
-Initial spin magnitude & \(\omega_0\) & \(10^\circ/\mathrm{s}\)\\
-Dipole limit & \(m_{\max}\) & \(0.1\ \mathrm{A\,m^2}\)\\
-Normalized controller gain & \(k_B\) & \(0.00001\ \mathrm{kg\,m^2/s}\)\\
-Earth radius & \(R_E\) & \(6371000\ \mathrm{m}\)\\
-Gravity parameter & \(\mu\) & \(3.986004418\times10^{14}\ \mathrm{m^3/s^2}\)\\
-Earth rotation rate & \(\omega_E\) & \(0.00007292115\ \mathrm{rad/s}\)\\
-Dipole tilt and rotation phase & \(\alpha,\theta_0\) & \(11^\circ,\ 0\)\\
-Surface equatorial field scale & \(B_{\rm eq}\) & \(0.00003\ \mathrm{T}\)\\
-Rate threshold & \(\omega_{\rm tol}\) & \(0.5^\circ/\mathrm{s}\)\\
-Required hold duration & \(T_{\rm hold}\) & \(600\ \mathrm{s}\)\\
-Mission deadline & \(T_{\rm deadline}\) & \(6T_o\)\\
-\hline
-\end{tabular}
-\caption{Preliminary assumptions for the baseline initial value problem and its operational success criterion. These are model choices rather than measured hardware specifications.}
-\label{tab_premise_inputs}
-\end{table}
+\input{sections/baseline_parameters}
 
 The baseline neglects disturbance torques, sensor errors, actuator dynamics, and orbital perturbations. The continuous controller uses the analytic field derivative rather than a sampled magnetometer estimate. The study will therefore assess the stated idealized system. Hardware qualification and flight performance are outside its scope.
 
