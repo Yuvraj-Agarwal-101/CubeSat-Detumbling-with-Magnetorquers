@@ -1,0 +1,5 @@
+Starting quarter-second confirmation for unsaturated
+Starting quarter-second confirmation for saturated
+Completed unsaturated: {'success': True, 'detumbling_time_s': 16135.0, 'final_rate_rad_s': 0.0021654110271238053, 'peak_torque_Nm': 1.8137810456251983e-06, 'saturation_fraction': 0.0, 'dipole_effort_A_m2_s': 188.04025327254084}
+Completed saturated: {'success': True, 'detumbling_time_s': 24566.75, 'final_rate_rad_s': 0.0027185463116684862, 'peak_torque_Nm': 4.385722610737916e-07, 'saturation_fraction': 0.3676063448042441, 'dipole_effort_A_m2_s': 188.2193662627418}
+Selected step: 1; output audit pass: True

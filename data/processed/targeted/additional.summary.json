@@ -1,0 +1,16 @@
+{
+  "total": 4,
+  "valid": 4,
+  "invalid": 0,
+  "successes": 3,
+  "success_fraction": 0.75,
+  "conditional_median_time_s": 8043.228819406687,
+  "censored": 1,
+  "synthetic": false,
+  "runtime_s": 241.20771709999826,
+  "workers": 4,
+  "mean_case_runtime_s": 240.0370922000002,
+  "proposed_1152_runtime_s": 276522.7302144002,
+  "proposed_1152_parallel_wall_s": 69467.8225247995,
+  "runtime_note": "Case runtimes measured under concurrent load; parallel estimate assumes same worker count and hardware."
+}

@@ -1,3 +1,5 @@
 * text=auto eol=lf
 *.png binary
 *.pdf binary
+# Raw-byte evidence digests must preserve compressed numerical histories.
+*.npz binary

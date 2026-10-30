@@ -1,0 +1,911 @@
+{
+  "selected_step_s": 0.25,
+  "output_grid_pass": true,
+  "cases": [
+    {
+      "name": "unsaturated",
+      "run": {
+        "step_s": 0.0625,
+        "metrics": {
+          "success": true,
+          "detumbling_time_s": 16134.875,
+          "final_rate_rad_s": 0.002165411010634248,
+          "peak_torque_Nm": 1.8138387815239058e-06,
+          "saturation_fraction": 0.0,
+          "dipole_effort_A_m2_s": 188.0402618524468
+        },
+        "runtime_s": 834.3508263000112,
+        "max_preprojection_norm_error": 5.040412531798211e-14,
+        "rhs_evaluations": 2176568
+      },
+      "output_audit": [
+        {
+          "output_spacing_s": 0.25,
+          "metrics": {
+            "success": true,
+            "detumbling_time_s": 16134.853363815915,
+            "final_rate_rad_s": 0.002165411010634248,
+            "peak_torque_Nm": 1.8137810474910827e-06,
+            "saturation_fraction": 0.0
+          }
+        },
+        {
+          "output_spacing_s": 0.125,
+          "metrics": {
+            "success": true,
+            "detumbling_time_s": 16134.853342592345,
+            "final_rate_rad_s": 0.002165411010634248,
+            "peak_torque_Nm": 1.8138296757004548e-06,
+            "saturation_fraction": 0.0
+          }
+        },
+        {
+          "output_spacing_s": 0.0625,
+          "metrics": {
+            "success": true,
+            "detumbling_time_s": 16134.853340370735,
+            "final_rate_rad_s": 0.002165411010634248,
+            "peak_torque_Nm": 1.8138387815239058e-06,
+            "saturation_fraction": 0.0
+          }
+        }
+      ],
+      "config": {
+        "schema_version": 1,
+        "physical": {
+          "inertia_kg_m2": [
+            [
+              0.03,
+              0,
+              0
+            ],
+            [
+              0,
+              0.035,
+              0
+            ],
+            [
+              0,
+              0,
+              0.007
+            ]
+          ],
+          "orbit": {
+            "earth_radius_m": 6371000,
+            "gravitational_parameter_m3_s2": 398600441800000,
+            "altitude_m": 500000,
+            "inclination_rad": 0.9599310885968813,
+            "raan_rad": 0,
+            "phase_rad": 0
+          },
+          "magnetic": {
+            "equatorial_surface_field_t": 3e-05,
+            "dipole_tilt_rad": 0.19198621771937624,
+            "earth_rotation_rate_rad_s": 7.292115e-05,
+            "earth_rotation_phase_rad": 0
+          },
+          "controller": {
+            "law": "normalized_b_dot",
+            "gain_kg_m2_s": 1e-05,
+            "max_dipole_a_m2": 1.0,
+            "saturation": "vector_norm"
+          }
+        },
+        "initial_conditions": {
+          "quaternion": [
+            1,
+            0,
+            0,
+            0
+          ],
+          "angular_velocity_rad_s": [
+            0.10076663134634543,
+            0.10076663134634543,
+            0.10076663134634543
+          ]
+        },
+        "study": {
+          "rate_threshold_rad_s": 0.008726646259971648,
+          "hold_duration_s": 600,
+          "deadline_orbits": 6
+        },
+        "solver": {
+          "method": "rk4",
+          "step_size_s": 1
+        },
+        "provenance": {
+          "physical.inertia_kg_m2": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.earth_radius_m": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.gravitational_parameter_m3_s2": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.altitude_m": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.inclination_rad": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.raan_rad": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.phase_rad": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.magnetic.equatorial_surface_field_t": {
+            "classification": "assumed",
+            "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+          },
+          "physical.magnetic.dipole_tilt_rad": {
+            "classification": "assumed",
+            "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+          },
+          "physical.magnetic.earth_rotation_rate_rad_s": {
+            "classification": "assumed",
+            "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+          },
+          "physical.magnetic.earth_rotation_phase_rad": {
+            "classification": "assumed",
+            "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+          },
+          "physical.controller.law": {
+            "classification": "project_choice",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.controller.gain_kg_m2_s": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.controller.max_dipole_a_m2": {
+            "classification": "project_choice",
+            "note": "Deterministic refinement case with unsaturated control"
+          },
+          "physical.controller.saturation": {
+            "classification": "project_choice",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "initial_conditions.quaternion": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "initial_conditions.angular_velocity_rad_s": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "study.rate_threshold_rad_s": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "study.hold_duration_s": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "study.deadline_orbits": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "solver.method": {
+            "classification": "project_choice",
+            "note": "Planned numerical method. This is not a completed convergence claim."
+          },
+          "solver.step_size_s": {
+            "classification": "derived",
+            "note": "Accepted from two successive real-model refinements and independent output sampling audit; see data/processed/production_validation/acceptance.json. Applies to the stated baseline and tested saturation regimes."
+          }
+        }
+      },
+      "person4_metrics": [
+        {
+          "detumbling_time_s": 16134.853363815915,
+          "success": true,
+          "censored": false,
+          "final_rate_rad_s": 0.002165411010634248,
+          "saturation_fraction": 0.0,
+          "peak_torque_Nm": 1.8137810474910827e-06,
+          "dipole_effort_Am2_s": 188.04025349792346,
+          "max_output_spacing_s": 0.25,
+          "crossing_rule": "piecewise linear rate norm; equality qualifies"
+        },
+        {
+          "detumbling_time_s": 16134.853342592345,
+          "success": true,
+          "censored": false,
+          "final_rate_rad_s": 0.002165411010634248,
+          "saturation_fraction": 0.0,
+          "peak_torque_Nm": 1.8138296757004548e-06,
+          "dipole_effort_Am2_s": 188.0402611515321,
+          "max_output_spacing_s": 0.125,
+          "crossing_rule": "piecewise linear rate norm; equality qualifies"
+        },
+        {
+          "detumbling_time_s": 16134.853340370735,
+          "success": true,
+          "censored": false,
+          "final_rate_rad_s": 0.002165411010634248,
+          "saturation_fraction": 0.0,
+          "peak_torque_Nm": 1.8138387815239058e-06,
+          "dipole_effort_Am2_s": 188.0402618524468,
+          "max_output_spacing_s": 0.0625,
+          "crossing_rule": "piecewise linear rate norm; equality qualifies"
+        }
+      ],
+      "person4_metric_agreement": true,
+      "max_projected_norm_error": 3.3306690738754696e-16,
+      "max_raw_dipole_A_m2": 0.07022913128885336,
+      "norm_diagnostic_max": 5.040412531798211e-14,
+      "output_comparisons": [
+        {
+          "pass": true,
+          "metrics": {
+            "success": {
+              "pass": true
+            },
+            "detumbling_time_s": {
+              "pass": true,
+              "absolute_difference": 2.1223570001893677e-05,
+              "allowed_difference": 161.34853342592345
+            },
+            "final_rate_rad_s": {
+              "pass": true,
+              "absolute_difference": 0.0,
+              "allowed_difference": 2.1654110106342483e-05
+            },
+            "peak_torque_Nm": {
+              "pass": true,
+              "absolute_difference": 4.8628209372148155e-11,
+              "allowed_difference": 1.813829675700455e-08
+            },
+            "saturation_fraction": {
+              "pass": true,
+              "absolute_difference": 0.0,
+              "allowed_difference": 0.005
+            }
+          }
+        },
+        {
+          "pass": true,
+          "metrics": {
+            "success": {
+              "pass": true
+            },
+            "detumbling_time_s": {
+              "pass": true,
+              "absolute_difference": 2.221609975094907e-06,
+              "allowed_difference": 161.34853340370736
+            },
+            "final_rate_rad_s": {
+              "pass": true,
+              "absolute_difference": 0.0,
+              "allowed_difference": 2.1654110106342483e-05
+            },
+            "peak_torque_Nm": {
+              "pass": true,
+              "absolute_difference": 9.105823451014653e-12,
+              "allowed_difference": 1.813838781523906e-08
+            },
+            "saturation_fraction": {
+              "pass": true,
+              "absolute_difference": 0.0,
+              "allowed_difference": 0.005
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "saturated",
+      "run": {
+        "step_s": 0.0625,
+        "metrics": {
+          "success": true,
+          "detumbling_time_s": 24566.75,
+          "final_rate_rad_s": 0.0027185520202145626,
+          "peak_torque_Nm": 4.385722610737916e-07,
+          "saturation_fraction": 0.36759991265803194,
+          "dipole_effort_A_m2_s": 188.2194022151736
+        },
+        "runtime_s": 834.3553637000005,
+        "max_preprojection_norm_error": 5.007105841059456e-14,
+        "rhs_evaluations": 2176568
+      },
+      "output_audit": [
+        {
+          "output_spacing_s": 0.25,
+          "metrics": {
+            "success": true,
+            "detumbling_time_s": 24566.688689173596,
+            "final_rate_rad_s": 0.0027185520202145626,
+            "peak_torque_Nm": 4.385722610737916e-07,
+            "saturation_fraction": 0.3675906278341326
+          }
+        },
+        {
+          "output_spacing_s": 0.125,
+          "metrics": {
+            "success": true,
+            "detumbling_time_s": 24566.68867096244,
+            "final_rate_rad_s": 0.0027185520202145626,
+            "peak_torque_Nm": 4.385722610737916e-07,
+            "saturation_fraction": 0.36759057383150223
+          }
+        },
+        {
+          "output_spacing_s": 0.0625,
+          "metrics": {
+            "success": true,
+            "detumbling_time_s": 24566.688661849817,
+            "final_rate_rad_s": 0.0027185520202145626,
+            "peak_torque_Nm": 4.385722610737916e-07,
+            "saturation_fraction": 0.36759052863703706
+          }
+        }
+      ],
+      "config": {
+        "schema_version": 1,
+        "physical": {
+          "inertia_kg_m2": [
+            [
+              0.03,
+              0,
+              0
+            ],
+            [
+              0,
+              0.035,
+              0
+            ],
+            [
+              0,
+              0,
+              0.007
+            ]
+          ],
+          "orbit": {
+            "earth_radius_m": 6371000,
+            "gravitational_parameter_m3_s2": 398600441800000,
+            "altitude_m": 500000,
+            "inclination_rad": 0.9599310885968813,
+            "raan_rad": 0,
+            "phase_rad": 0
+          },
+          "magnetic": {
+            "equatorial_surface_field_t": 3e-05,
+            "dipole_tilt_rad": 0.19198621771937624,
+            "earth_rotation_rate_rad_s": 7.292115e-05,
+            "earth_rotation_phase_rad": 0
+          },
+          "controller": {
+            "law": "normalized_b_dot",
+            "gain_kg_m2_s": 1e-05,
+            "max_dipole_a_m2": 0.01,
+            "saturation": "vector_norm"
+          }
+        },
+        "initial_conditions": {
+          "quaternion": [
+            1,
+            0,
+            0,
+            0
+          ],
+          "angular_velocity_rad_s": [
+            0.10076663134634543,
+            0.10076663134634543,
+            0.10076663134634543
+          ]
+        },
+        "study": {
+          "rate_threshold_rad_s": 0.008726646259971648,
+          "hold_duration_s": 600,
+          "deadline_orbits": 6
+        },
+        "solver": {
+          "method": "rk4",
+          "step_size_s": 1
+        },
+        "provenance": {
+          "physical.inertia_kg_m2": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.earth_radius_m": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.gravitational_parameter_m3_s2": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.altitude_m": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.inclination_rad": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.raan_rad": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.phase_rad": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.magnetic.equatorial_surface_field_t": {
+            "classification": "assumed",
+            "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+          },
+          "physical.magnetic.dipole_tilt_rad": {
+            "classification": "assumed",
+            "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+          },
+          "physical.magnetic.earth_rotation_rate_rad_s": {
+            "classification": "assumed",
+            "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+          },
+          "physical.magnetic.earth_rotation_phase_rad": {
+            "classification": "assumed",
+            "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+          },
+          "physical.controller.law": {
+            "classification": "project_choice",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.controller.gain_kg_m2_s": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.controller.max_dipole_a_m2": {
+            "classification": "project_choice",
+            "note": "Deterministic refinement case with saturated control"
+          },
+          "physical.controller.saturation": {
+            "classification": "project_choice",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "initial_conditions.quaternion": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "initial_conditions.angular_velocity_rad_s": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "study.rate_threshold_rad_s": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "study.hold_duration_s": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "study.deadline_orbits": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "solver.method": {
+            "classification": "project_choice",
+            "note": "Planned numerical method. This is not a completed convergence claim."
+          },
+          "solver.step_size_s": {
+            "classification": "derived",
+            "note": "Accepted from two successive real-model refinements and independent output sampling audit; see data/processed/production_validation/acceptance.json. Applies to the stated baseline and tested saturation regimes."
+          }
+        }
+      },
+      "person4_metrics": [
+        {
+          "detumbling_time_s": 24566.688689173596,
+          "success": true,
+          "censored": false,
+          "final_rate_rad_s": 0.0027185520202145626,
+          "saturation_fraction": 0.36759062783413243,
+          "peak_torque_Nm": 4.385722610737916e-07,
+          "dipole_effort_Am2_s": 188.2193697441604,
+          "max_output_spacing_s": 0.25,
+          "crossing_rule": "piecewise linear rate norm; equality qualifies"
+        },
+        {
+          "detumbling_time_s": 24566.68867096244,
+          "success": true,
+          "censored": false,
+          "final_rate_rad_s": 0.0027185520202145626,
+          "saturation_fraction": 0.36759057383150223,
+          "peak_torque_Nm": 4.385722610737916e-07,
+          "dipole_effort_Am2_s": 188.21940247847172,
+          "max_output_spacing_s": 0.125,
+          "crossing_rule": "piecewise linear rate norm; equality qualifies"
+        },
+        {
+          "detumbling_time_s": 24566.688661849817,
+          "success": true,
+          "censored": false,
+          "final_rate_rad_s": 0.0027185520202145626,
+          "saturation_fraction": 0.3675905286370372,
+          "peak_torque_Nm": 4.385722610737916e-07,
+          "dipole_effort_Am2_s": 188.2194022151736,
+          "max_output_spacing_s": 0.0625,
+          "crossing_rule": "piecewise linear rate norm; equality qualifies"
+        }
+      ],
+      "person4_metric_agreement": true,
+      "max_projected_norm_error": 3.3306690738754696e-16,
+      "max_raw_dipole_A_m2": 0.07180731028306557,
+      "norm_diagnostic_max": 5.007105841059456e-14,
+      "output_comparisons": [
+        {
+          "pass": true,
+          "metrics": {
+            "success": {
+              "pass": true
+            },
+            "detumbling_time_s": {
+              "pass": true,
+              "absolute_difference": 1.821115438360721e-05,
+              "allowed_difference": 245.6668867096244
+            },
+            "final_rate_rad_s": {
+              "pass": true,
+              "absolute_difference": 0.0,
+              "allowed_difference": 2.7185520202145626e-05
+            },
+            "peak_torque_Nm": {
+              "pass": true,
+              "absolute_difference": 0.0,
+              "allowed_difference": 4.385722610737916e-09
+            },
+            "saturation_fraction": {
+              "pass": true,
+              "absolute_difference": 5.400263036747788e-08,
+              "allowed_difference": 0.005
+            }
+          }
+        },
+        {
+          "pass": true,
+          "metrics": {
+            "success": {
+              "pass": true
+            },
+            "detumbling_time_s": {
+              "pass": true,
+              "absolute_difference": 9.112623956752941e-06,
+              "allowed_difference": 245.66688661849818
+            },
+            "final_rate_rad_s": {
+              "pass": true,
+              "absolute_difference": 0.0,
+              "allowed_difference": 2.7185520202145626e-05
+            },
+            "peak_torque_Nm": {
+              "pass": true,
+              "absolute_difference": 0.0,
+              "allowed_difference": 4.385722610737916e-09
+            },
+            "saturation_fraction": {
+              "pass": true,
+              "absolute_difference": 4.519446517026182e-08,
+              "allowed_difference": 0.005
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "high_spin",
+      "run": {
+        "step_s": 0.0625,
+        "metrics": {
+          "detumbling_time_s": 20621.43561714849,
+          "success": true,
+          "censored": false,
+          "final_rate_rad_s": 0.0022562086204487206,
+          "saturation_fraction": 0.48423617589304024,
+          "peak_torque_Nm": 1.3368358170790268e-06,
+          "dipole_effort_Am2_s": 565.7965950621607,
+          "max_output_spacing_s": 0.0625,
+          "crossing_rule": "piecewise linear rate norm; equality qualifies"
+        },
+        "runtime_s": 818.768485499997,
+        "max_preprojection_norm_error": 1.1815215472665841e-11,
+        "max_projected_norm_error": 3.3306690738754696e-16,
+        "rhs_evaluations": 2176568
+      },
+      "output_audit": [
+        {
+          "output_spacing_s": 0.25,
+          "metrics": {
+            "detumbling_time_s": 20621.435665786925,
+            "final_rate_rad_s": 0.0022562086204487206,
+            "peak_torque_Nm": 1.336835813619981e-06,
+            "saturation_fraction": 0.484248570867706,
+            "success": true
+          }
+        },
+        {
+          "output_spacing_s": 0.125,
+          "metrics": {
+            "detumbling_time_s": 20621.43563272876,
+            "final_rate_rad_s": 0.0022562086204487206,
+            "peak_torque_Nm": 1.3368358160842376e-06,
+            "saturation_fraction": 0.4842382039950317,
+            "success": true
+          }
+        },
+        {
+          "output_spacing_s": 0.0625,
+          "metrics": {
+            "detumbling_time_s": 20621.43561714849,
+            "final_rate_rad_s": 0.0022562086204487206,
+            "peak_torque_Nm": 1.3368358170790268e-06,
+            "saturation_fraction": 0.48423617589304024,
+            "success": true
+          }
+        }
+      ],
+      "output_comparisons": [
+        {
+          "pass": true,
+          "metrics": {
+            "success": {
+              "pass": true
+            },
+            "detumbling_time_s": {
+              "pass": true,
+              "absolute_difference": 3.3058164262911305e-05,
+              "allowed_difference": 206.21435632728762
+            },
+            "final_rate_rad_s": {
+              "pass": true,
+              "absolute_difference": 0.0,
+              "allowed_difference": 2.2562086204487208e-05
+            },
+            "peak_torque_Nm": {
+              "pass": true,
+              "absolute_difference": 2.4642566480627013e-15,
+              "allowed_difference": 1.3368358160842376e-08
+            },
+            "saturation_fraction": {
+              "pass": true,
+              "absolute_difference": 1.0366872674305583e-05,
+              "allowed_difference": 0.005
+            }
+          }
+        },
+        {
+          "pass": true,
+          "metrics": {
+            "success": {
+              "pass": true
+            },
+            "detumbling_time_s": {
+              "pass": true,
+              "absolute_difference": 1.558026997372508e-05,
+              "allowed_difference": 206.21435617148492
+            },
+            "final_rate_rad_s": {
+              "pass": true,
+              "absolute_difference": 0.0,
+              "allowed_difference": 2.2562086204487208e-05
+            },
+            "peak_torque_Nm": {
+              "pass": true,
+              "absolute_difference": 9.947891628151037e-16,
+              "allowed_difference": 1.3368358170790268e-08
+            },
+            "saturation_fraction": {
+              "pass": true,
+              "absolute_difference": 2.0281019914580867e-06,
+              "allowed_difference": 0.005
+            }
+          }
+        }
+      ],
+      "person4_metric_agreement": true,
+      "person4_metrics": [
+        {
+          "detumbling_time_s": 20621.435665786925,
+          "success": true,
+          "censored": false,
+          "final_rate_rad_s": 0.0022562086204487206,
+          "saturation_fraction": 0.484248570867706,
+          "peak_torque_Nm": 1.336835813619981e-06,
+          "dipole_effort_Am2_s": 565.7948084288188,
+          "max_output_spacing_s": 0.25,
+          "crossing_rule": "piecewise linear rate norm; equality qualifies"
+        },
+        {
+          "detumbling_time_s": 20621.43563272876,
+          "success": true,
+          "censored": false,
+          "final_rate_rad_s": 0.0022562086204487206,
+          "saturation_fraction": 0.4842382039950317,
+          "peak_torque_Nm": 1.3368358160842376e-06,
+          "dipole_effort_Am2_s": 565.796884793282,
+          "max_output_spacing_s": 0.125,
+          "crossing_rule": "piecewise linear rate norm; equality qualifies"
+        },
+        {
+          "detumbling_time_s": 20621.43561714849,
+          "success": true,
+          "censored": false,
+          "final_rate_rad_s": 0.0022562086204487206,
+          "saturation_fraction": 0.48423617589304024,
+          "peak_torque_Nm": 1.3368358170790268e-06,
+          "dipole_effort_Am2_s": 565.7965950621607,
+          "max_output_spacing_s": 0.0625,
+          "crossing_rule": "piecewise linear rate norm; equality qualifies"
+        }
+      ],
+      "config": {
+        "schema_version": 1,
+        "physical": {
+          "inertia_kg_m2": [
+            [
+              0.03,
+              0,
+              0
+            ],
+            [
+              0,
+              0.035,
+              0
+            ],
+            [
+              0,
+              0,
+              0.007
+            ]
+          ],
+          "orbit": {
+            "earth_radius_m": 6371000,
+            "gravitational_parameter_m3_s2": 398600441800000,
+            "altitude_m": 500000,
+            "inclination_rad": 0.9599310885968813,
+            "raan_rad": 0,
+            "phase_rad": 5.819412893022831
+          },
+          "magnetic": {
+            "equatorial_surface_field_t": 3e-05,
+            "dipole_tilt_rad": 0.19198621771937624,
+            "earth_rotation_rate_rad_s": 7.292115e-05,
+            "earth_rotation_phase_rad": 0
+          },
+          "controller": {
+            "law": "normalized_b_dot",
+            "gain_kg_m2_s": 3e-05,
+            "max_dipole_a_m2": 0.03,
+            "saturation": "vector_norm"
+          }
+        },
+        "initial_conditions": {
+          "quaternion": [
+            -0.40037078328895975,
+            -0.15250265634559299,
+            -0.577317523868783,
+            0.6950903914816692
+          ],
+          "angular_velocity_rad_s": [
+            0.280670655708559,
+            -0.3014834708468535,
+            -0.323245073648926
+          ]
+        },
+        "study": {
+          "rate_threshold_rad_s": 0.008726646259971648,
+          "hold_duration_s": 600,
+          "deadline_orbits": 6
+        },
+        "solver": {
+          "method": "rk4",
+          "step_size_s": 1
+        },
+        "provenance": {
+          "physical.inertia_kg_m2": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.earth_radius_m": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.gravitational_parameter_m3_s2": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.altitude_m": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.inclination_rad": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.raan_rad": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.orbit.phase_rad": {
+            "classification": "project_choice",
+            "note": "Seeded pilot ensemble or parameter sweep override; seed 3702026."
+          },
+          "physical.magnetic.equatorial_surface_field_t": {
+            "classification": "assumed",
+            "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+          },
+          "physical.magnetic.dipole_tilt_rad": {
+            "classification": "assumed",
+            "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+          },
+          "physical.magnetic.earth_rotation_rate_rad_s": {
+            "classification": "assumed",
+            "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+          },
+          "physical.magnetic.earth_rotation_phase_rad": {
+            "classification": "assumed",
+            "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+          },
+          "physical.controller.law": {
+            "classification": "project_choice",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "physical.controller.gain_kg_m2_s": {
+            "classification": "project_choice",
+            "note": "Seeded pilot ensemble or parameter sweep override; seed 3702026."
+          },
+          "physical.controller.max_dipole_a_m2": {
+            "classification": "project_choice",
+            "note": "Seeded pilot ensemble or parameter sweep override; seed 3702026."
+          },
+          "physical.controller.saturation": {
+            "classification": "project_choice",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "initial_conditions.quaternion": {
+            "classification": "project_choice",
+            "note": "Seeded pilot ensemble or parameter sweep override; seed 3702026."
+          },
+          "initial_conditions.angular_velocity_rad_s": {
+            "classification": "project_choice",
+            "note": "Seeded pilot ensemble or parameter sweep override; seed 3702026."
+          },
+          "study.rate_threshold_rad_s": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "study.hold_duration_s": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "study.deadline_orbits": {
+            "classification": "assumed",
+            "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+          },
+          "solver.method": {
+            "classification": "project_choice",
+            "note": "Planned numerical method. This is not a completed convergence claim."
+          },
+          "solver.step_size_s": {
+            "classification": "derived",
+            "note": "Accepted from two successive real-model refinements and independent output sampling audit; see data/processed/production_validation/acceptance.json. Applies to the stated baseline and tested saturation regimes."
+          }
+        }
+      },
+      "max_projected_norm_error": 3.3306690738754696e-16
+    }
+  ],
+  "scope": "Canonical gain 1e-5 in both saturation regimes, plus seeded pilot geometry 0 at 30 deg/s, gain 3e-5, limit 0.03 A m^2. Finite numerical pilot-entry verification; no blanket approval of the engineering grid.",
+  "event_assumption": "Piecewise linear rate norm, threshold equality qualifies; unresolved excursions cannot be proven absent",
+  "command": "python -m studies.complete_verification --fine-step 0.0625"
+}

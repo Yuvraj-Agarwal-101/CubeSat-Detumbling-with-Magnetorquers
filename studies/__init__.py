@@ -1,1 +1,1 @@
-"""Reproducible numerical verification and full model connection point."""
+"""Numerical verification and reproducible engineering study drivers."""

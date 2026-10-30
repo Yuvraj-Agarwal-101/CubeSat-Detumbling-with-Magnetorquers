@@ -1,0 +1,28 @@
+{
+  "step_sizes_s": [
+    2,
+    1,
+    0.5
+  ],
+  "rate_threshold_rad_s": 0.008726646259971648,
+  "hold_duration_s": 600,
+  "tolerances": {
+    "detumbling_time_s": {
+      "relative": 0.01,
+      "absolute": 1.0
+    },
+    "final_rate_rad_s": {
+      "relative": 0.01,
+      "absolute": 1e-06
+    },
+    "peak_torque_Nm": {
+      "relative": 0.01,
+      "absolute": 1e-10
+    },
+    "saturation_fraction": {
+      "relative": 0,
+      "absolute": 0.005
+    }
+  },
+  "status": "Declared before full model refinement; numerical screening only, team review required."
+}

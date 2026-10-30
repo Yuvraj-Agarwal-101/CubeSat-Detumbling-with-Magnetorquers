@@ -1,0 +1,97 @@
+[
+  {
+    "lecture": 1,
+    "file": "Lecture-1-overview (1).pdf",
+    "sha256": "a71b5981cb5910960e62d743fc8be97725010fbc6c4da8e75934b6ec3bb85cc5"
+  },
+  {
+    "lecture": 2,
+    "file": "lecture-2-vector-spaces-and-subspaces (2).html",
+    "sha256": "3d0ce5ea8e16084b421649c6f4dde5a6bc24b7a48bdc0ed2d5b611f5641476cc"
+  },
+  {
+    "lecture": 3,
+    "file": "lecture-3-norms-and-function-approximation (2).html",
+    "sha256": "4f36b6a446ba3068f2d7696f74f01ff5c2b140ca1724727d06265ec368a4b8ec"
+  },
+  {
+    "lecture": 4,
+    "file": "lecture-4-bases-and-interpolation (1).html",
+    "sha256": "234488d224fb5665981dfd0e99737c89248ee733b2b7bceba44d7ffdf40690d5"
+  },
+  {
+    "lecture": 5,
+    "file": "lecture-5-chebyshev-points-and-the-bad-monomial-basis (1).html",
+    "sha256": "fcbbc9b552ab61f40af3c3e04002e87c9e8b05abe87324f54b88262d2a393e56"
+  },
+  {
+    "lecture": 6,
+    "file": "lecture-6-cubic-splines.html",
+    "sha256": "8f1fe353206b550057c687bdba8182b841757cd3ab2eb09470a364f7e809ede1"
+  },
+  {
+    "lecture": 7,
+    "file": "lecture-7-trigonometric-interpolation.html",
+    "sha256": "5b8bd83ea4dba1df76f1e1785cb218e4431b08a66b66328d63813850ad6fe1b2"
+  },
+  {
+    "lecture": 8,
+    "file": "lecture-8-least-squares-approximation.html",
+    "sha256": "d9a84d4b8e1131cd302593b5b259859adc190b1490f59a1d33769a17c0559993"
+  },
+  {
+    "lecture": 9,
+    "file": "lecture-9-orthogonal-bases.html",
+    "sha256": "c3ce0b6e194ef838103e7bd636a24317fa65c17e4830064a5d580798ef22f7d6"
+  },
+  {
+    "lecture": 10,
+    "file": "lecture-10-ivps-and-one-step-methods.html",
+    "sha256": "1cdffda9e6167088b2fc8b232d3081f1ea128dd0d5034af793cda5f398a5d4f1"
+  },
+  {
+    "lecture": 11,
+    "file": "lecture-11-multi-step-methods-and-truncation-error.html",
+    "sha256": "a771154716f769b4edf5ef692f83ab697430332b9d12499436a223f182d743b6"
+  },
+  {
+    "lecture": 12,
+    "file": "lecture-12-absolute-stability.html",
+    "sha256": "b09e613b82cf6acd0c2b78511ef2fbef11f6c71904d7b9d2f0b6f64cc8ac37eb"
+  },
+  {
+    "lecture": 13,
+    "file": "lecture-13-stiff-ivps (1).html",
+    "sha256": "30fce84d0c7432c3ecac5ab63728efc005647420fb84fd1160f45a88d83b6296"
+  },
+  {
+    "lecture": 14,
+    "file": "lecture-14-bvps-and-finite-differences.html",
+    "sha256": "810e9552cae09cc7bfa2146797cb33c01796c3e64a9c9b0e7315d148b782441c"
+  },
+  {
+    "lecture": 15,
+    "file": "lecture-15-error-in-finite-difference-methods-for-bvps.html",
+    "sha256": "23dab3025c3397ed16f55bba4d3257ab5d9cc1d6411022b2a468afb6dd15711c"
+  },
+  {
+    "lecture": 16,
+    "file": "lecture-16-global-spectral-methods-for-bvps.html",
+    "sha256": "321a64da09224e7bfd5e589593c74a403eb1db11b9817e4b6c5d9affcb544f49"
+  },
+  {
+    "lecture": 17,
+    "file": "lecture-17-more-global-spectral-methods-for-bvps.html",
+    "sha256": "40b422c0b9746928a65cf7a5bc8a0668b665c1beba9e6fd5ea53b9839e1711d6"
+  },
+  {
+    "lecture": 18,
+    "file": "lecture-18-finite-element-methods-for-bvps.html",
+    "sha256": "2cefe1f045fd28849c117e62eed1e3c55c0f5a1bfeaf782219f4fe89c464bad7"
+  },
+  {
+    "lecture": 19,
+    "file": "lecture-19-finite-elements-for-beams.html",
+    "sha256": "f04d4a4d91b8e1c4a4c054560d28b09a143b7c3613805a5324cea97a6e62e535"
+  }
+]

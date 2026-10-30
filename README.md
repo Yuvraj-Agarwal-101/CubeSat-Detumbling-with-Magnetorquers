@@ -2,141 +2,164 @@
 
 AE 370 Aerospace Numerical Methods Fall 2026 Project 1
 
-## Shared team project
+## Shared project
 
-This repository is the common code and report repository for all four team members. The engineering question is how initial angular rate, B dot controller gain, and magnetic dipole capability affect CubeSat detumbling time and success before a mission deadline in an orbital magnetic field.
+This is the common code and report repository for all four members. The engineering question is how initial angular rate, normalized B dot gain, and actuator capability affect detumbling time and success before a mission deadline in an orbital magnetic field.
 
-The full project includes attitude dynamics, magnetic forcing and control, a numerical integrator implemented from scratch, independent verification, convergence studies, engineering experiments, and the shared Overleaf report. Each member contributes their assigned modules, tests, study scripts, report sections, and reproduction instructions here.
+The implementation separates the physical initial value problem, case inputs, numerical approximation, and verification. The shared branch is main. Use descriptive task branches and bring checked work back into main.
 
-`main` is the shared integration branch. Clone the repository and start from the latest `main`. Develop new tasks on descriptive branches and bring completed, checked work back into `main`. Keep reusable modules separate from tests and study scripts. Preserve the agreed quaternion convention, units, and interfaces when connecting modules.
+This integration is on `codex/merge-team-branches`, based on `sidhant-final-integration`. No push or main modification is part of this integration.
 
-## Current status
+## Current state
 
-The engineering premise, quaternion utilities, Euler dynamics, generic classical RK4, and independent exact solution convergence studies are implemented. The premise is in `report/sections/premise.tex`. It defines the question, full initial value problem, numerical motivation, assumptions, actuator constraint, and deadline criterion. The combined suite has 198 passing tests. All engineering baseline values remain proposed study inputs.
+The attitude model, case validation, explicit time marching methods, error norms, and exact verification studies are implemented. The integration suite is recorded in docs/INTEGRATION.md. Scalar decay studies measure orders near one, two, and four for Euler, Heun, and RK4. Constant rate quaternion tests measure fourth order. Asymmetric torque free energy and inertial momentum errors decrease under refinement. Person 2's additional convergence and refinement drivers are retained.
 
-The canonical shared configuration is now available in configs/baseline.json. The production field and controller modules are still missing. Consequently full detumbling runs, production step selection, and engineering sweeps remain pending. `run_all.py` regenerates the completed numerical contribution and explicitly records the full model step study as pending. The delivered convergence results use known scalar and spherical torque free solutions. Integration checks additionally connect RK4 to the actual dynamics with artificial zero torque callbacks. They do not substitute for production control verification.
+The real idealized orbital field, B-dot controller, adapter, metrics, experiments and plotting pipeline are implemented. Person 3's merged field/control review is complete. Fresh production-step verification and the Person 4 pilot gate are documented in [docs/STAGE3_VERIFICATION.md](docs/STAGE3_VERIFICATION.md). Engineering sweeps and engineering conclusions remain pending.
 
-## Local environment
+## Organization
 
-The current numerical contribution was checked in a fresh Python 3.12.14 environment on Windows with NumPy 2.0.2, Matplotlib 3.9.4, and pytest 8.4.2. The following commands create a compatible environment and install the direct dependencies.
+1. src/physics contains quaternion kinematics, Euler dynamics, and exact verification cases.
+2. src/inputs contains the canonical case loader and validation.
+3. src/numerics contains explicit one step algorithms, error measurements, shared array checks, and local stability tools.
+4. configs/baseline.json separates physical inputs, initial conditions, study criteria, solver settings, and provenance.
+5. tests contains independent geometry, physics, input, numerical, and report consistency checks.
+6. studies contains executable verification drivers. Engineering drivers and evidence gates are included here.
+7. data/processed stores reproducible verification records.
+8. figures stores generated monochrome plots.
+9. report contains the shared Overleaf sources.
+10. tools contains current check and report table export commands. docs records numerical design and integration contracts.
+
+The public imports src.quaternion, src.dynamics, and src.config remain available for teammates. They forward to the reorganized modules. The physical RHS keeps its signature rhs(t, y, config).
+
+## Environment
+
+The checked environment is Python 3.9.6 on macOS. Direct dependencies are in requirements.txt and the installed package set is in requirements.lock.
 
 ```sh
 python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m pip install -r requirements.lock
 .venv/bin/python -m pip check
 ```
 
-On Windows use `python` instead of `python3` and `.venv\Scripts\python.exe` instead of `.venv/bin/python`. `requirements-python312.lock` records the complete freshly tested Python 3.12 Windows environment. For exact reproduction install that file instead of `requirements.txt`. The original `requirements.lock` preserves the earlier Python 3.9.6 macOS setup. Other platforms and interpreter versions require their own compatibility check. The local `.venv` is ignored by Git.
+Other platforms require their own compatibility check. The local environment and generated build records are ignored by Git.
 
-## Organization and ownership
+The prior Python 3.12 Windows environment is recorded in requirements-python312.lock. On Windows use the environment's Scripts directory instead of bin. These records preserve the separate tested environments rather than claiming that one platform lock applies everywhere.
 
-1. `src` holds reusable numerical and physics modules. Person 1 owns quaternion utilities and dynamics. Person 2 owns the integrator. Person 3 owns orbital forcing and control.
-2. `tests` holds 62 quaternion cases, 62 instantaneous dynamics cases, 50 configuration cases, one canonical report table check, 20 integrator and study metric cases, and three integration checks. All 198 pass. Artificial fixtures are labeled explicitly.
-3. `studies` holds `convergence.py`, `timestep_selection.py`, `make_figures.py`, and report generation. Person 2 owns numerical studies. Person 4's `parameter_sweep.py` and engineering figure generation remain pending.
-4. `configs` holds exact verification inputs and proposed refinement settings. The canonical baseline and per-parameter provenance are in configs/baseline.json. All engineering inputs remain preliminary and the production step is unset.
-5. `data/processed` holds convergence CSV and JSON, test evidence, environment metadata and the step selection status.
-6. `figures` holds the monochrome convergence PDF and PNG.
-7. `report` holds the shared `main.tex`, section fragments, bibliography, workchunk records and copyable Person 2 fragments. Person 1 owns final assembly.
-8. `docs` holds callback interfaces and the extracted Person 2 handoff. Supporting material is kept out of reusable modules.
+## Reproduce current checks and figures
 
-## Quaternion API
-
-Import utilities from `src.quaternion`. Quaternions are real vectors of shape `(4,)` in scalar first order. Angular velocity is a real vector of shape `(3,)` in body components, in radians per second.
-
-1. `multiply(p, q)` returns the Hamilton product without normalization. Operand order matters.
-2. `normalize(q)` returns a unit copy and rejects a zero quaternion.
-3. `conjugate(q)` reverses the vector part without normalization.
-4. `inverse(q)` returns the multiplicative inverse for any finite nonzero quaternion whose inverse is representable.
-5. `rotation_matrix(q)` returns the passive matrix mapping inertial components into body components. It normalizes a local copy and never projects the caller's state.
-6. `quaternion_derivative(q, omega)` returns one half of the Hamilton product of `q` with `[0, omega]`. It does not normalize intermediate states.
-
-The passive composition rule is `rotation_matrix(multiply(p, q))` equal to `rotation_matrix(q) @ rotation_matrix(p)`. A positive quarter turn about axis three maps inertial x into negative body y. These conventions are tested independently.
-
-Run the current checks from the repository root.
-
-```sh
-.venv/bin/python -m pytest -q
-```
-
-The observed result is 198 passing tests. The 175 teammate checks cover instantaneous algebra, geometry, interfaces, configuration and report consistency. The new checks add exact solution convergence and integration behavior. Production detumbling accuracy is not established by these tests.
-
-## Dynamics API
-
-Import `angular_acceleration` and `rhs` from `src.dynamics`. The reusable derivative has signature `rhs(t, y, config)`. State order is the four scalar first quaternion components followed by three body angular velocity components. It returns seven derivatives without advancing time.
-
-The configuration must supply `inertia`, `field_model`, and `controller`. The inertia is a symmetric positive definite matrix of shape `(3, 3)`. The field and controller are pure callbacks, evaluated on every derivative call. Dynamics transforms the field and its derivative into body components and solves Euler's equation using the independently computed magnetic torque.
-
-See `docs/dynamics_interface.md` for exact callback signatures, units, output keys, validation, and integration instructions. The documented contract is ready for Person 3's modules, but production integration remains pending. Tests use labeled artificial callbacks only. Missing callbacks fail explicitly.
-
-## Shared case and current verification
-
-Use `src.config.load_config` to load `configs/baseline.json`. The loader validates SI values, required keys, inertia, initial attitude, controller bounds, durations, and provenance. `initial_state` returns the seven component initial state. `case_summary` derives the orbital period and mission deadline. `runtime_config` binds explicit field and controller callbacks for the dynamics. `solver_settings` keeps numerical settings separate and can reject a missing production step.
-
-The baseline step size is deliberately unset. Person 2 must determine it from convergence and engineering metric refinement. Field and controller conventions, including the total orbital field derivative, are documented in `docs/field_controller_contract.md`.
-
-Run the available checks and print the baseline summary.
+Run from the repository root.
 
 ```sh
 .venv/bin/python -m src.config
 .venv/bin/python -m tools.check_project
+.venv/bin/python -m studies.verification
 ```
 
-The second command executes the test suite and writes `report/build/verification.json`, `pytest.xml`, and LaTeX revision records. It records the full Git revision, whether tracked or untracked source changes exist, Python version, test counts, and baseline timing. Generated build records are ignored by Git. Run it on the final clean revision before exporting the report.
+The first command validates the canonical case and prints derived timings. The second runs tests and records the checked revision, working tree state, Python version, counts, and case summary in report/build/verification.json. The third regenerates all current numerical verification CSV files, the summary JSON, three figures, and the fitted order table.
 
-After editing the canonical baseline, regenerate the report table.
+The verification studies run exact scalar decay, spherical torque free rotation, and asymmetric torque free conservation problems. No production magnetic trajectory or engineering result is generated by these commands.
+
+Run the integrated available workflow with `.venv/bin/python run_all.py`. It runs both numerical contributions, physics checks, figure and fragment generation. Existing full-model records are retained unless a rerun is explicitly requested. Use `--adapter team_adapter --settings configs/full_model_refinement.json` for a new canonical refinement. `--complete-verification` reruns canonical refinement and acceptance. Reproducing the broader Stage 3 pilot gate also requires the high-spin and finer-step commands in `docs/stage3_validation/commands.ps1`; the canonical command alone does not reproduce that gate. The runner regenerates both contributions without overwriting their separate report sections.
+
+The time first API `src.integrators.rk4` is retained with its IntegrationResult object and signed norm diagnostics. It delegates to the same numerical RK4 stages as the state first API. See docs/person2_interface.md for the production refinement adapter. Threshold equality is accepted, matching the stated rate criterion.
+
+After editing the canonical inputs, regenerate the parameter table and rerun the checks.
 
 ```sh
 .venv/bin/python -m tools.export_report_inputs
 ```
 
-The table consistency check fails if the stored parameter table differs from the configuration. Commit the configuration and regenerated table together.
+The table consistency test catches a stale report table. Commit changed inputs and regenerated tables together.
+
+## Numerical interface
+
+The generic integrator solves u_dot = f(u, t). Use src.numerics.integrators.integrate with method euler, heun, or rk4. The rk4 function is a convenience entry point. Both return times, states, and diagnostics. Interior steps use the requested size and the final step ends at the requested time.
+
+To use the existing dynamics with the state first integrator, define f(u, t) to return rhs(t, u, runtime). Projection is an optional callback after completed steps. src.physics.verification.project_attitude normalizes only the quaternion. The correction norm records the size of that change. Stages are not projected.
+
+The time weighted trajectory norm approximates an integral norm. Quaternion error accounts for equivalent signs. Error components with different units are measured separately. Fitted convergence orders use a centered linear basis in logarithmic coordinates.
+
+Amplification polynomials and local finite difference Jacobians support accuracy and stability assessment. Zero modes and physical growth are reported separately. No global nonlinear stability or nonstiffness claim is inferred from a local eigenvalue ratio.
+
+## Physics and case interfaces
+
+Quaternion order is scalar first. The passive matrix maps inertial components into body components. The Hamilton product and derivative convention are documented and tested.
+
+Dynamics returns seven derivatives and does not advance time. runtime_config binds explicit field and controller callbacks while keeping solver settings separate. Exact signatures, units, array shapes, and output keys are in docs/dynamics_interface.md. Orbit and field derivative conventions are in docs/field_controller_contract.md.
+
+Inertia defines a positive energy inner product. A symmetric matrix is checked through positive eigenvalues, and acceleration is obtained with a linear solve rather than an explicit inverse. Missing production callbacks fail explicitly.
 
 ## Overleaf
 
-Upload `report` and `figures` to Overleaf while retaining the repository layout, then select `report/main.tex` as the main document. Compile locally from the `report` directory. Alternatively upload the contents of `report` at the Overleaf root, add a root `figures` folder, and change the figure path in `sections/numerical_verification.tex` from `../figures/convergence.pdf` to `figures/convergence.pdf`. The source uses standard packages and BibTeX. Preserve the `nasa_gnc` entry in `references.bib`. The main file loads `amsmath`, `amssymb`, `graphicx`, and `hyperref`.
+Upload the report folder to the shared project and select main.tex. The report uses standard packages and BibTeX. The verification generator also copies figures into report/figures so the project is self contained. The exported archive includes that local figures folder.
 
-The shared preview includes premise, method, quaternion and dynamics checks, measured numerical convergence, reproducibility status and acknowledgments. `report/PERSON2_FRAGMENTS.md` contains copyable LaTeX source in separate fenced blocks. `report/main_preview.tex` is an optional Person 2 preview, not another final report. LaTeX compilation remains unverified in this environment. Full model verification and engineering results remain pending.
+The report distinguishes exact values from approximations, normalized truncation error from a single step defect, and accuracy from stability. Completed verification is separated from pending engineering results.
 
-## Regenerate the delivered numerical results
+## Team responsibilities and final reproduction
 
-Run from the repository root with the prepared environment
+Person 1 owns the physical model, canonical inputs, conventions, and assembly. Person 2 reviews and extends numerical methods and production step selection. Person 3 supplies the production orbital field and control. Person 4 supplies metrics, engineering studies, and final reproduction commands. Actual contributions and percentages must be based on work performed.
 
-```sh
-python -m pytest -q
-python -m studies.convergence
-python -m studies.make_figures
-python -m studies.report_fragments
-python -m studies.timestep_selection
-python run_all.py
-```
+The shared repository is [available on GitHub](https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers).
 
-Use the environment's Python executable where `python` is shown. `run_all.py` regenerates the canonical baseline report table, then runs all tests and each numerical generation command in order. It creates `data/processed/test_results.txt`, `convergence.csv`, `convergence.json`, `timestep_selection.json`, `run_summary.json`, `figures/convergence.pdf`, `figures/convergence.png`, and the numerical report fragment. The exact problems use six step sizes each and no random sampling, so seeds are explicitly null. Complete configuration and initial conditions are stored in the JSON. Runtime is recorded in `run_summary.json`; allow seconds to tens of seconds on a typical computer. Full model runtime has not been measured.
+Before final submission, extend the available runner with engineering sweeps, recorded inputs and seeds, runtime estimates, and all engineering figure and table mappings. Reproduce every final result from a clean clone, check evaluator access, and record the tested final commit. Numerical verification figures already have executable generators and manifests. Historical work records and SHA256SUMS.txt describe committed snapshots rather than promising identical regenerated timing logs or platform metadata.
 
-The finest observed orders are approximately 3.99 for the scalar problem and 4.00 for quaternion attitude. This is the full delivered verification study, not a reduced demonstration presented as a completed engineering sweep. `manifest.json` links the figure and table to their script, configuration, seeds and data.
+## Person 4 implementation based on the supplied lectures
 
-## Connect the production model
+See `docs/lecture_basis.md` for a lecture by lecture mapping and limitations, and `docs/lecture_sources.json` for supplied source identifiers and hashes. The main numerical basis is Lectures 3, 4, and 10 through 13. No BVP or finite element solve is introduced into the rigid body initial value problem.
 
-Read `docs/person2_interface.md` and `studies/adapter_template.py`. Supply a `team_adapter.py` implementing `build_cases()` with real unsaturated and saturated cases. Runtime `config` comes from `src.config.runtime_config` and contains the callable field and controller required by `src.dynamics.rhs`. The dipole limit is `config["controller_settings"]["max_dipole_a_m2"]`. A separate JSON compatible `config_record` stores the canonical validated case document. `callback_identifiers` stores the import paths of the real field and controller functions. Diagnostics use the shared controller keys `raw_dipole`, `dipole`, and `torque`.
+The Person 4 environment was checked with Python 3.13.14, NumPy 2.3.2, Matplotlib 3.10.5 and pytest 8.4.2 on Windows. `requirements-person4-tested.txt` records these tested direct versions independently of the earlier macOS environment. To use that environment, install it in a clean virtual environment. On Windows replace `.venv/bin/python` with `.venv\Scripts\python`.
 
 ```sh
-python -m studies.timestep_selection --adapter team_adapter
-python run_all.py --adapter team_adapter
+python -m venv .venv
+.venv/bin/python -m pip install -r requirements-person4-tested.txt
+.venv/bin/python -m pytest -q -p no:cacheprovider
+.venv/bin/python -m studies.metric_refinement --output data/processed/metric_verification
+.venv/bin/python run_all.py --demo
 ```
 
-The proposed settings in `configs/timestep_selection.json` must be reviewed before production. The selection gate compares each step with the next two refinements, requires unchanged success classification and both saturation regimes, and requires at least one successful case to assess detumbling timing. Sampling error in hold detection, saturation fraction and peak torque remains separate from integration error. All full model cases run for six orbital periods. Missing detumbling times stay null. A deadline failure does not prove that eventual recovery is impossible.
+The analytic metric check samples known functions without integrating an ODE. It creates `evidence.json`, a monochrome PDF/PNG verification figure and a manifest. It verifies interpolation, complete hold detection, time-weighted saturation and effort against exact answers. Its output is numerical verification, not spacecraft data. The observed crossing time error decreases from about 0.00771 to 0.00000754 as output spacing decreases from 0.25 to 0.0078125. Crossing errors need not decrease monotonically at each refinement because the crossing lies at different locations within the sampling cell.
 
-## Reproducibility required before submission
+The demonstration creates 18 orbital and 36 paired synthetic cases, compressed histories, JSONL records, summaries, maps per gain, gain/saturation plots, paired outcomes and figure manifests in `data/processed/synthetic_demo`. It also regenerates analytic metric verification. Synthetic figures are labeled. Synthetic times are not used to estimate physics runtime. The demo is not the submitted engineering study. Existing output paths are protected against overwrite; choose a new `--output` directory for a rerun.
 
-The code repository is [available on GitHub](https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers).
+### Numerical audit before production
 
-The delivered tests, convergence, figure, and step study connection point now have the exact commands above. Person 4 must extend `run_all.py` and `manifest.json` when the engineering sweeps and figures are implemented. No nonexistent sweep command or fabricated engineering result is included.
+The adapter contract is in `report/PERSON4_HANDOFF.md`. No integrator, field model or controller owned by another member is implemented by Person 4. Cases now include `document`, a complete validated case using `src.config`, and `config`, its physical dictionary. Use `runtime_config` to bind the team's callbacks. Sweep overrides carry provenance. All deadlines and thresholds derive from the canonical baseline, not duplicated Person 4 constants.
 
-Before submission, a teammate must follow only this README in a clean clone and regenerate all report results. Record the tested commit, verify evaluator access, and include a clickable repository link and the tested commit in the final report. These checks remain pending.
+Once the team adapter exists, run the audit below on representative low and high spins, gains and dipole limits, especially cases near success boundaries. `--case-index` selects a deterministic pilot case. `--rhs-adapter` is optional and accepts `rhs(t,y,case)` in SI units. It supplies sampled finite-difference Jacobians for the Lecture 12/13 diagnostic.
 
-## Team progress records
+```sh
+python -m studies.refinement_audit --adapter team_adapter:simulate --step 1 --case-index 0 --output data/processed/audit_case0
+python -m studies.refinement_audit --adapter team_adapter:simulate --rhs-adapter team_adapter:rhs_for_case --step 1 --case-index 0 --output data/processed/audit_case0_modes
+```
 
-Each member should record completed work, checks, dependencies, and AI use as their contributions are added. `report/WORKCHUNK_1.md` through `report/WORKCHUNK_4.md` and the teammate record `report/WORKCHUNKS_4_TO_6.md` document the premise, quaternion, dynamics, and numerical contributions. Copyable report fragments are in `report/sections`. These records describe individual contributions within the shared project rather than limiting the repository's scope. Final student contribution percentages have not been assigned by the agent.
+The step 1 is an example diagnostic input, not a recommended production setting. The audit saves h, h/2 and h/4 histories, scaled time RMS and sampled maximum differences at nested nodes, raw quaternion norm defects, observed difference order, metric changes, and output-only metric changes on the finest trajectory. It never approves a step. Person 2 still owns the full integrator derivation, independent checks, convergence.py and timestep_selection.py. These drivers are integrated and their commands are available above.
 
-Runtime and platform metadata vary across runs. Compare numerical convergence values and report content rather than requiring identical timing logs or image metadata. SHA256SUMS.txt is the committed file snapshot, not a promise that regenerated runtime logs are byte identical.
+Lecture 11 defines truncation error after dividing the exact starting value defect by h. For smooth RK4 the unscaled defect is O(h^5), the lecture's tau is O(h^4), and stable global error is O(h^4). Saturation can reduce smoothness. A piecewise linear threshold crossing generally limits event accuracy to second order under a transverse crossing assumption. State and event convergence are evaluated separately. Self convergence does not establish that the equations or frames are correct. Frozen Jacobian eigenvalues diagnose local modes, not full nonlinear stability; neutral and growing modes are recorded separately from decaying-mode ratios.
 
-The agent reproduced all 198 tests, the numerical data, both generated tables and both figure files from a clean local Git clone of commit `02666f0e5645b83c10c65d8c1591b70d61c1fc71`. See `data/processed/clean_clone_verification.json`. This does not replace the independent teammate check or the final full project reproduction.
+### Real engineering studies after team verification
+
+1. Review the assumed physical inputs in `configs/baseline.json`. `configs/study.json` and `configs/paired.json` specify only the baseline path, seed and sweep grids. The paired configuration differs by field modes. See the Stage 3 verification record for the regenerated numerical acceptance scope.
+2. Use the measured gate in `configs/verification.json`. Validate it without simulations using `python -m studies.parameter_sweep --grid pilot --verification configs/verification.json --check-only`. The gate pins the exact tested source commit and complete source/configuration tree; later evidence-only commits are allowed only with identical executable inputs. Evidence SHA256 checks and the clean tracked checkout requirement still apply. Automated acceptance records numerical review, not student signoff.
+3. Run the real 108-case pilot. Review runtime and accuracy before choosing the proposed 1152-case production grid. Store the pilot path in verification.json. A real pilot is mandatory before production. The separate paired field grid contains 216 cases.
+4. Run the production and paired studies, regenerate figures and tables, and copy verified PDFs into report/figures. Replace pending engineering interpretations only with measured conclusions.
+
+```sh
+python -m studies.parameter_sweep --grid pilot --verification configs/verification.json --output data/processed/pilot/records.jsonl
+python run_all.py --verification configs/verification.json
+python -m studies.make_figures --records data/processed/production/records.jsonl --output figures/production
+python -m studies.make_figures --records data/processed/production/paired.jsonl --output figures/paired
+```
+
+The ensemble uses seed 3702026, normalized Gaussian four-vectors for uniform attitudes, normalized Gaussian three-vectors for uniform spin directions, and uniform orbital phases. Geometries are common across parameter settings and field modes. Each case stores a full configuration snapshot, initial state, seed, step, config and baseline hashes, tested commit, verification record, runtime, status and metrics. Histories run to the common deadline even after detumbling. Completed JSONL records survive interruption but automatic resume is not implemented; restart at a new path.
+
+Valid deadline failures are censored and their time remains JSON null. Invalid simulations have a separate failure reason. Success fractions state the valid denominator and invalid count; final studies should resolve invalid cases. Time medians are conditional on success. No finite unconditional median is inferred from a mostly censored ensemble. Effort is actuator activity, not electrical energy. Threshold equality qualifies; crossings use local linear interpolation. Refined output grids are required to assess missed excursions.
+
+Generated manifests associate figures with records, seed, configuration and baseline hashes, and commands. summary_table.json retains counts, conditional time medians and censoring. paired_outcomes.json retains cases outside the successful-pair scatter. Figure regeneration uses saved JSONL records; compressed histories support independent metric audits. The report handoff lists the figure to command mapping. Commands use repository-relative paths and require no private local directories.
+
+### Remaining deliverables
+
+The real field/controller, scratch RK4, numerical verification and regenerated step evidence are integrated. The real pilot and production, measured engineering conclusions, evaluator access and final clean clone reproduction remain pending. See `docs/STAGE3_VERIFICATION.md` for the production gate and `report/PERSON4_LECTURE_REVISION.md` for earlier revision checks. `run_all.py` regenerates implemented pipeline outputs; it cannot regenerate missing engineering results. Final reproducibility must identify the actual tested clean commit after the complete study is integrated.
+
+## Integration validation
+
+See docs/INTEGRATION.md for merge decisions, source snapshots, test results and pending Person 3 verification. Install requirements.txt in a clean virtual environment. The integration was checked with Python 3.11 on Windows and the pinned direct dependencies. No engineering sweep was run during integration.

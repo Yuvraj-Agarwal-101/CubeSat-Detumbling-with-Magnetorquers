@@ -1,0 +1,41 @@
+{
+  "scope": "Final targeted 16-case engineering study; not an exhaustive sweep",
+  "tested_commit": "56f7d04a57ef5c26d60b3ee796626ae1bb43f4e1",
+  "adapter": "team_adapter:simulate",
+  "dt_s": 0.25,
+  "seed": 3702026,
+  "configuration_sha256": {
+    "configs/study.json": "e1f0db1e0597cf1e79df01a5428761cefdfb2a84bb338b40c28ee388bcc36183",
+    "configs/baseline.json": "31046c07787a1dd7cc18eb2e1f82bcd2e17fbfd6a07eb0439ff990b7d5f3409c",
+    "configs/verification.json": "8ab0d92075e3de4d60da59dbf2ac594ecd37f25d4ed24d49de9b411f654f8643"
+  },
+  "artifact_sha256": {
+    "data/processed/targeted/records.jsonl": "3b7925ddf734dbbdf5e2faa0a0bee7c4cd94458203ab4e342aeb68cfe6f80f8b",
+    "data/processed/targeted/summary.json": "9d639b6268f1463c1bc9d350da7fc67878b3b748072623cac9857c3691cf6620",
+    "data/processed/targeted/validation.json": "3cb71952f0be9b9e0c821adea391b14722edab9db65563f04c0ab4b4f3237241",
+    "data/processed/targeted/results_table.csv": "a098949196c428e1bcb3a119ed8900ca3938a21820f132056614c66c3796b429",
+    "data/processed/pilot/shards/000/records_histories/ff9538e168a8b99e.npz": "f3e526bfaaf6c1dcffb694af5976512891cd7b1fdcb9e7b1b3db6d7674cf2725",
+    "data/processed/pilot/shards/001/records_histories/323b0bebdff4bd78.npz": "6b2644f3ff6ebee159a19ddfbdef2c55324100ee46e598bbb130f3278989cc3a",
+    "data/processed/pilot/shards/002/records_histories/c726659c91b39a30.npz": "4d7999344ff9564e511b3bff7b695f34dab8b92246b43f1164b79db0e92b12ce",
+    "data/processed/pilot/shards/003/records_histories/4625a7346cbc0a2c.npz": "22a78040bf94326da85d43a89b53ccf070bd400aa62f209a7b584becc3ca278d",
+    "data/processed/pilot/shards/004/records_histories/9561890282fcc42e.npz": "f3e526bfaaf6c1dcffb694af5976512891cd7b1fdcb9e7b1b3db6d7674cf2725",
+    "data/processed/pilot/shards/005/records_histories/84b9696b577404f9.npz": "6b2644f3ff6ebee159a19ddfbdef2c55324100ee46e598bbb130f3278989cc3a",
+    "data/processed/pilot/shards/006/records_histories/06a1c364aa4fc7aa.npz": "4d7999344ff9564e511b3bff7b695f34dab8b92246b43f1164b79db0e92b12ce",
+    "data/processed/pilot/shards/007/records_histories/55c4e7d8740b017a.npz": "22a78040bf94326da85d43a89b53ccf070bd400aa62f209a7b584becc3ca278d",
+    "data/processed/pilot/shards/008/records_histories/a1512a239539b956.npz": "f3e526bfaaf6c1dcffb694af5976512891cd7b1fdcb9e7b1b3db6d7674cf2725",
+    "data/processed/pilot/shards/009/records_histories/b66fc6e1a793570a.npz": "6b2644f3ff6ebee159a19ddfbdef2c55324100ee46e598bbb130f3278989cc3a",
+    "data/processed/pilot/shards/010/records_histories/7b994ac0651c87ed.npz": "4d7999344ff9564e511b3bff7b695f34dab8b92246b43f1164b79db0e92b12ce",
+    "data/processed/pilot/shards/011/records_histories/78ebfa9903145961.npz": "22a78040bf94326da85d43a89b53ccf070bd400aa62f209a7b584becc3ca278d",
+    "data/processed/targeted/shards/072/records_histories/ca8c9a8b994ed3d2.npz": "06c802c0db49751d8060099ba4445e61437d95878fe44b413dac9e45dde16c35",
+    "data/processed/targeted/shards/024/records_histories/f7f953f6e6eaa628.npz": "a21358c7306ab1a74015bbfa2dd8ba2b59ad8536f939263f799212c7c5e0f703",
+    "data/processed/targeted/shards/096/records_histories/f41c6f42218d3003.npz": "8001fd691e915a26f63d2566f00330878692f9dd3b6104388c2e81e82b97ca69",
+    "data/processed/targeted/shards/104/records_histories/ddc7eea5f5568d0a.npz": "3e0927051974707cf1534914098608b756e38d691cfdac2885b0ea6ca33d0197",
+    "figures/targeted/manifest.json": "2d77b96f8c05826b70d5987df68651d5c6cdc24233baa807614951e4775ac20c",
+    "figures/targeted/targeted_actuator.pdf": "d0aee29b5275664189b2b3abe07ca7f631b30131fcd677527dee8e9b358133cb",
+    "figures/targeted/targeted_actuator.png": "f576396613fcb24efa12727954a38f5c75462afa649bf9be51cf8acda37deb0f",
+    "figures/targeted/targeted_geometry.pdf": "033bc953ecad3f862177998d12886edd1e5b4a149ada9068068894aab44d8545",
+    "figures/targeted/targeted_geometry.png": "5a4518442d034eb6ad0cb25445c6ca36b467f089eb1fed5954fdca4e4cfc6b75",
+    "figures/targeted/targeted_spin_gain.pdf": "f060081b388dcba79abd62a2405c9a2707946d158f35695befcba45b73cbfacd",
+    "figures/targeted/targeted_spin_gain.png": "a33351eff7d40fb00716d51deff2bd93b8a052c264cee87b83b2f67a3df68b44"
+  }
+}

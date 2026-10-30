@@ -1,0 +1,8 @@
+{
+  "adapter": "team_adapter:simulate",
+  "dt_s": 0.25,
+  "tested_commit": "e62bf63a2d1232047b6ca9d366f990d90d3dfb21",
+  "current_commit": "96e848f260966abe0ef12a304da2a31967cbb129",
+  "cases": 108,
+  "simulations_run": 0
+}

@@ -1,0 +1,47 @@
+\subsection{Full model numerical refinement}
+The study uses the implemented circular orbit, rotating tilted dipole,
+normalized B dot control and vector norm saturation. Each case runs to six
+orbital periods. The two canonical cases use the canonical initial state. Their unsaturated limit is
+$1\ \mathrm{A\,m^2}$ and the saturated limit is $0.01\ \mathrm{A\,m^2}$.
+These are numerical verification choices, not revised baseline hardware claims.
+An additional seeded pilot geometry is audited at 30 degrees per second,
+gain $3\times10^{-5}$ and limit $0.03\ \mathrm{A\,m^2}$. Its record uses
+the production piecewise linear event metrics at every integration level.
+The common accepted step must pass two consecutive refinements in all three cases.
+\begin{center}
+\begin{tabular}{lrrrrr}
+Case & $h$ & Success & $t_d$ & Final rate & Saturation \\
+\hline
+unsaturated & 2 & 1 & 16138.00 & 0.002165 & 0.000000 \\
+unsaturated & 1 & 1 & 16135.00 & 0.002165 & 0.000000 \\
+unsaturated & 0.5 & 1 & 16135.00 & 0.002165 & 0.000000 \\
+unsaturated & 0.25 & 1 & 16135.00 & 0.002165 & 0.000000 \\
+unsaturated & 0.125 & 1 & 16134.88 & 0.002165 & 0.000000 \\
+unsaturated & 0.0625 & 1 & 16134.88 & 0.002165 & 0.000000 \\
+saturated & 2 & 1 & 24596.00 & 0.002638 & 0.367581 \\
+saturated & 1 & 1 & 24568.00 & 0.002717 & 0.367595 \\
+saturated & 0.5 & 1 & 24567.00 & 0.002719 & 0.367647 \\
+saturated & 0.25 & 1 & 24566.75 & 0.002719 & 0.367606 \\
+saturated & 0.125 & 1 & 24566.75 & 0.002719 & 0.367590 \\
+saturated & 0.0625 & 1 & 24566.75 & 0.002719 & 0.367600 \\
+high\_spin & 2 & 1 & 19093.63 & 0.002165 & 0.420662 \\
+high\_spin & 1 & 1 & 20539.93 & 0.002273 & 0.482528 \\
+high\_spin & 0.5 & 1 & 20651.85 & 0.002295 & 0.485769 \\
+high\_spin & 0.25 & 1 & 20622.34 & 0.002262 & 0.484305 \\
+high\_spin & 0.125 & 1 & 20621.47 & 0.002257 & 0.484240 \\
+high\_spin & 0.0625 & 1 & 20621.44 & 0.002256 & 0.484236 \\
+\end{tabular}
+\end{center}
+Times and steps are in seconds, final rates in radians per second, and
+saturation is a time fraction. Full precision records also include peak
+torque, effort, runtime, evaluation counts and norm diagnostics.
+The screening gate selects $0.25$ seconds for these two cases after two successive refinements.
+The declared relative tolerances are one percent for time, final rate
+and peak torque, with absolute floors of one second, $10^{-6}$ radians per
+second and $10^{-10}$ newton metres. Saturation fraction uses $0.005$ absolute.
+The JSON records every comparison and classification. Screening acceptance
+does not approve every gain, initial geometry or case near a success boundary.
+The metrics use sampled output; threshold intervals, saturation crossings
+and narrow torque peaks can be unresolved. The independent output grid audit and accepted baseline setting are documented
+in the next subsection. Broader engineering cases still require their own audit.
+A deadline failure does not establish that eventual recovery is impossible.

@@ -1,0 +1,2 @@
+Accepted common candidate: 0.25
+All comparisons: [('unsaturated', [True, True, True, True, True]), ('saturated', [False, True, True, True, True]), ('high_spin', [False, True, False, True, True])]

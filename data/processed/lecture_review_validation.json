@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "base_commit": "07fb961c17aa9ba1eb91851797403c3978aea8c5",
+  "branch": "aleksandar",
+  "tests": 204,
+  "workflow": "python run_all.py",
+  "publication": "not pushed",
+  "latex_compilation": "not performed",
+  "source_directory": "Documents/370 lectures",
+  "source_file_count": 19
+}

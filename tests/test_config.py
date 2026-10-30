@@ -31,7 +31,7 @@ def test_baseline_matches_handoff_si_inputs():
     assert_allclose(y0[:4], [1, 0, 0, 0])
     assert_allclose(y0[4:], np.ones(3) * np.deg2rad(10) / np.sqrt(3))
     assert_allclose(case["study"]["rate_threshold_rad_s"], np.deg2rad(.5))
-    assert solver_settings(case)["step_size_s"] is None
+    assert solver_settings(case)["method"] == "rk4"
 
 
 def test_period_and_deadline_against_kepler_circular_relation():
@@ -59,7 +59,7 @@ def test_validation_and_export_preserve_independent_copies():
 
 def test_step_must_be_selected_explicitly():
     with pytest.raises(ValueError, match="convergence"):
-        solver_settings(load_config(), require_step=True)
+        solver_settings(change(load_config(), "solver.step_size_s", None), require_step=True)
     case = change(load_config(), "solver.step_size_s", .1)
     assert solver_settings(case, require_step=True)["step_size_s"] == .1
 

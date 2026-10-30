@@ -1,0 +1,39 @@
+[
+  {
+    "figure": "targeted_geometry",
+    "scope": "TARGETED REAL ENGINEERING STUDY",
+    "caption": "Four seeded attitudes, spin directions and orbital phases; full six-orbit histories.",
+    "records": "data/processed/targeted/records.jsonl",
+    "case_ids": [
+      "ff9538e168a8b99e",
+      "323b0bebdff4bd78",
+      "c726659c91b39a30",
+      "4625a7346cbc0a2c"
+    ],
+    "command": ".venv/Scripts/python.exe docs/pilot_validation/build_submission.py"
+  },
+  {
+    "figure": "targeted_spin_gain",
+    "scope": "TARGETED REAL ENGINEERING STUDY",
+    "caption": "Matched initial spin and gain comparisons at geometry 0; same actuator bound.",
+    "records": "data/processed/targeted/records.jsonl",
+    "case_ids": [
+      "ff9538e168a8b99e",
+      "ca8c9a8b994ed3d2",
+      "f7f953f6e6eaa628",
+      "f41c6f42218d3003"
+    ],
+    "command": ".venv/Scripts/python.exe docs/pilot_validation/build_submission.py"
+  },
+  {
+    "figure": "targeted_actuator",
+    "scope": "TARGETED REAL ENGINEERING STUDY",
+    "caption": "Raw-to-limit ratios above one indicate saturation; commands remain bounded.",
+    "records": "data/processed/targeted/records.jsonl",
+    "case_ids": [
+      "f41c6f42218d3003",
+      "ddc7eea5f5568d0a"
+    ],
+    "command": ".venv/Scripts/python.exe docs/pilot_validation/build_submission.py"
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "tests": 234,
+  "full_model_runs": 8,
+  "orbits_per_run": 6,
+  "steps_s": [
+    2,
+    1,
+    0.5,
+    0.25
+  ],
+  "all_succeeded": true,
+  "selected_step_s": 1,
+  "saturated_coarse_comparison_pass": false,
+  "saturated_fine_comparison_pass": true,
+  "total_simulation_runtime_s": 1215.6232668999583,
+  "reproducibility_commands": [
+    "python run_all.py",
+    "python -m studies.timestep_selection --adapter team_adapter --settings configs/full_model_refinement.json"
+  ],
+  "remaining": [
+    "Engineering sweeps and audits outside the stated baseline scope",
+    "Student review and independent teammate reproduction of the combined project"
+  ],
+  "source_hashes": {
+    "src/orbit_field.py": "8b996c9a5ccccba8d40ed8a5e6758c5af25856a404c818b84d2963594a316433",
+    "src/controller.py": "0fd808cb3f698ff9601b8cde740abda9b4e7b24556a360b6083318333aed9ecb",
+    "team_adapter.py": "8cf024498e3583ac47f238b1dac8bcf74ad16c00770ea48f8d6dfb79846123c5",
+    "src/dynamics.py": "6c303c4cd5218fd3dbcc0fd4794929171a5c835d9aca2467abc5eb2917b7578a",
+    "src/integrators.py": "add75ddbaffd295585e1fb67e5f6deff4a50e706651c65b0e38483cc04c34a90"
+  },
+  "additional_baseline_runs": 1
+}

@@ -1,23 +1,67 @@
 \section{Reproducibility}
-The shared code is available in the \href{https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers}{project repository}. The README records environment setup, module ownership, current commands, and outstanding reproduction requirements.
+The code and measured artifacts are available in the
+\href{https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers/tree/codex/real-108-pilot}{project repository}
+on branch \texttt{codex/real-108-pilot}; the name reflects the original plan,
+while the submitted study contains 16 targeted cases. All engineering
+simulations tested revision
+\texttt{56f7d04a57ef5c26d60b3ee796626ae1bb43f4e1}.
+Report and evidence changes follow that revision without changing the
+physics, controller, metrics, integrator, or accepted step.
 
-The available configuration and correctness checks can be reproduced from the repository root using
-\begin{quote}
-\texttt{.venv/bin/python \string-m src.config}\\
-\texttt{.venv/bin/python \string-m tools.check\_project}.
+Use Python 3.11 and the pinned \texttt{requirements.txt}: NumPy 2.0.2,
+Matplotlib 3.9.4, and pytest 8.4.2. On Windows invoke
+\texttt{.venv/Scripts/python.exe}; on Unix use \texttt{.venv/bin/python}.
+An interrupted attempt using an unsuitable global Python environment
+is excluded from the results.
+
+Final records, summary, case table, independent validation, configuration
+SHA256 hashes, history hashes, and runtime evidence are in
+\texttt{data/processed/targeted}. The seed is 3702026. Records contain the
+full physical configuration, initial state and phase, tested revision,
+adapter, accepted step, metric definitions, and history path.
+The real adapter is \texttt{team\_adapter:simulate}; it evaluates orbital
+forcing and feedback at every scratch RK4 stage. Histories retain the
+full six-orbit deadline. Censored cases retain null recovery times.
+
+Regenerate validation, the engineering figures, and the results table with
+\begin{quote}\small
+\texttt{.venv/Scripts/python.exe docs/pilot\_validation/build\_submission.py}
 \end{quote}
-The second command runs the current test suite and records the Git revision, working tree status, Python version, test counts, and derived baseline timings in \texttt{report/build/verification.json}. These generated records describe available checks rather than a full engineering simulation.
-
-\IfFileExists{build/revision.tex}{
-Current checked revision is \input{build/revision.tex}.
-}{
-The checked revision record has not yet been generated for this copy. Run the repository verification command before recording a tested revision.
-}
-
-The parameter table is generated with
-\begin{quote}
-\texttt{.venv/bin/python \string-m tools.export\_report\_inputs}.
+This command reads saved real histories and runs no simulations.
+To rerun exactly the submitted design into a new output directory, use
+the following single command, supplying the comma-separated indices as
+one argument:
+\begin{quote}\small\ttfamily
+.venv/Scripts/python.exe docs/pilot\_validation/run\_parallel\_pilot.py\\
+--workers 4 --indices 0,1,2,3,4,5,6,7,8,9,10,11,72,24,96,104\\
+--output data/processed/reproduction16/records.jsonl
 \end{quote}
-A consistency test fails if the stored table differs from the baseline configuration.
+The wrapper calls the unchanged gated real runner once per selected case,
+retains invalid records, and orders the aggregate by the requested indices.
+It refuses to overwrite outputs. The source-tree and evidence gate must
+pass; use the committed source and supplied artifacts. No synthetic option
+is used. This rerun command is for independent reproduction, not an
+additional simulation performed for the submitted study.
 
-The top level \texttt{run\_all.py} now regenerates the canonical parameter table, executes all available tests, and recreates the exact solution convergence data, numerical table and monochrome figure. It records the full model step selection as pending unless a real model adapter is supplied. A figure and table manifest and measured runtimes are included. Engineering sweep commands, saved production configurations and seeds, and independent teammate clean clone reproduction of all final results remain required before submission. Evaluator access and the final tested revision must be checked after the remaining modules and results are merged.
+The original sequential attempts were interrupted without completed cases.
+The 12-worker run completed twelve cases before the deadline change;
+twelve queued follow-on cases had started and were interrupted without
+completed records. They are excluded rather than counted as deadline
+failures or invalid numerical results. Only four further selected cases
+were completed. The 108-case pilot was discontinued, and no 1152-case
+production sweep was run or approved.
+
+The completed Stage 3 physics, smooth convergence, retained coarse failures,
+canonical and high-spin refinement, output-grid checks, and accepted
+$0.25\ \mathrm{s}$ step are preserved in
+\texttt{docs/stage3\_validation}, the processed verification artifacts,
+and \texttt{configs/verification.json}. The command record is
+\texttt{docs/stage3\_validation/commands.ps1}. The final full test command is
+\texttt{.venv/Scripts/python.exe -m pytest -q}; its log accompanies the
+submission. Analytic and fixture verification remains separate from
+the real engineering records.
+
+Compile \texttt{report/main.tex} with pdfLaTeX, BibTeX, and two further
+pdfLaTeX passes, or upload the report archive to Overleaf and select
+\texttt{main.tex}. Included figures and both bibliography files are bundled.
+No local LaTeX compiler was available for this submission copy.

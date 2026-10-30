@@ -1,9 +1,17 @@
 \section{Contributions}
-The initial allocation assigns 25 percent of the planned workload to each person. Actual names, completed responsibilities, and final contribution percentages must be confirmed by the team before submission.
-\begin{enumerate}
-\item Person 1 owns the premise, quaternion utilities, dynamics, shared configuration, interface documentation, and report assembly. The corresponding code and current checks are in the repository. Production interface acceptance remains pending.
-\item Person 2 owns the numerical method, integrator, exact solution convergence study, and production time step selection. The method, implementation, exact convergence evidence and refinement driver are now supplied. Production step selection remains pending the real magnetic field and controller.
-\item Person 3 owns the orbital magnetic field, analytic derivative, B dot controller, saturation, and their physics checks. These production modules are pending in the current repository.
-\item Person 4 owns engineering experiments, metrics, figures, result interpretation, and complete reproduction instructions. Engineering results and the full reproduction pipeline are pending.
-\end{enumerate}
-Each member must contribute substantively to at least one of premise, method, implementation, or results. Final percentages must describe actual work rather than reproduce the initial allocation automatically.
+
+The project was developed collaboratively, with each member owning a major technical part of the final integrated workflow.
+
+\begin{itemize}
+
+\item \textbf{Yuvraj Agarwal (Person 1, 25\%):} developed the engineering premise and shared project configuration, established the quaternion and rigid-body dynamics interfaces, organized the separation between physical modeling and numerical methods, and integrated the common numerical architecture and verification framework used by the team.
+
+\item \textbf{Aleksandar Bargoz (Person 2, 25\%):} developed the scratch numerical integration workflow and numerical-method analysis, including convergence, stability, timestep-refinement, and output-resolution studies. His work also contributed the orbital magnetic-field and B-dot controller implementations that were incorporated into the final integrated model.
+
+\item \textbf{Sidhant Jha (Person 3, 25\%):} performed the independent review and verification of the orbital magnetic-field and B-dot controller physics, including field-derivative, frame-convention, saturation, torque, and energy checks. He also integrated the teammate branches, verified the merged production model, and incorporated the accepted $0.25$ s production timestep and verification gate into the final workflow.
+
+\item \textbf{Dibyansh Choudhury (Person 4, 25\%):} developed the engineering-study and post-processing framework, including deterministic case generation, detumbling-time and hold-interval detection, saturation and actuator metrics, numerical-diagnostic and refinement tools, parameter-sweep infrastructure, and reproducible figure generation. His workflow was used to execute and analyze the final targeted engineering study and to generate the engineering results included in the report.
+
+\end{itemize}
+
+All four members contributed to the integration, interpretation, and review of the final results. The agreed contribution allocation is \textbf{25\% per team member}.
