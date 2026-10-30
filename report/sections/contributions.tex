@@ -1,23 +1,17 @@
 \section{Contributions}
-The repository history records overlapping implementation and integration
-work rather than four isolated codebases. These responsibilities describe
-the integrated contributions; automated assistance is disclosed below.
+
+The project was developed collaboratively, with each member owning a major technical part of the final integrated workflow.
+
 \begin{itemize}
-\item Yuvraj (Person 1): premise, shared configuration, quaternion and rigid-body
-model interfaces, separation of physics and numerical code, and integration
-of the shared numerical architecture and verification studies.
-\item Aleksandar (Person 2): scratch time integration, numerical derivations,
-lecture-aligned convergence and stability studies, full-model refinement
-and output-resolution evidence. His branch also supplied orbital-field
-and B-dot implementations used during integration.
-\item Sidhant Jha (Person 3): orbital-field and controller physics review,
-merged-model verification, teammate branch integration, and integration
-of the accepted quarter-second timestep and evidence gate.
-\item Dibyansh (Person 4): seeded engineering experiment design, recovery and
-saturation metrics, reproducible study runner, diagnostic figures, and
-lecture-aligned engineering-study workflow. The final targeted study and
-report use this integrated pipeline.
+
+\item \textbf{Yuvraj Agarwal (Person 1, 25\%):} developed the engineering premise and shared project configuration, established the quaternion and rigid-body dynamics interfaces, organized the separation between physical modeling and numerical methods, and integrated the common numerical architecture and verification framework used by the team.
+
+\item \textbf{Aleksandar Bargoz (Person 2, 25\%):} developed the scratch numerical integration workflow and numerical-method analysis, including convergence, stability, timestep-refinement, and output-resolution studies. His work also contributed the orbital magnetic-field and B-dot controller implementations that were incorporated into the final integrated model.
+
+\item \textbf{Sidhant Jha (Person 3, 25\%):} performed the independent review and verification of the orbital magnetic-field and B-dot controller physics, including field-derivative, frame-convention, saturation, torque, and energy checks. He also integrated the teammate branches, verified the merged production model, and incorporated the accepted $0.25$ s production timestep and verification gate into the final workflow.
+
+\item \textbf{Dibyansh Choudhury (Person 4, 25\%):} developed the engineering-study and post-processing framework, including deterministic case generation, detumbling-time and hold-interval detection, saturation and actuator metrics, numerical-diagnostic and refinement tools, parameter-sweep infrastructure, and reproducible figure generation. His workflow was used to execute and analyze the final targeted engineering study and to generate the engineering results included in the report.
+
 \end{itemize}
-\textbf{TEAM TODO BEFORE SUBMISSION: enter agreed actual contribution
-percentages for Yuvraj, Aleksandar, Sidhant Jha, and Dibyansh.}
-No percentages are inferred from commit counts or the initial allocation.
+
+All four members contributed to the integration, interpretation, and review of the final results. The agreed contribution allocation is \textbf{25\% per team member}.
