@@ -18,6 +18,30 @@ The final integrated project is on the `main` branch.
 - The report figures and tables are generated from committed real engineering histories.
 - The larger planned 108-case pilot and 1152-case sweep were not used for the final conclusions.
 
+## Engineering results
+
+The final submission uses a targeted 16-case real engineering study to compare the effects of initial spin, B-dot gain, magnetorquer capability, and initial geometry.
+
+### Initial spin and controller gain
+
+![Targeted spin and gain comparison](figures/targeted/targeted_spin_gain.png)
+
+Increasing the normalized B-dot gain substantially reduced recovery time in the matched low-spin case. Higher initial angular rates were considerably more difficult to recover within the six-orbit study horizon.
+
+### Magnetorquer capability and saturation
+
+![Targeted actuator comparison](figures/targeted/targeted_actuator.png)
+
+For the tested high-spin case, increasing the dipole limit reduced both recovery time and actuator saturation. The smaller actuator spent a much larger fraction of the trajectory saturated.
+
+### Initial geometry sensitivity
+
+![Targeted geometry comparison](figures/targeted/targeted_geometry.png)
+
+The four tested initial geometries produced noticeably different detumbling histories, showing that initial attitude, spin direction, and orbital phase affect recovery even when the controller and actuator settings are unchanged.
+
+The measured conclusions in this repository apply to the tested parameter combinations and the idealized spacecraft and magnetic-field model used for the project.
+
 ## Engineering question
 
 > How do initial angular rate, normalized B-dot controller gain, and maximum magnetic dipole moment affect the time required for a CubeSat to detumble in an orbital magnetic field?
