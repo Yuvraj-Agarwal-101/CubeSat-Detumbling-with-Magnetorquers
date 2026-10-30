@@ -25,6 +25,38 @@
       "configuration": "configs/baseline.json",
       "data": "configs/baseline.json",
       "seed": null
+    },
+    {
+      "artifact": "report/sections/lecture_alignment.tex",
+      "generator": "python -m studies.lecture_validation",
+      "configuration": "Fixture settings embedded and recorded in lecture_validation.json",
+      "data": "data/processed/lecture_validation.json",
+      "seed": null
+    },
+    {
+      "artifact": "report/sections/physics_verification.tex",
+      "generator": "python -m studies.physics_verification",
+      "data": "data/processed/physics_verification.json",
+      "configuration": "configs/baseline.json",
+      "seed": null
+    },
+    {
+      "artifact": "report/sections/full_model_verification.tex",
+      "generator": "python -m studies.full_model_report",
+      "data": "data/processed/timestep_selection.json",
+      "configuration": "configs/full_model_refinement.json; complete overridden cases stored in data",
+      "seed": null
+    },
+    {
+      "artifact": "report/sections/production_step.tex",
+      "generator": "python -m studies.production_acceptance",
+      "configuration": "configs/baseline.json",
+      "data": [
+        "data/processed/production_validation/acceptance.json",
+        "data/processed/production_validation/confirmation.json",
+        "data/processed/production_validation/baseline.json"
+      ],
+      "seed": null
     }
   ],
   "related_manifest": "docs/verification_manifest.json"

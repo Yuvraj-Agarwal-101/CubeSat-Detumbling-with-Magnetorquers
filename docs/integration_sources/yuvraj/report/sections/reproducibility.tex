@@ -1,0 +1,29 @@
+\section{Reproducibility}
+The shared code is available in the \href{https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers}{project repository}. The README records environment setup, module ownership, current commands, and outstanding reproduction requirements.
+
+The available configuration and correctness checks can be reproduced from the repository root using
+\begin{quote}
+\texttt{.venv/bin/python \string-m src.config}\\
+\texttt{.venv/bin/python \string-m tools.check\_project}.
+\end{quote}
+The second command runs the current test suite and records the Git revision, working tree status, Python version, test counts, and derived baseline timings in \texttt{report/build/verification.json}. These generated records describe available checks rather than a full engineering simulation.
+
+The saved convergence, invariant, and amplification data and figures are regenerated with
+\begin{quote}
+\texttt{.venv/bin/python \string-m studies.verification}.
+\end{quote}
+The data are stored in \texttt{data/processed}. The three monochrome figures are stored in \texttt{figures}. Their generating command, inputs, and scope are recorded in the verification manifest. The studies use the numerical algorithms in this repository and exact special cases rather than an external time integrator.
+
+\IfFileExists{build/revision.tex}{
+Current checked revision is \input{build/revision.tex}.
+}{
+The checked revision record has not yet been generated for this copy. Run the repository verification command before recording a tested revision.
+}
+
+The parameter table is generated with
+\begin{quote}
+\texttt{.venv/bin/python \string-m tools.export\_report\_inputs}.
+\end{quote}
+A consistency test fails if the stored table differs from the baseline configuration.
+
+A complete \texttt{run\_all.py} for magnetic detumbling, engineering study commands, saved sweep configurations and seeds, engineering figure and table records, runtime estimates, and reproduction of all final engineering results remain required before submission. Evaluator access and the final tested revision must be checked after the remaining modules and results are merged.

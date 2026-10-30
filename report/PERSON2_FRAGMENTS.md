@@ -1,6 +1,6 @@
 # Copyable LaTeX report contributions
 
-Required packages are amsmath and graphicx. Compile the shared report main document.
+Required packages are amsmath and graphicx. Compile the preview from the report directory. The standalone and shared sources are compiled during final validation; see the completion record. Required bibliography entries are in report/references.bib.
 
 ## method
 
@@ -81,12 +81,37 @@ A decaying mode is represented as decaying when \(|R(w)|<1\). RK4 has a bounded 
 
 A nonlinear assessment uses a local Jacobian \(D_uf\) at representative states, its eigenvalues, and the corresponding amplification factors. A large separation between nonzero eigenvalue magnitudes can indicate different time scales. Zero modes must be identified before forming a ratio. Eigenvalues of a frozen local Jacobian do not prove stability of a nonlinear time varying system, and nonorthogonal eigenvectors can permit transient amplification.
 
-The production magnetic model has not yet been assembled, so it has not been established that its complete dynamics are nonstiff. A production step must satisfy both accuracy requirements and the relevant stability restrictions. If stability forces steps far below those needed for accuracy, an implicit method should be assessed rather than claiming that high order alone resolves stiffness.
+The idealized production magnetic model is implemented. Its complete nonlinear dynamics have not been established to be nonstiff across engineering cases. A production step must satisfy both accuracy requirements and the relevant stability restrictions. If stability forces steps far below those needed for accuracy, an implicit method should be assessed rather than claiming that high order alone resolves stiffness.
 
 \subsection{Nonsmooth control and method scope}
 Vector norm saturation produces a continuous command with a possible derivative change at its boundary. Fourth order results for a smooth test do not guarantee fourth order across such transitions. The saturated model requires its own step refinement study using detumbling time, success classification, and other engineering outputs.
 
 This is a finite dimensional initial value problem with all state data specified at the initial time. No spatial differential equation or conditions at separate spatial boundaries are part of the baseline. Time marching therefore supplies the required approximation. Polynomial fits across the entire attitude history, periodic interpolation of a nonperiodic recovery, and spatial weak form discretizations are unnecessary for this model.
+
+\subsection{Lecture stability interpretation and model scales}
+Following Lecture 12 \cite{goza12}, strict modal decay requires $|R(z)|<1$.
+Equality is the marginal boundary, not strict decay. On the imaginary axis,
+$|R(i\xi)|^2=1-\xi^6/72+\xi^8/576$, so the stable interval is
+$|\xi|\leq2\sqrt2$. This linear result does not establish nonlinear accuracy.
+On the negative real axis the bounded region extends to approximately
+$z=-2.785$. Consequently a fast decaying mode can restrict an explicit step
+even when its amplitude is small. Lecture 13 \cite{goza13} distinguishes that stability
+restriction from the step needed to resolve the desired dynamics.
+Frozen Jacobian spectra should be reviewed at representative trajectory
+states and across gains. Neutral modes must be counted separately when
+forming a ratio of nonzero mode magnitudes. Nonnormality, time dependence,
+projection and saturation prevent this check from being a full nonlinear
+stability proof. No full model stiffness classification has been measured.
+For a frozen field, the unsaturated rotational part of the normalized feedback
+has torque $-k_B(I-bb^T)\omega$, where $b=B_B/\|B_B\|$.
+The preliminary gain and inertia give a largest damping scale
+$k_B/J_{\min}=1.43\times10^{-3}\ \mathrm{s}^{-1}$.
+At the preliminary rate of $10$ degrees per second, the quaternion frequency
+is $\|\omega\|/2=0.0873\ \mathrm{s}^{-1}$.
+These are scale estimates, not a stiffness classification or an accepted step.
+Orbital forcing, rigid body coupling, gain sweeps, and saturation still require
+the complete model assessment.
+
 ```
 
 ## verification
@@ -99,6 +124,67 @@ This is a finite dimensional initial value problem with all state data specified
 
 \input{sections/numerical_verification}
 \input{sections/person2_verification}
+\input{sections/lecture_alignment}
+\input{sections/physics_verification}
+\input{sections/full_model_verification}
+\input{sections/production_step}
+```
+
+## numerical_verification
+
+```latex
+\subsection{Time integration convergence}
+The scalar test is \(\dot u=-u\), \(u(0)=1\), with exact solution \(u(t)=e^{-t}\) on \(0\leq t\leq2\). Five steps from \(0.2\) through \(0.0125\) are used. The error at each sample is the exact value minus the computed value. It is measured using
+\[
+\|e\|_{\Delta t}
+=\left(\sum_k\frac{t_{k+1}-t_k}{2}
+\left(\|e_k\|_2^2+\|e_{k+1}\|_2^2\right)\right)^{1/2}.
+\]
+The time weights approximate an integral norm and prevent the measurement from growing merely because refinement adds samples.
+
+A separate spherical body test sets \(J=2I_3\) and torque to zero. With constant body rate \(\omega_0\), the exact quaternion is
+\[
+q(t)=q(0)\otimes
+\left(\cos(\|\omega_0\|t/2),
+\frac{\omega_0}{\|\omega_0\|}\sin(\|\omega_0\|t/2)\right).
+\]
+The zero rate case is handled separately. The study uses \(\omega_0=(0.3,-0.2,0.4)^T\ \mathrm{rad/s}\), a nonidentity initial quaternion, \(t_f=4\ \mathrm{s}\), and five steps from \(0.4\) through \(0.025\ \mathrm{s}\). The attitude error is
+\[
+d_q=\min\bigl(\|q_{\rm exact}-q_k\|_2,\|q_{\rm exact}+q_k\|_2\bigr).
+\]
+This accounts for the two quaternion signs representing one orientation. Angular velocity and quaternion errors are not combined into an unscaled mixed unit norm.
+
+Orders are estimated by fitting \(\log\|e\|_{\Delta t}=a+p\log h\). Centering \(\log h\) makes the constant and linear basis columns orthogonal under the sample inner product, so \(p\) is obtained by a projection ratio rather than a poorly conditioned polynomial fit.
+\begin{table}[htbp]
+\centering
+\input{sections/verification_orders}
+\caption{Measured orders from the saved five grid studies. Finite step effects account for small departures from the asymptotic integer orders.}
+\end{table}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\linewidth]{verification_convergence.png}
+\caption{Exact scalar decay convergence. Euler, Heun, and RK4 approach first, second, and fourth order respectively. The vertical axis uses the time weighted error norm.}
+\end{figure}
+
+\subsection{Conservation over finite trajectories}
+The asymmetric torque free study uses \(J=\operatorname{diag}(0.030,0.035,0.007)\ \mathrm{kg\,m^2}\), initial rate \((0.4,0.3,0.5)^T\ \mathrm{rad/s}\), and a duration of \(20\ \mathrm{s}\). Energy and the full inertial momentum vector are compared with their initial values. These are independent physical invariants rather than a finer numerical trajectory used as truth.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\linewidth]{verification_invariants.png}
+\caption{Maximum relative energy and inertial momentum errors for the asymmetric torque free body. Both decrease under refinement. Their measured powers need not coincide on every grid.}
+\end{figure}
+Quaternion correction norms are saved separately. Projection controls the unit constraint but does not by itself establish correct rotational dynamics.
+
+\subsection{Linear stability checks}
+For \(\lambda=-1\), the implemented RK4 step agrees with its analytic amplification polynomial. In particular, \(R(-2)=1/3\) gives decay, whereas \(R(-3)=1.375\) gives numerical growth for the same decaying differential equation. This checks stability separately from convergence order.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\linewidth]{verification_stability.png}
+\caption{Amplification magnitude on the negative real axis. The horizontal line is one. Values below it represent decay for the scalar linear model. A stable factor alone does not establish accuracy.}
+\end{figure}
+
+\subsection{Production verification still required}
+These are exact solution and conservation studies for stated special cases. Production field and controller checks, saturation transition refinement, local spectral assessment along magnetic trajectories, and a production time step remain required. No detumbling time or engineering success fraction is inferred from the special cases.
 ```
 
 ## person2_verification
@@ -175,21 +261,20 @@ and synthetic checks of the study's sampled metrics and refinement gate.
 Three additional integration tests connect the shared dynamics to the common RK4 implementation using
 artificial zero torque control. They check exact spherical rotation, fresh
 callback evaluation at all stages, and decreasing energy and inertial momentum
-errors for an asymmetric torque free trajectory. The quaternion, instantaneous dynamics, configuration,
-numerical algorithm and report consistency checks are also retained. These checks do not
-validate the unavailable production magnetic field or controller.
+errors for an asymmetric torque free trajectory. The quaternion, instantaneous dynamics, configuration
+and report consistency checks are also retained. Twenty two additional checks exercise the implemented orbital field and normalized
+controller against independent geometry, derivative, saturation and power identities.
 
 \subsubsection{Production step study status}
-The production field and controller are unavailable. Unsaturated and saturated full model
-runs, production timing, and production step selection are pending. No
-production step or engineering sweep is claimed. The supplied driver requires
+The real idealized field and controller and the full model adapter are now implemented.
+Measured full model refinement and the accepted baseline step are tabulated in the following
+subsections. No ensemble engineering sweep is claimed. The supplied driver requires
 both regimes and compares two successive refinements before accepting a
-candidate. Proposed tolerances are one percent relative change in detumbling
+candidate. The predeclared tolerances are one percent relative change in detumbling
 time, final rate, and peak torque, with absolute floors of $1\ \mathrm{s}$,
 $10^{-6}\ \mathrm{rad/s}$, and $10^{-10}\ \mathrm{N\,m}$ respectively.
 Saturation fraction uses an absolute tolerance of $0.005$. Success
-classification must remain unchanged. The team must approve these tolerances
-before production runs. Near zero, the absolute floors control the comparison.
+classification must remain unchanged. The baseline numerical acceptance uses these declared tolerances. Broader engineering settings require their own audit. Near zero, the absolute floors control the comparison.
 
 Every full model case must run for six orbital periods. A successful case
 requires the entire $600\ \mathrm{s}$ hold interval at or below $0.5$ degrees per
@@ -198,9 +283,167 @@ driver uses stored endpoints for the first qualifying sampled hold interval,
 peak torque, and trapezoidal time weighting of the saturation indicator.
 It can miss excursions or peaks between samples. Saturation crossings can
 reduce smooth convergence order and event sampling can dominate metric
-differences. Person 4 must review event resolution separately from trajectory
-error, with additional refinement where necessary. A missed deadline says
+differences. The separate output audit below holds the finest trajectory fixed to assess event sampling independently of integration error. Additional engineering settings require their own event resolution checks. A missed deadline says
 nothing conclusive about eventual recovery.
+```
+
+## lecture_alignment
+
+```latex
+\subsection{Lecture alignment checks}
+Lecture 11 defines truncation error as the one step defect divided by $h$.
+For $u'=u$, $u(0)=1$, each row below starts from the exact initial state.
+The numerical update is unprojected RK4 and the reference is the exponential.
+\begin{center}
+\begin{tabular}{rrrr}
+$h$ & Defect & Defect divided by $h$ & Defect order \\
+\hline
+0.4 & 9.1364e-05 & 2.2841e-04 & {} \\
+0.2 & 2.7582e-06 & 1.3791e-05 & 5.0499 \\
+0.1 & 8.4742e-08 & 8.4742e-07 & 5.0245 \\
+0.05 & 2.6260e-09 & 5.2520e-08 & 5.0121 \\
+0.025 & 8.1721e-11 & 3.2688e-09 & 5.0060 \\
+\end{tabular}
+\end{center}
+The fifth order defect yields fourth order truncation error per unit time.
+At very small steps floating point cancellation would limit this comparison.
+
+Lectures 12 and 13 use the frozen Jacobian
+$A=\left(\begin{smallmatrix}-2&0\\400&-2000\end{smallmatrix}\right)$.
+Its eigenvalues are $-2$ and $-2000$, with magnitude ratio $1000$.
+For $h=0.001$ the fast scaled eigenvalue is $-2$, inside the RK4 region.
+For $h=0.0015$ it is $-3$, outside. This constant coefficient verification
+fixture demonstrates the stability restriction. It does not classify the
+full CubeSat system as stiff or nonstiff.
+
+Following Lecture 3 \cite{goza3} and the grid norm discussion in Lecture 14, convergence
+records additionally store the time weighted norm
+$\sqrt{\int_0^T e(t)^2\,dt}$ using trapezoidal quadrature, and the largest
+sampled error. Scalar error and attitude angle error in radians are separate.
+No norm mixes quaternion components and dimensional angular rates.
+Time weighting includes the shortened final interval and prevents sample
+count from changing the meaning of a trajectory norm. Endpoint error remains
+the primary convergence plot. Sampled norms are not continuous error bounds.
+```
+
+## physics_verification
+
+```latex
+\subsection{Orbital field and control verification}
+The circular orbit and tilted rotating dipole use the canonical assumed
+parameters. The analytic total field derivative includes both orbital motion
+and Earth rotation. Dynamics applies the body rotation correction once.
+Independent centered differences give the derivative errors below.
+\begin{center}
+\begin{tabular}{rrr}
+Time & Difference interval & Derivative error norm \\
+\hline
+0 & 2 & 2.14779e-13 \\
+0 & 1 & 5.36947e-14 \\
+0 & 0.5 & 1.34237e-14 \\
+123 & 2 & 2.14986e-13 \\
+123 & 1 & 5.37465e-14 \\
+123 & 0.5 & 1.34366e-14 \\
+3456 & 2 & 2.20238e-13 \\
+3456 & 1 & 5.50595e-14 \\
+3456 & 0.5 & 1.37649e-14 \\
+\end{tabular}
+\end{center}
+Time and interval are in seconds and error is in tesla per second. The
+centered difference errors decrease under refinement, independently of the
+RK4 time update. Tests also verify orbit radius, period and orientation,
+the polar to equatorial field strength ratio of two, zero commands, clipping
+boundaries, vector rather than component saturation, torque orthogonality,
+repeatability and consistent assembly in the full dynamics.
+
+For a static inertial field and unit body field direction $b$, the
+unsaturated torque is $-k_B(I-bb^T)\omega$. Thus power is
+$-k_B\|\omega-(b^T\omega)b\|^2$. Saturation scales this by a factor in
+$(0,1]$. Independent tests verify both regimes. This check does not imply
+monotonic kinetic energy under a changing orbital field. The model remains
+an idealized assumed field, not an epoch specific measured prediction.
+```
+
+## full_model_verification
+
+```latex
+\subsection{Full model numerical refinement}
+The study uses the implemented circular orbit, rotating tilted dipole,
+normalized B dot control and vector norm saturation. Each case runs to six
+orbital periods from the canonical initial state. The unsaturated limit is
+$1\ \mathrm{A\,m^2}$ and the saturated limit is $0.01\ \mathrm{A\,m^2}$.
+These are numerical verification choices, not revised baseline hardware claims.
+\begin{center}
+\begin{tabular}{lrrrrr}
+Case & $h$ & Success & $t_d$ & Final rate & Saturation \\
+\hline
+unsaturated & 2 & 1 & 16138.00 & 0.002165 & 0.000000 \\
+unsaturated & 1 & 1 & 16135.00 & 0.002165 & 0.000000 \\
+unsaturated & 0.5 & 1 & 16135.00 & 0.002165 & 0.000000 \\
+unsaturated & 0.25 & 1 & 16135.00 & 0.002165 & 0.000000 \\
+saturated & 2 & 1 & 24596.00 & 0.002638 & 0.367581 \\
+saturated & 1 & 1 & 24568.00 & 0.002717 & 0.367595 \\
+saturated & 0.5 & 1 & 24567.00 & 0.002719 & 0.367647 \\
+saturated & 0.25 & 1 & 24566.75 & 0.002719 & 0.367606 \\
+\end{tabular}
+\end{center}
+Times and steps are in seconds, final rates in radians per second, and
+saturation is a time fraction. Full precision records also include peak
+torque, effort, runtime, evaluation counts and norm diagnostics.
+The screening gate selects $1$ seconds for these two cases after two successive refinements.
+The declared relative tolerances are one percent for time, final rate
+and peak torque, with absolute floors of one second, $10^{-6}$ radians per
+second and $10^{-10}$ newton metres. Saturation fraction uses $0.005$ absolute.
+The JSON records every comparison and classification. Screening acceptance
+does not approve every gain, initial geometry or case near a success boundary.
+The metrics use sampled output; threshold intervals, saturation crossings
+and narrow torque peaks can be unresolved. The independent output grid audit and accepted baseline setting are documented
+in the next subsection. Broader engineering cases still require their own audit.
+A deadline failure does not establish that eventual recovery is impossible.
+```
+
+## production_step
+
+```latex
+\subsection{Accepted numerical production step}
+The production setting in the canonical configuration is
+$1$ second.
+The two successive comparisons from one to half a second and from half to
+a quarter second pass every declared metric tolerance in both saturation
+regimes. Success classification remains unchanged. The earlier two second
+saturated failure is retained in the record rather than discarded.
+
+To separate output sampling from integration error, each quarter second
+trajectory is held fixed while output spacing is coarsened. Complete hold
+intervals use piecewise linear interpolation of rate norm, and saturation
+duration uses crossings of the raw dipole norm. Equality qualifies in this
+diagnostic, matching the Person 4 convention; the original sampled strict
+threshold metric is retained for the integrator comparisons.
+\begin{center}
+\begin{tabular}{lrrr}
+Case & Output spacing & Interpolated start & Saturation fraction \\
+\hline
+unsaturated & 1 & 16134.853507 & 0.00000000 \\
+unsaturated & 0.5 & 16134.853387 & 0.00000000 \\
+unsaturated & 0.25 & 16134.853327 & 0.00000000 \\
+saturated & 1 & 24566.691807 & 0.36759482 \\
+saturated & 0.5 & 24566.691441 & 0.36759145 \\
+saturated & 0.25 & 24566.691327 & 0.36759071 \\
+\end{tabular}
+\end{center}
+All output comparisons pass the same predeclared tolerances. Interpolation
+does not prove that every continuous excursion was resolved, but refinement
+supports the event resolution for these trajectories. Compact scalar
+histories are supplied to reproduce this audit without reintegration.
+
+The canonical $0.1\ \mathrm{A\,m^2}$ baseline is also integrated separately
+at the accepted step. Its command bound is inactive at every evaluated RK4
+stage. The maximum raw magnitude is
+$0.07030255$ ampere square metres across 136036 stage calls.
+Its metrics agree with the unsaturated reference to floating point
+roundoff. This connects the unsaturated refinement case to the actual
+baseline bound. Final contribution percentages, independent teammate
+reproduction and the engineering sweep remain team responsibilities.
 ```
 
 ## acknowledgments

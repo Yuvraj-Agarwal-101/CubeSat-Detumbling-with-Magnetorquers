@@ -51,3 +51,7 @@ Missing callbacks and malformed callback outputs raise `ValueError`. No fallback
 Run `.venv/bin/python -m pytest -q tests/test_dynamics.py` for the 62 instantaneous dynamics cases. Run `.venv/bin/python -m tools.check_project` for all 222 current cases and generated revision evidence. Run `.venv/bin/python run_all.py` for both numerical contributions and the pending production refinement connection point. Production magnetic trajectory checks and step selection remain pending.
 
 The numerical integrator uses state first callbacks. Connect the public physical RHS with a function f(u, t) returning rhs(t, u, runtime). The projection callback is applied after completed steps only. Solver settings and runtime physics remain separate.
+
+## Integrated field and controller
+
+The real idealized orbital field, normalized B-dot controller and team_adapter are implemented. Existing baseline step evidence is retained at data/processed/production_validation; the 1 s step applies only to the recorded baseline and regimes. Broader sweep verification remains pending. Both numerical APIs remain available. See docs/INTEGRATION.md for merged validation and evidence provenance.

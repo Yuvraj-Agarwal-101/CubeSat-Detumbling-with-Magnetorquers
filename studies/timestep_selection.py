@@ -7,6 +7,7 @@ have sampling error. No claim of continuous event localization is made.
 import argparse
 import importlib
 import json
+import hashlib
 from pathlib import Path
 import time
 import numpy as np
@@ -104,6 +105,7 @@ def run(adapter, settings_path=None):
                 raise ValueError('Initial quaternion must be normalized')
             runs = []
             for step in steps:
+                print(f"Running {case['name']} at h={step:g} s", flush=True)
                 began = time.perf_counter()
                 def project(y):
                     norm = np.linalg.norm(y[:4])
@@ -131,6 +133,7 @@ def run(adapter, settings_path=None):
                 runs.append(dict(step_s=step, metrics=metric, runtime_s=time.perf_counter()-began,
                                  max_preprojection_norm_error=float(np.max(np.abs(sol.preprojection_norm_error))),
                                  rhs_evaluations=sol.function_evaluations))
+                print(f"Completed {case['name']} h={step:g}: {metric}", flush=True)
             regimes = [r['metrics']['saturation_fraction'] for r in runs]
             regime_ok = all(f == 0 for f in regimes) if case['regime']=='unsaturated' else all(f > 0 for f in regimes)
             records.append(dict(name=case['name'], regime=case['regime'], config=case['config_record'],
@@ -145,6 +148,9 @@ def run(adapter, settings_path=None):
         result = dict(status='screening complete, team review required' if selected else 'further refinement or cases required',
                       adapter=adapter, settings=settings, cases=records, selected_step_s=selected,
                       limitation='Sampled events can miss intervening excursions and narrow saturation or torque peaks. Independent physics verification and team approval remain necessary.')
+        result['source_hashes']={name:hashlib.sha256((ROOT/name).read_bytes().replace(b'\r\n',b'\n')).hexdigest()
+                                for name in ['src/orbit_field.py','src/controller.py','team_adapter.py',
+                                             'src/dynamics.py','src/integrators.py'] if (ROOT/name).exists()}
     out = ROOT/'data/processed/timestep_selection.json'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2))

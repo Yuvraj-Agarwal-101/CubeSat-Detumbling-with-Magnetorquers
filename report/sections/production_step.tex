@@ -1,0 +1,39 @@
+\subsection{Accepted numerical production step}
+The production setting in the canonical configuration is
+$1$ second.
+The two successive comparisons from one to half a second and from half to
+a quarter second pass every declared metric tolerance in both saturation
+regimes. Success classification remains unchanged. The earlier two second
+saturated failure is retained in the record rather than discarded.
+
+To separate output sampling from integration error, each quarter second
+trajectory is held fixed while output spacing is coarsened. Complete hold
+intervals use piecewise linear interpolation of rate norm, and saturation
+duration uses crossings of the raw dipole norm. Equality qualifies in this
+diagnostic, matching the Person 4 convention; the original sampled strict
+threshold metric is retained for the integrator comparisons.
+\begin{center}
+\begin{tabular}{lrrr}
+Case & Output spacing & Interpolated start & Saturation fraction \\
+\hline
+unsaturated & 1 & 16134.853507 & 0.00000000 \\
+unsaturated & 0.5 & 16134.853387 & 0.00000000 \\
+unsaturated & 0.25 & 16134.853327 & 0.00000000 \\
+saturated & 1 & 24566.691807 & 0.36759482 \\
+saturated & 0.5 & 24566.691441 & 0.36759145 \\
+saturated & 0.25 & 24566.691327 & 0.36759071 \\
+\end{tabular}
+\end{center}
+All output comparisons pass the same predeclared tolerances. Interpolation
+does not prove that every continuous excursion was resolved, but refinement
+supports the event resolution for these trajectories. Compact scalar
+histories are supplied to reproduce this audit without reintegration.
+
+The canonical $0.1\ \mathrm{A\,m^2}$ baseline is also integrated separately
+at the accepted step. Its command bound is inactive at every evaluated RK4
+stage. The maximum raw magnitude is
+$0.07030255$ ampere square metres across 136036 stage calls.
+Its metrics agree with the unsaturated reference to floating point
+roundoff. This connects the unsaturated refinement case to the actual
+baseline bound. Final contribution percentages, independent teammate
+reproduction and the engineering sweep remain team responsibilities.

@@ -44,3 +44,7 @@ The proposed tolerance gate requires two consecutive successful comparisons for 
 There are 20 independent Person 2 unit tests and three shared dynamics integration checks. The merged suite contains 222 tests. Convergence data and six step sizes for each additional exact problem are stored with complete inputs. The source extraction is docs/person2_source_extracted.txt and the structured handoff is docs/person2_handoff.md. Copyable LaTeX is in report/PERSON2_FRAGMENTS.md. The generator writes sections/person2_verification.tex separately from sections/numerical_verification.tex.
 
 Production field/control, a justified production step, real smooth and saturated refinement studies, engineering sweeps, final contribution percentages and independent teammate reproduction remain pending. The repository exists on GitHub; this document makes no claim about full model completion. No external numerical solver or fabricated citation was introduced.
+
+## Integrated field and controller
+
+The real idealized orbital field, normalized B-dot controller and team_adapter are implemented. Existing baseline step evidence is retained at data/processed/production_validation; the 1 s step applies only to the recorded baseline and regimes. Broader sweep verification remains pending. Both numerical APIs remain available. See docs/INTEGRATION.md for merged validation and evidence provenance.

@@ -48,6 +48,6 @@ The momentum derivative is checked using a centered difference at the test state
 \end{enumerate}
 
 \subsubsection{Integration status}
-The production geomagnetic field and B dot controller modules are not yet present. The interface tests use explicitly artificial field and prescribed dipole fixtures. These establish the dynamics assembly and callback contract rather than validating a production magnetic controller. Missing callbacks produce an explicit error.
+The idealized geomagnetic field and normalized B dot controller are now implemented and connected by the real model adapter. The original dynamics interface tests still use explicitly artificial field and prescribed dipole fixtures. New independent checks separately exercise the actual field and controller. These establish the dynamics assembly and callback contract rather than validating a production magnetic controller. Missing callbacks produce an explicit error.
 
 The numerical methods are now separate from the physics layer. Exact scalar decay, constant rate spherical rotation, and finite trajectory torque free conservation studies are implemented with the project's own time integrator. Production magnetic integration, engineering results, and a suitable production time step remain pending. The artificial callback tests do not establish detumbling performance.

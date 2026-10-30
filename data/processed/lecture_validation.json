@@ -1,0 +1,109 @@
+{
+  "scope": "Lecture verification fixtures, not production CubeSat results",
+  "configuration": {
+    "local_ode": "u_prime=u",
+    "local_y0": [
+      1.0
+    ],
+    "local_t0": 0,
+    "matrix": [
+      [
+        -2.0,
+        0.0
+      ],
+      [
+        400.0,
+        -2000.0
+      ]
+    ],
+    "linear_y0": [
+      0.0,
+      1.0
+    ],
+    "linear_t_span": [
+      0,
+      0.03
+    ],
+    "seed": null
+  },
+  "local_errors": [
+    {
+      "step_s": 0.4,
+      "one_step_defect": 9.13643079369919e-05,
+      "truncation_error_per_time": 0.00022841076984247977,
+      "defect_order": null
+    },
+    {
+      "step_s": 0.2,
+      "one_step_defect": 2.7581601698134506e-06,
+      "truncation_error_per_time": 1.3790800849067253e-05,
+      "defect_order": 5.049852533606613
+    },
+    {
+      "step_s": 0.1,
+      "one_step_defect": 8.474231419364209e-08,
+      "truncation_error_per_time": 8.474231419364209e-07,
+      "defect_order": 5.0244799009500145
+    },
+    {
+      "step_s": 0.05,
+      "one_step_defect": 2.626024002416738e-09,
+      "truncation_error_per_time": 5.252048004833476e-08,
+      "defect_order": 5.012130519273545
+    },
+    {
+      "step_s": 0.025,
+      "one_step_defect": 8.172061638500594e-11,
+      "truncation_error_per_time": 3.2688246554002376e-09,
+      "defect_order": 5.006036206837028
+    }
+  ],
+  "frozen_linear_examples": [
+    {
+      "step_s": 0.001,
+      "final_fast_mode": 4.856935749618867e-15,
+      "exact_final_fast_mode": 8.75651076269652e-27,
+      "diagnostics": {
+        "eigenvalues_real": [
+          -2000.0,
+          -2.0
+        ],
+        "eigenvalues_imag": [
+          0.0,
+          0.0
+        ],
+        "amplification_moduli": [
+          0.3333333333333335,
+          0.9980019986673333
+        ],
+        "neutral_modes": 0,
+        "positive_real_modes": 0,
+        "nonzero_mode_ratio": 1000.0,
+        "decaying_modes_outside_region": 0
+      }
+    },
+    {
+      "step_s": 0.0015,
+      "final_fast_mode": 583.5176048363934,
+      "exact_final_fast_mode": 8.75651076269652e-27,
+      "diagnostics": {
+        "eigenvalues_real": [
+          -2000.0,
+          -2.0
+        ],
+        "eigenvalues_imag": [
+          0.0,
+          0.0
+        ],
+        "amplification_moduli": [
+          1.375,
+          0.997004495503375
+        ],
+        "neutral_modes": 0,
+        "positive_real_modes": 0,
+        "nonzero_mode_ratio": 1000.0,
+        "decaying_modes_outside_region": 1
+      }
+    }
+  ]
+}
