@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "tested_commit": "02666f0e5645b83c10c65d8c1591b70d61c1fc71",
+  "method": "Clean local Git clone of the integrated commit, using README commands",
+  "environment": "Fresh Python 3.12.14 environment installed during this task, pinned in requirements-python312.lock",
+  "commands": [
+    "python -m pip install -r requirements-python312.lock",
+    "python run_all.py"
+  ],
+  "tests": 198,
+  "convergence": "All values identical excluding runtime",
+  "report_tables": "Generated numerical and baseline sections identical",
+  "figures": "PDF and PNG byte identical",
+  "limitations": [
+    "Agent check, not independent teammate reproduction",
+    "Clone source was the local Git repository before push",
+    "No engineering sweep or production step selection",
+    "LaTeX compilation not performed"
+  ]
+}
