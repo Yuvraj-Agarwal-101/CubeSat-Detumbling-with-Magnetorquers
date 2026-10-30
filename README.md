@@ -2,9 +2,17 @@
 
 AE 370 Aerospace Numerical Methods Fall 2026 Project 1
 
+## Shared team project
+
+This repository is the common code and report repository for all four team members. The engineering question is how initial angular rate, B dot controller gain, and magnetic dipole capability affect CubeSat detumbling time and success before a mission deadline in an orbital magnetic field.
+
+The full project includes attitude dynamics, magnetic forcing and control, a numerical integrator implemented from scratch, independent verification, convergence studies, engineering experiments, and the shared Overleaf report. Each member contributes their assigned modules, tests, study scripts, report sections, and reproduction instructions here.
+
+`main` is the shared integration branch. Clone the repository and start from the latest `main`. Develop new tasks on descriptive branches and bring completed, checked work back into `main`. Keep reusable modules separate from tests and study scripts. Preserve the agreed quaternion convention, units, and interfaces when connecting modules.
+
 ## Current status
 
-Person 1 workchunks 1 and 2 are complete. The engineering premise is in `report/sections/premise.tex`. It defines the question, full initial value problem, numerical motivation, assumptions, actuator constraint, and deadline criterion. Quaternion utilities and their independent geometry tests are implemented. All numerical values remain proposed study inputs.
+The engineering premise and quaternion utility layer are complete. The premise is in `report/sections/premise.tex`. It defines the question, full initial value problem, numerical motivation, assumptions, actuator constraint, and deadline criterion. Quaternion utilities and their independent geometry tests are implemented. All numerical values remain proposed study inputs.
 
 The repository contains the agreed folder structure and a local development environment. Dynamics and control modules, the numerical integrator, convergence drivers, engineering studies, and results remain pending. There is no reproduction runner yet. No simulation or convergence claim is made by this repository state.
 
@@ -55,7 +63,7 @@ The observed result is 62 passing tests. These are algebraic and geometry checks
 
 Upload the contents of `report` to a new Overleaf project and select `main.tex` as the main document. The source uses standard packages and BibTeX. The engineering premise can also be copied from `report/sections/premise.tex` into the shared report with `\input{sections/premise}`. The shared report must include the `nasa_gnc` entry from `report/references.bib` and load `amsmath`, `amssymb`, and `hyperref`.
 
-The current preview is not the final submission. It contains no results or completed verification studies.
+The current preview contains the premise and completed quaternion checks. Integration convergence, full model verification, and engineering results remain pending. The final report will combine every member's contributions.
 
 ## Reproducibility required before submission
 
@@ -65,6 +73,6 @@ Person 4 must add exact commands for independent tests, convergence, time step s
 
 Before submission, a teammate must follow only this README in a clean clone and regenerate all report results. Record the tested commit, verify evaluator access, and include a clickable repository link and the tested commit in the final report. These checks remain pending.
 
-## Current report contribution
+## Team progress records
 
-See `report/WORKCHUNK_1.md` and `report/WORKCHUNK_2.md` for scope, provenance, checks, pending work, and AI usage records. Copyable report source for workchunk 2 is in `report/sections/quaternion_verification.tex`.
+Each member should record completed work, checks, dependencies, and AI use as their contributions are added. The existing records in `report/WORKCHUNK_1.md` and `report/WORKCHUNK_2.md` document the first premise and quaternion contributions. Copyable report source for quaternion verification is in `report/sections/quaternion_verification.tex`. These records describe individual contributions within the shared project rather than limiting the repository's scope.
