@@ -46,6 +46,16 @@ def derivative(t, y):
 
 Missing callbacks and malformed callback outputs raise `ValueError`. No fallback field, fallback controller, or fixed torque is silently inserted. Test fixtures live only in `tests/test_dynamics.py` and do not constitute production control or field models.
 
+## Person 3 merged-source verification
+
+The implemented production callbacks, complete RHS, and real adapter RK4 stages
+have now been independently checked. See docs/PERSON3_REVIEW.md. The original
+delivery's pending implementation statements and test counts elsewhere in this
+document retain their historical scope. Current reproduction uses
+`.venv/Scripts/python.exe -m pytest -q` (305 passed) and
+`.venv/Scripts/python.exe -m studies.physics_verification`. Fresh production
+timestep acceptance remains pending.
+
 ## Reproduction
 
 Run `.venv/bin/python -m pytest -q tests/test_dynamics.py` for the 62 instantaneous dynamics cases. Run `.venv/bin/python -m tools.check_project` for all 222 current cases and generated revision evidence. Run `.venv/bin/python run_all.py` for both numerical contributions and the pending production refinement connection point. Production magnetic trajectory checks and step selection remain pending.
