@@ -1,0 +1,155 @@
+\section{Engineering premise}
+
+\subsection{Question and engineering relevance}
+How do the initial angular rate, B dot controller gain, and maximum magnetic dipole moment affect the time required for a CubeSat to detumble in an orbital magnetic field? We will determine which parameter combinations reduce the angular rate below a specified threshold for a complete hold interval before a mission deadline.
+
+A magnetorquer generates a magnetic dipole moment that interacts with the local geomagnetic field to produce torque. The torque is perpendicular to that field, so a magnetorquer cannot command an arbitrary torque at a given instant \cite{nasa_gnc}. Detumbling performance therefore depends on both actuator strength and the changing geometry between the spacecraft rotation and the field. This motivates studying an orbital field rather than assuming that a constant field represents the full mission.
+
+The engineering outputs will be detumbling time, the fraction of initial geometries that meet the deadline, and the fraction of simulated time spent in saturation. These outputs connect actuator capability and controller settings to an explicit operational requirement. We will vary initial spin magnitude, controller gain, and actuator limit while recording initial attitude, spin direction, and orbital phase. No simulation results are claimed in this premise.
+
+\subsection{Initial value problem}
+The spacecraft is a rigid body with constant inertia matrix \(J\). The body angular velocity relative to an inertial frame is \(\omega\), expressed in body components. The attitude is represented by a scalar first unit quaternion \(q=(s,v)\), where \(s\) is scalar and \(v\in\mathbb R^3\). The seven stored state components are
+\[
+y=(s,v_1,v_2,v_3,\omega_1,\omega_2,\omega_3)^T,
+\qquad s^2+v^Tv=1.
+\]
+Let \(C_{BI}(q)\) map inertial vector components into body components. With \([v]_\times a=v\times a\), the adopted convention is
+\[
+C_{BI}+2s[v]_\times+(v^Tv)I_3=s^2I_3+2vv^T.
+\]
+The kinematic and dynamic equations are
+\begin{align}
+\dot s+\tfrac12 v^T\omega&=0,\\
+\dot v&=\tfrac12(s\omega+v\times\omega),\\
+J\dot\omega+\omega\times(J\omega)&=\tau_{\rm mag},\\
+\tau_{\rm mag}&=m\times B_B.
+\end{align}
+Here \(I_3\) is the identity matrix, \(m\) is the commanded dipole in body components, and \(B_B\) is the body magnetic field. The identity quaternion gives \(C_{BI}=I_3\). The quaternion sign convention and state order will be retained throughout the implementation.
+
+The initial conditions are
+\[
+q(0)=(1,0,0,0)^T,
+\qquad
+\omega(0)=\omega_0\frac{(1,1,1)^T}{\sqrt{3}},
+\qquad
+\omega_0=\frac{10\pi}{180}\ \mathrm{rad/s}
+\]
+for the proposed baseline. Ensemble studies will vary the initial geometry and spin magnitude. All internal calculations will use SI units.
+
+\subsection{Orbital forcing and feedback}
+The circular orbit is prescribed analytically. Its radius is \(r_o=R_E+h_o\), angular frequency is \(n=\sqrt{\mu/r_o^3}\), and period is \(T_o=2\pi/n\). A centered tilted dipole rotating with Earth defines the inertial magnetic field \(B_I(t)\). More explicitly,
+\[
+r_I(t)=r_o R_3(\Omega)R_1(i)
+\begin{bmatrix}
+\cos(nt+\phi)\\
+\sin(nt+\phi)\\
+0
+\end{bmatrix},
+\qquad
+d_I(t)=R_3(\omega_Et+\theta_0)
+\begin{bmatrix}
+\sin\alpha\\
+0\\
+\cos\alpha
+\end{bmatrix}.
+\]
+The matrices \(R_1\) and \(R_3\) are active right handed rotations about inertial coordinate axes one and three. The unit vector \(d_I\) is the dipole axis. Define
+\[
+\hat r=\frac{r_I}{\|r_I\|},
+\qquad
+b(t)=B_{\rm eq}\left(\frac{R_E}{\|r_I\|}\right)^3,
+\qquad
+B_I+b\,d_I=3b(d_I^T\hat r)\hat r.
+\]
+The field derivative \(\dot B_I(t)\) is the derivative along this prescribed orbit, including Earth rotation and spacecraft motion. The orbit and field are forcing functions rather than additional integrated states. Their implementation belongs to the magnetic field work package.
+
+The field and its derivative in body components satisfy
+\[
+B_B=C_{BI}B_I(t),
+\qquad
+\dot B_B+\omega\times B_B=C_{BI}\dot B_I(t).
+\]
+The proposed controller uses the normalized continuous B dot law
+\[
+m_{\rm raw}+k_B\frac{\dot B_B}{\|B_B\|^2}=0,
+\qquad k_B>0.
+\]
+The gain has units \(\mathrm{kg\,m^2/s}\). This definition must be retained when comparing gains. The command is limited by total vector magnitude
+\[
+m=\begin{cases}
+m_{\rm raw},&\|m_{\rm raw}\|\leq m_{\max},\\[2pt]
+m_{\max}\dfrac{m_{\rm raw}}{\|m_{\rm raw}\|},&
+\|m_{\rm raw}\|>m_{\max}.
+\end{cases}
+\]
+The bound represents an idealized total dipole capability. A model with separate limits on individual rods would be a different actuator model. The field is nonzero over the prescribed ideal dipole orbit, so the normalized law has a defined denominator.
+
+Together, these definitions specify
+\[
+\dot y=f(t,y;J,h_o,i,\Omega,\phi,\alpha,\theta_0,
+\omega_E,B_{\rm eq},k_B,m_{\max}),
+\qquad y(0)=y_0.
+\]
+
+\subsection{Proposed study assumptions}
+Table~\ref{tab_premise_inputs} records preliminary inputs. They define an idealized study rather than a particular flight spacecraft. The inertia, controller settings, and success criterion are team assumptions. Field constants are preliminary model inputs and must be reviewed before production studies. Sensitivity studies will vary the designated inputs while retaining a recorded configuration for every case.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{lll}
+\hline
+Quantity & Symbol & Proposed value\\
+\hline
+Body inertia & \(J\) & \(\operatorname{diag}(0.030,0.035,0.007)\ \mathrm{kg\,m^2}\)\\
+Orbit altitude & \(h_o\) & \(500\ \mathrm{km}\)\\
+Orbit inclination & \(i\) & \(55^\circ\)\\
+Ascending node and orbit phase & \(\Omega,\phi\) & \(0,\ 0\)\\
+Initial spin magnitude & \(\omega_0\) & \(10^\circ/\mathrm{s}\)\\
+Dipole limit & \(m_{\max}\) & \(0.1\ \mathrm{A\,m^2}\)\\
+Normalized controller gain & \(k_B\) & \(0.00001\ \mathrm{kg\,m^2/s}\)\\
+Earth radius & \(R_E\) & \(6371000\ \mathrm{m}\)\\
+Gravity parameter & \(\mu\) & \(3.986004418\times10^{14}\ \mathrm{m^3/s^2}\)\\
+Earth rotation rate & \(\omega_E\) & \(0.00007292115\ \mathrm{rad/s}\)\\
+Dipole tilt and rotation phase & \(\alpha,\theta_0\) & \(11^\circ,\ 0\)\\
+Surface equatorial field scale & \(B_{\rm eq}\) & \(0.00003\ \mathrm{T}\)\\
+Rate threshold & \(\omega_{\rm tol}\) & \(0.5^\circ/\mathrm{s}\)\\
+Required hold duration & \(T_{\rm hold}\) & \(600\ \mathrm{s}\)\\
+Mission deadline & \(T_{\rm deadline}\) & \(6T_o\)\\
+\hline
+\end{tabular}
+\caption{Preliminary assumptions for the baseline initial value problem and its operational success criterion. These are model choices rather than measured hardware specifications.}
+\label{tab_premise_inputs}
+\end{table}
+
+The baseline neglects disturbance torques, sensor errors, actuator dynamics, and orbital perturbations. The continuous controller uses the analytic field derivative rather than a sampled magnetometer estimate. The study will therefore assess the stated idealized system. Hardware qualification and flight performance are outside its scope.
+
+\subsection{Why numerical integration is required}
+The rotational equations couple the angular velocity components through \(\omega\times(J\omega)\). The quaternion evolves with that angular velocity and changes the field seen in body coordinates. The feedback torque consequently depends on the evolving attitude and rate as well as the externally varying orbital field. Saturation changes the command formula whenever the state dependent raw dipole crosses its limit.
+
+These coupled equations do not reduce to a constant coefficient linear system or a single separable equation for the full study. The times of saturation transitions and sustained threshold attainment are unknown until the trajectory is determined. We therefore need numerical integration to evaluate recovery time and deadline success over the proposed parameter study. This is a justification for the chosen computational approach rather than a proof that no analytical representation can exist.
+
+An analytically solvable special case remains useful for independent verification. With zero applied torque and spherical inertia \(J=jI_3\), angular velocity is constant and the quaternion describes an exact constant rate rotation. That case verifies numerical accuracy but removes the magnetic feedback, orbital forcing, and saturation that define the engineering question. The group will implement classical RK4 from scratch and establish convergence and an adequate time step in the numerical method work package.
+
+\subsection{Actuator limits and deadline failure}
+The actuator constraint is the physical model bound \(\|m(t)\|\leq m_{\max}\). It implies
+\[
+\|\tau_{\rm mag}(t)\|\leq m_{\max}\|B_B(t)\|,
+\qquad
+\tau_{\rm mag}(t)^TB_B(t)=0.
+\]
+Saturation means that the requested dipole exceeds this capability and is clipped. A saturated actuator still produces torque. Saturation alone is therefore insufficient to classify a case as a failed recovery.
+
+Define the set of qualifying start times
+\[
+\mathcal A=
+\left\{
+t\geq0\ \middle|\ 
+t+T_{\rm hold}\leq T_{\rm deadline},\
+\|\omega(u)\|\leq\omega_{\rm tol}
+\text{ for every }u\in[t,t+T_{\rm hold}]
+\right\}.
+\]
+If \(\mathcal A\) is nonempty, the detumbling time is \(t_d=\min\mathcal A\), and the case meets the mission requirement. If \(\mathcal A\) is empty, the case is a deadline failure and has no observed detumbling time within the study horizon. The complete hold interval must end by the deadline.
+
+A deadline failure means only that the selected controller and actuator did not satisfy this operational criterion for the specified initial condition and simulation horizon. Establishing eventual recovery or proving its impossibility would require additional analysis. We will retain failed cases in success fractions, report the duration of saturation, and state explicitly when a recovery time statistic includes only successful cases.
