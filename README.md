@@ -1,0 +1,1 @@
+# CubeSat-Detumbling-with-Magnetorquers
