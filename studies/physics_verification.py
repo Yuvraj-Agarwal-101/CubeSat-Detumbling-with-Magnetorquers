@@ -1,4 +1,5 @@
 """Persist independent field derivative and static power identity evidence."""
+import hashlib
 import json
 from pathlib import Path
 import numpy as np
@@ -28,7 +29,14 @@ def run():
         expected=-scale*config['controller_settings']['gain_kg_m2_s']*(omega@omega-(omega@b)**2/(b@b))
         powers.append(dict(limit_A_m2=limit,measured_power_W=float(omega@command['torque']),
                            expected_power_W=float(expected),saturated=command['saturated']))
+    sources = ['src/orbit_field.py', 'src/controller.py', 'team_adapter.py',
+               'src/physics/dynamics.py', 'src/physics/quaternion.py',
+               'src/integrators.py', 'src/numerics/integrators.py',
+               'studies/physics_verification.py']
     record=dict(configuration=document,seed=None,scope='Independent finite difference and static field identity checks, not detumbling histories',
+                command='python -m studies.physics_verification',
+                source_sha256={p: hashlib.sha256((ROOT/p).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+                               for p in sources},
                 derivative_checks=records,power_checks=powers,
                 power_fixture=dict(field_T=b.tolist(),omega_rad_s=omega.tolist()))
     (ROOT/'data/processed/physics_verification.json').write_text(json.dumps(record,indent=2)+'\n')
@@ -53,11 +61,26 @@ the polar to equatorial field strength ratio of two, zero commands, clipping
 boundaries, vector rather than component saturation, torque orthogonality,
 repeatability and consistent assembly in the full dynamics.
 
-For a static inertial field and unit body field direction $b$, the
-unsaturated torque is $-k_B(I-bb^T)\omega$. Thus power is
-$-k_B\|\omega-(b^T\omega)b\|^2$. Saturation scales this by a factor in
+For a static inertial field, $\dot B_B=-\omega\times B_B$, so the
+unsaturated command is $m=k_B(\omega\times B_B)/\|B_B\|^2$.
+The vector triple product gives
+$(\omega\times B_B)\times B_B=B_B(\omega^TB_B)-\omega\|B_B\|^2$.
+For unit body field direction $b$, the torque is therefore
+$-k_B(I-bb^T)\omega$. With constant symmetric inertia,
+$E=\tfrac12\omega^TJ\omega$ and Euler's equation give
+$\dot E=\omega^T\tau=-k_B\|\omega-(b^T\omega)b\|^2$,
+because $\omega^T(\omega\times J\omega)=0$.
+Saturation scales this by a factor in
 $(0,1]$. Independent tests verify both regimes. This check does not imply
-monotonic kinetic energy under a changing orbital field. The model remains
+monotonic kinetic energy under a changing orbital field. In that case an
+additional unsaturated torque
+$-k_B[(C_{BI}\dot B_I)\times B_B]/\|B_B\|^2$ contributes power of
+unrestricted sign. The normalized gain has units $\mathrm{kg\,m^2/s}$,
+so the command has units $\mathrm{A\,m^2}$ and power has units watts.
+The merged-source Person 3 review also checks inverse-cube scaling,
+separate orbit and field periodicity, nontrivial attitudes, and all real
+adapter RK4 stages. These instantaneous and short-horizon checks do not
+renew the historical one second timestep acceptance. The model remains
 an idealized assumed field, not an epoch specific measured prediction.
 '''
     (ROOT/'report/sections/physics_verification.tex').write_text(text)

@@ -1,5 +1,14 @@
 ﻿# Team branch integration
 
+## Subsequent Person 3 review
+
+Sidhant's merged-source field/control review is recorded in
+[PERSON3_REVIEW.md](PERSON3_REVIEW.md). The independent production callback and
+RK4 stage checks pass, with 305 complete-suite tests passing. No production
+field/controller correction was needed. The historical 1 s acceptance still
+requires fresh merged-source timestep and output-grid evidence before the
+108-case pilot. The integration execution record below retains its original scope.
+
 ## Scope and branch ancestry
 
 Integration branch is `codex/merge-team-branches`, based on parent

@@ -155,6 +155,17 @@
   },
   "seed": null,
   "scope": "Independent finite difference and static field identity checks, not detumbling histories",
+  "command": "python -m studies.physics_verification",
+  "source_sha256": {
+    "src/orbit_field.py": "8b996c9a5ccccba8d40ed8a5e6758c5af25856a404c818b84d2963594a316433",
+    "src/controller.py": "0fd808cb3f698ff9601b8cde740abda9b4e7b24556a360b6083318333aed9ecb",
+    "team_adapter.py": "8cf024498e3583ac47f238b1dac8bcf74ad16c00770ea48f8d6dfb79846123c5",
+    "src/physics/dynamics.py": "f3e7723295ab7067a32a8d65cc4da9814227b6ae85938ccd3e887e3a510c1e62",
+    "src/physics/quaternion.py": "6d125d4686f025888fdfb8f19fd2f66de685ad5f1633b685255708b45d6e6033",
+    "src/integrators.py": "045026c61085c496eaf3b4d218c2fbe82ea3e848af80f4561b30fdb51c52c81c",
+    "src/numerics/integrators.py": "42f97f97f01c56dd36cb12668ff276b13b6e932ddd28a85a13c8f0e1ce26beb3",
+    "studies/physics_verification.py": "c59eef93371d1447aa8e0d82cb90e821c588725c4ccde260559f1a9c41f8e281"
+  },
   "derivative_checks": [
     {
       "time_s": 0.0,

@@ -25,9 +25,24 @@ the polar to equatorial field strength ratio of two, zero commands, clipping
 boundaries, vector rather than component saturation, torque orthogonality,
 repeatability and consistent assembly in the full dynamics.
 
-For a static inertial field and unit body field direction $b$, the
-unsaturated torque is $-k_B(I-bb^T)\omega$. Thus power is
-$-k_B\|\omega-(b^T\omega)b\|^2$. Saturation scales this by a factor in
+For a static inertial field, $\dot B_B=-\omega\times B_B$, so the
+unsaturated command is $m=k_B(\omega\times B_B)/\|B_B\|^2$.
+The vector triple product gives
+$(\omega\times B_B)\times B_B=B_B(\omega^TB_B)-\omega\|B_B\|^2$.
+For unit body field direction $b$, the torque is therefore
+$-k_B(I-bb^T)\omega$. With constant symmetric inertia,
+$E=\tfrac12\omega^TJ\omega$ and Euler's equation give
+$\dot E=\omega^T\tau=-k_B\|\omega-(b^T\omega)b\|^2$,
+because $\omega^T(\omega\times J\omega)=0$.
+Saturation scales this by a factor in
 $(0,1]$. Independent tests verify both regimes. This check does not imply
-monotonic kinetic energy under a changing orbital field. The model remains
+monotonic kinetic energy under a changing orbital field. In that case an
+additional unsaturated torque
+$-k_B[(C_{BI}\dot B_I)\times B_B]/\|B_B\|^2$ contributes power of
+unrestricted sign. The normalized gain has units $\mathrm{kg\,m^2/s}$,
+so the command has units $\mathrm{A\,m^2}$ and power has units watts.
+The merged-source Person 3 review also checks inverse-cube scaling,
+separate orbit and field periodicity, nontrivial attitudes, and all real
+adapter RK4 stages. These instantaneous and short-horizon checks do not
+renew the historical one second timestep acceptance. The model remains
 an idealized assumed field, not an epoch specific measured prediction.
