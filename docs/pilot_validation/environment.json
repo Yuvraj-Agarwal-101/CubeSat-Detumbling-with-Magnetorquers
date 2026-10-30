@@ -1,0 +1,15 @@
+{
+  "python": "3.11.6 (tags/v3.11.6:8b6ee5b, Oct  2 2023, 14:57:12) [MSC v.1935 64 bit (AMD64)]",
+  "executable": "C:\\Users\\m_ara\\Documents\\CubeSat-Detumbling-with-Magnetorquers\\.venv\\Scripts\\python.exe",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "numpy": "2.0.2",
+  "matplotlib": "3.9.4",
+  "pytest": "8.4.2",
+  "latex": {
+    "pdflatex": null,
+    "latexmk": null,
+    "xelatex": null,
+    "lualatex": null,
+    "tectonic": null
+  }
+}

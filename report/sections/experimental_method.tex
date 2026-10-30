@@ -3,7 +3,8 @@ The experiments follow the IVP framework of Lecture 10, the truncation
 error convention of Lecture 11, and the stability and stiffness analysis
 of Lectures 12 and 13~\cite{ae370lecture10,ae370lecture11,ae370lecture12,ae370lecture13}.
 Lecture 3 motivates stating the norm used for every error comparison~\cite{ae370lecture3}. These lecture connections describe the methodology.
-They do not establish that the pending spacecraft simulations are accurate.
+Independent physics checks and the completed Stage 3 refinement studies
+support the real simulations reported below within their stated scope.
 
 Write the seven component IVP as $\dot{\mathbf y}=f(\mathbf y,t)$ with
 initial data at one time. The implementation interface accepts time first.
@@ -74,9 +75,17 @@ Output spacing is refined on the same finest trajectory separately from
 integration step refinement. This cannot certify an unresolved excursion
 between all retained samples.
 
-The initial pilot uses three spin magnitudes, three gains, three dipole
-limits and four common geometries, giving 108 orbital cases. The tentative
-production grid has 1152 orbital cases. Attitudes are generated from
+The final engineering experiment is a targeted 16-case parameter study,
+not an exhaustive sweep. Twelve cases cross an initial spin of
+$1\ \mathrm{deg/s}$ and gain $3\times10^{-6}\ \mathrm{kg\,m^2/s}$ with
+dipole limits $0.03$, $0.1$, and $0.3\ \mathrm{A\,m^2}$ and four shared
+geometries. Four additional geometry-0 cases use
+$(\omega_0,k_B,m_{\max})=(30,3\times10^{-6},0.03)$,
+$(1,3\times10^{-5},0.03)$, $(30,3\times10^{-5},0.03)$, and
+$(30,3\times10^{-5},0.3)$ in the same units. These provide matched
+spin, gain, and actuator comparisons. The larger planned 108-case pilot
+and 1152-case production sweep were not completed or used for conclusions.
+Attitudes are generated from
 normalized Gaussian four vectors, spin directions from normalized Gaussian
 three vectors, and orbital phases uniformly on $[0,2\pi)$. The seed is
 recorded and geometries are paired across settings. Physical inputs and
@@ -84,7 +93,10 @@ derived deadlines come from the validated canonical baseline.
 
 Report recovery times conditional on success, with unsuccessful valid cases
 retained as censored. Report simulation errors separately. A missed deadline
-is not proof that eventual recovery is impossible. The paired field study
-freezes the initial inertial field and its inertial derivative while retaining
-the transformation into body components. Parameter choices and the numerical
-acceptance tolerances must be agreed before production results are interpreted.
+is not proof that eventual recovery is impossible. The accepted step is
+$0.25\ \mathrm{s}$ throughout, using the real idealized orbital field,
+normalized B-dot controller, and scratch RK4. Every trajectory continues
+through six orbits, including successful cases. The separate Stage 3
+evidence retains the declared numerical acceptance tolerances. No additional
+refinement simulations were run for this deadline-limited targeted study;
+the existing canonical, saturated, and high-spin verification is retained.
