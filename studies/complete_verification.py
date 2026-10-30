@@ -12,6 +12,7 @@ import numpy as np
 from src.config import case_summary
 from studies.timestep_selection import sampled_metrics, compare, select_step
 from team_adapter import simulate
+from src.metrics import compute_metrics
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -79,16 +80,28 @@ def run_case(name):
                 max_preprojection_norm_error=float(max(abs(history['preprojection_norm_error']))),
                 rhs_evaluations=4*(len(t)-1))
     audits=[]
+    person4=[]
     for stride in [4,2,1]:
         nodes=np.unique(np.r_[np.arange(0,len(t),stride),len(t)-1])
         audits.append(dict(output_spacing_s=.25*stride,
             metrics=trace_metrics(t[nodes],rate[nodes],raw[nodes],torque[nodes],
                 timing['rate_threshold_rad_s'],timing['hold_duration_s'],limit)))
+        person4.append(compute_metrics(**{key:history[key][nodes] for key in
+            ('t','states','raw_dipole','dipole','torque')},
+            settings=dict(threshold_rad_s=timing['rate_threshold_rad_s'],
+                          hold_s=timing['hold_duration_s'],deadline_s=timing['deadline_s']),limit=limit))
+    metric_agreement=all(all(np.isclose(row['metrics'][key],p[key],rtol=1e-12,atol=1e-12)
+                            if row['metrics'][key] is not None else p[key] is None
+                            for key in row['metrics']) for row,p in zip(audits,person4))
+    if not metric_agreement:
+        raise ValueError('Independent event audit disagrees with Person 4 metrics')
     out=ROOT/'data/processed/production_validation'; out.mkdir(exist_ok=True)
     # Compact scalar histories reproduce the independent output audit exactly.
     np.savez_compressed(out/(name+'_trace.npz'),t=t,rate_rad_s=rate,raw_dipole_norm=raw,
                         dipole_norm=command,torque_norm=torque)
     result=dict(name=name,run=record,output_audit=audits,config=case['config_record'],
+                person4_metrics=person4,person4_metric_agreement=metric_agreement,
+                max_projected_norm_error=float(np.max(np.abs(np.linalg.norm(y[:,:4],axis=1)-1))),
                 max_raw_dipole_A_m2=float(max(raw)),
                 norm_diagnostic_max=record['max_preprojection_norm_error'])
     (out/(name+'.json')).write_text(json.dumps(result,indent=2)+'\n')

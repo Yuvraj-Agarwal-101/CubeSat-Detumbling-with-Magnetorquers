@@ -16,6 +16,36 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def source_tree(commit='HEAD'):
+    """Git blob identities for all executable inputs; evidence is kept separately.
+
+    Pin configurations too, excluding only the verification record itself, which
+    cannot contain the hash of its own enclosing commit.
+    """
+    listing=subprocess.check_output(['git','ls-tree','-r',commit,'--','src','studies','tests',
+                                     'configs','team_adapter.py','run_all.py','requirements.txt'],text=True)
+    result={}
+    for line in listing.splitlines():
+        meta,path=line.split('\t',1)
+        if path != 'configs/verification.json':
+            result[path]=meta.split()[2]
+    return result
+
+
+def verify_revision(gate, commit):
+    tested=gate.get('tested_commit')
+    if tested == commit:
+        return
+    # A gate/evidence commit necessarily follows its tested source commit.
+    # Allow that only with an exact, complete source tree identity, never merely
+    # a caller-selected subset of physics hashes or a matching branch name.
+    manifest=gate.get('tested_source_tree')
+    if (not tested or not manifest
+            or subprocess.run(['git','merge-base','--is-ancestor',tested,commit],capture_output=True).returncode
+            or manifest != source_tree(tested) or manifest != source_tree(commit)):
+        raise ValueError('Verification must identify the current tested commit or identical tested source tree')
+
+
 def resolve_backend(config, gate_path, grid):
     if not gate_path:
         raise ValueError('Real simulations require --verification from Person 2')
@@ -30,8 +60,7 @@ def resolve_backend(config, gate_path, grid):
         if digest(item['path']) != item['sha256']:
             raise ValueError('Evidence hash mismatch: '+item['path'])
     commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
-    if gate.get('tested_commit') != commit:
-        raise ValueError('Verification must identify the current tested commit')
+    verify_revision(gate,commit)
     if subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],text=True).strip():
         raise ValueError('Commit tracked changes before real study verification')
     if grid == 'production':
@@ -89,9 +118,24 @@ def run(config_path, output, grid='pilot', synthetic=False, verification=None):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--config',default='configs/study.json')
-    p.add_argument('--output',required=True);p.add_argument('--grid',choices=['pilot','production','demo','paired'],default='pilot')
+    p.add_argument('--output');p.add_argument('--grid',choices=['pilot','production','demo','paired'],default='pilot')
     p.add_argument('--synthetic',action='store_true');p.add_argument('--verification')
-    a=p.parse_args();print(json.dumps(run(a.config,a.output,a.grid,a.synthetic,a.verification),indent=2))
+    p.add_argument('--check-only',action='store_true',help='Validate real gate and resolve adapter without simulating or writing results')
+    a=p.parse_args()
+    if a.check_only:
+        if a.synthetic or a.output:
+            p.error('--check-only requires a real gate and no --output')
+        config=json.loads(Path(a.config).read_text())
+        simulate,dt,gate=resolve_backend(config,a.verification,a.grid)
+        print(json.dumps(dict(adapter=simulate.__module__+':'+simulate.__name__,dt_s=dt,
+                              tested_commit=gate['tested_commit'],
+                              current_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+                              cases=sum(1 for _ in generate_cases(config,a.grid)),
+                              simulations_run=0),indent=2))
+    else:
+        if not a.output:
+            p.error('--output is required unless --check-only is used')
+        print(json.dumps(run(a.config,a.output,a.grid,a.synthetic,a.verification),indent=2))
 
 
 if __name__=='__main__': main()

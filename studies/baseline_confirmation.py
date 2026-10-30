@@ -31,18 +31,23 @@ def main():
         calls+=1
         return value
     config=runtime_config(document,field_model=field_model,controller=observed_controller)
+    original=json.loads((ROOT/'data/processed/timestep_selection.json').read_text())
+    step=original['selected_step_s']
+    if step is None:
+        raise ValueError('Select a refined step before baseline confirmation')
     timing=case_summary(document);began=time.perf_counter()
-    sol=rk4(lambda t,y:rhs(t,y,config),initial_state(document),(0,timing['deadline_s']),1.,
+    sol=rk4(lambda t,y:rhs(t,y,config),initial_state(document),(0,timing['deadline_s']),step,
             projection=project,norm_diagnostic=lambda y:np.linalg.norm(y[:4]))
     samples=[diagnostics(t,y,config) for t,y in zip(sol.times,sol.states)]
     raw=np.array([v['raw_dipole'] for v in samples]);torque=np.array([v['torque'] for v in samples])
     metric=sampled_metrics(sol.times,sol.states,torque,np.linalg.norm(raw,axis=1)>.1,
                            timing['rate_threshold_rad_s'],timing['hold_duration_s'])
-    original=json.loads((ROOT/'data/processed/timestep_selection.json').read_text())
     case=next(c for c in original['cases'] if c['name']=='unsaturated')
-    reference=next(r for r in case['runs'] if r['step_s']==1.)['metrics']
+    reference=next(r for r in case['runs'] if r['step_s']==step)['metrics']
     match=compare_reference(metric,reference)
-    result=dict(configuration=document,step_s=1.,metrics=metric,runtime_s=time.perf_counter()-began,
+    result=dict(configuration=document,step_s=step,metrics=metric,runtime_s=time.perf_counter()-began,
+                max_preprojection_norm_error=float(np.max(np.abs(sol.preprojection_norm_error))),
+                max_projected_norm_error=float(np.max(np.abs(np.linalg.norm(sol.states[:,:4],axis=1)-1))),
                 max_raw_dipole_at_all_stages_A_m2=maximum,controller_stage_calls=calls,
                 bound_inactive_at_all_stages=maximum<.1,reference_unsaturated_metrics_agree=bool(match),
                 reference_roundoff_tolerance=dict(relative=1e-10,absolute=1e-12),
