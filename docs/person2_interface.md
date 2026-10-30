@@ -48,3 +48,14 @@ Production field/control, a justified production step, real smooth and saturated
 ## Integrated field and controller
 
 The real idealized orbital field, normalized B-dot controller and team_adapter are implemented. Existing baseline step evidence is retained at data/processed/production_validation; the 1 s step applies only to the recorded baseline and regimes. Broader sweep verification remains pending. Both numerical APIs remain available. See docs/INTEGRATION.md for merged validation and evidence provenance.
+
+## Regenerated Stage 3 gate
+
+The historical status above is superseded for numerical pilot entry by
+[STAGE3_VERIFICATION.md](STAGE3_VERIFICATION.md). Fresh canonical and high-spin
+six-orbit refinements accept 0.25 s, with two successive passing halvings in
+all three cases and a separate output-grid audit. The canonical 0.1 A m^2 bound
+is inactive at all evaluated stages at that step; this is not generalized to
+the ensemble. `configs/verification.json` contains measured evidence digests
+and the exact tested source commit/tree. The real 108-case pilot and its
+runtime/accuracy review remain required before production.

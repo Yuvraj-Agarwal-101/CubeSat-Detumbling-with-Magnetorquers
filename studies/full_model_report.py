@@ -14,18 +14,23 @@ def run():
     else:
         text+=r'''The study uses the implemented circular orbit, rotating tilted dipole,
 normalized B dot control and vector norm saturation. Each case runs to six
-orbital periods from the canonical initial state. The unsaturated limit is
+orbital periods. The two canonical cases use the canonical initial state. Their unsaturated limit is
 $1\ \mathrm{A\,m^2}$ and the saturated limit is $0.01\ \mathrm{A\,m^2}$.
 These are numerical verification choices, not revised baseline hardware claims.
+An additional seeded pilot geometry is audited at 30 degrees per second,
+gain $3\times10^{-5}$ and limit $0.03\ \mathrm{A\,m^2}$. Its record uses
+the production piecewise linear event metrics at every integration level.
+The common accepted step must pass two consecutive refinements in all three cases.
 \begin{center}
 \begin{tabular}{lrrrrr}
 Case & $h$ & Success & $t_d$ & Final rate & Saturation \\
 \hline
 '''
         for case in record['cases']:
+            label=case['name'].replace('_',r'\_')
             for run in case['runs']:
                 m=run['metrics']; td='{}' if m['detumbling_time_s'] is None else f"{m['detumbling_time_s']:.2f}"
-                text+=f"{case['name']} & {run['step_s']:g} & {int(m['success'])} & {td} & {m['final_rate_rad_s']:.6f} & {m['saturation_fraction']:.6f} "+chr(92)*2+'\n'
+                text+=f"{label} & {run['step_s']:g} & {int(m['success'])} & {td} & {m['final_rate_rad_s']:.6f} & {m['saturation_fraction']:.6f} "+chr(92)*2+'\n'
         text+=r'''\end{tabular}
 \end{center}
 Times and steps are in seconds, final rates in radians per second, and

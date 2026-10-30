@@ -1,48 +1,48 @@
 {
   "name": "saturated",
   "run": {
-    "step_s": 0.25,
+    "step_s": 0.0625,
     "metrics": {
       "success": true,
       "detumbling_time_s": 24566.75,
-      "final_rate_rad_s": 0.0027185463116684862,
+      "final_rate_rad_s": 0.0027185520202145626,
       "peak_torque_Nm": 4.385722610737916e-07,
-      "saturation_fraction": 0.3676063448042441,
-      "dipole_effort_A_m2_s": 188.2193662627418
+      "saturation_fraction": 0.36759991265803194,
+      "dipole_effort_A_m2_s": 188.2194022151736
     },
-    "runtime_s": 1581.6729368999368,
-    "max_preprojection_norm_error": 5.1987969484912355e-11,
-    "rhs_evaluations": 544144
+    "runtime_s": 834.3553637000005,
+    "max_preprojection_norm_error": 5.007105841059456e-14,
+    "rhs_evaluations": 2176568
   },
   "output_audit": [
-    {
-      "output_spacing_s": 1.0,
-      "metrics": {
-        "success": true,
-        "detumbling_time_s": 24566.691807004343,
-        "final_rate_rad_s": 0.0027185463116684862,
-        "peak_torque_Nm": 4.385722610737916e-07,
-        "saturation_fraction": 0.36759482404890503
-      }
-    },
-    {
-      "output_spacing_s": 0.5,
-      "metrics": {
-        "success": true,
-        "detumbling_time_s": 24566.691441005183,
-        "final_rate_rad_s": 0.0027185463116684862,
-        "peak_torque_Nm": 4.385722610737916e-07,
-        "saturation_fraction": 0.36759144722123155
-      }
-    },
     {
       "output_spacing_s": 0.25,
       "metrics": {
         "success": true,
-        "detumbling_time_s": 24566.691327248303,
-        "final_rate_rad_s": 0.0027185463116684862,
+        "detumbling_time_s": 24566.688689173596,
+        "final_rate_rad_s": 0.0027185520202145626,
         "peak_torque_Nm": 4.385722610737916e-07,
-        "saturation_fraction": 0.36759071022862194
+        "saturation_fraction": 0.3675906278341326
+      }
+    },
+    {
+      "output_spacing_s": 0.125,
+      "metrics": {
+        "success": true,
+        "detumbling_time_s": 24566.68867096244,
+        "final_rate_rad_s": 0.0027185520202145626,
+        "peak_torque_Nm": 4.385722610737916e-07,
+        "saturation_fraction": 0.36759057383150223
+      }
+    },
+    {
+      "output_spacing_s": 0.0625,
+      "metrics": {
+        "success": true,
+        "detumbling_time_s": 24566.688661849817,
+        "final_rate_rad_s": 0.0027185520202145626,
+        "peak_torque_Nm": 4.385722610737916e-07,
+        "saturation_fraction": 0.36759052863703706
       }
     }
   ],
@@ -107,7 +107,7 @@
     },
     "solver": {
       "method": "rk4",
-      "step_size_s": null
+      "step_size_s": 1
     },
     "provenance": {
       "physical.inertia_kg_m2": {
@@ -195,11 +195,48 @@
         "note": "Planned numerical method. This is not a completed convergence claim."
       },
       "solver.step_size_s": {
-        "classification": "pending",
-        "note": "Determine from the convergence and engineering metric refinement studies."
+        "classification": "derived",
+        "note": "Accepted from two successive real-model refinements and independent output sampling audit; see data/processed/production_validation/acceptance.json. Applies to the stated baseline and tested saturation regimes."
       }
     }
   },
-  "max_raw_dipole_A_m2": 0.07180726832057278,
-  "norm_diagnostic_max": 5.1987969484912355e-11
+  "person4_metrics": [
+    {
+      "detumbling_time_s": 24566.688689173596,
+      "success": true,
+      "censored": false,
+      "final_rate_rad_s": 0.0027185520202145626,
+      "saturation_fraction": 0.36759062783413243,
+      "peak_torque_Nm": 4.385722610737916e-07,
+      "dipole_effort_Am2_s": 188.2193697441604,
+      "max_output_spacing_s": 0.25,
+      "crossing_rule": "piecewise linear rate norm; equality qualifies"
+    },
+    {
+      "detumbling_time_s": 24566.68867096244,
+      "success": true,
+      "censored": false,
+      "final_rate_rad_s": 0.0027185520202145626,
+      "saturation_fraction": 0.36759057383150223,
+      "peak_torque_Nm": 4.385722610737916e-07,
+      "dipole_effort_Am2_s": 188.21940247847172,
+      "max_output_spacing_s": 0.125,
+      "crossing_rule": "piecewise linear rate norm; equality qualifies"
+    },
+    {
+      "detumbling_time_s": 24566.688661849817,
+      "success": true,
+      "censored": false,
+      "final_rate_rad_s": 0.0027185520202145626,
+      "saturation_fraction": 0.3675905286370372,
+      "peak_torque_Nm": 4.385722610737916e-07,
+      "dipole_effort_Am2_s": 188.2194022151736,
+      "max_output_spacing_s": 0.0625,
+      "crossing_rule": "piecewise linear rate norm; equality qualifies"
+    }
+  ],
+  "person4_metric_agreement": true,
+  "max_projected_norm_error": 3.3306690738754696e-16,
+  "max_raw_dipole_A_m2": 0.07180731028306557,
+  "norm_diagnostic_max": 5.007105841059456e-14
 }

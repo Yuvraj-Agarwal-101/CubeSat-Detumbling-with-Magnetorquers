@@ -356,11 +356,26 @@ the polar to equatorial field strength ratio of two, zero commands, clipping
 boundaries, vector rather than component saturation, torque orthogonality,
 repeatability and consistent assembly in the full dynamics.
 
-For a static inertial field and unit body field direction $b$, the
-unsaturated torque is $-k_B(I-bb^T)\omega$. Thus power is
-$-k_B\|\omega-(b^T\omega)b\|^2$. Saturation scales this by a factor in
+For a static inertial field, $\dot B_B=-\omega\times B_B$, so the
+unsaturated command is $m=k_B(\omega\times B_B)/\|B_B\|^2$.
+The vector triple product gives
+$(\omega\times B_B)\times B_B=B_B(\omega^TB_B)-\omega\|B_B\|^2$.
+For unit body field direction $b$, the torque is therefore
+$-k_B(I-bb^T)\omega$. With constant symmetric inertia,
+$E=\tfrac12\omega^TJ\omega$ and Euler's equation give
+$\dot E=\omega^T\tau=-k_B\|\omega-(b^T\omega)b\|^2$,
+because $\omega^T(\omega\times J\omega)=0$.
+Saturation scales this by a factor in
 $(0,1]$. Independent tests verify both regimes. This check does not imply
-monotonic kinetic energy under a changing orbital field. The model remains
+monotonic kinetic energy under a changing orbital field. In that case an
+additional unsaturated torque
+$-k_B[(C_{BI}\dot B_I)\times B_B]/\|B_B\|^2$ contributes power of
+unrestricted sign. The normalized gain has units $\mathrm{kg\,m^2/s}$,
+so the command has units $\mathrm{A\,m^2}$ and power has units watts.
+The merged-source Person 3 review also checks inverse-cube scaling,
+separate orbit and field periodicity, nontrivial attitudes, and all real
+adapter RK4 stages. These instantaneous and short-horizon checks do not
+renew the historical one second timestep acceptance. The model remains
 an idealized assumed field, not an epoch specific measured prediction.
 ```
 
@@ -370,9 +385,13 @@ an idealized assumed field, not an epoch specific measured prediction.
 \subsection{Full model numerical refinement}
 The study uses the implemented circular orbit, rotating tilted dipole,
 normalized B dot control and vector norm saturation. Each case runs to six
-orbital periods from the canonical initial state. The unsaturated limit is
+orbital periods. The two canonical cases use the canonical initial state. Their unsaturated limit is
 $1\ \mathrm{A\,m^2}$ and the saturated limit is $0.01\ \mathrm{A\,m^2}$.
 These are numerical verification choices, not revised baseline hardware claims.
+An additional seeded pilot geometry is audited at 30 degrees per second,
+gain $3\times10^{-5}$ and limit $0.03\ \mathrm{A\,m^2}$. Its record uses
+the production piecewise linear event metrics at every integration level.
+The common accepted step must pass two consecutive refinements in all three cases.
 \begin{center}
 \begin{tabular}{lrrrrr}
 Case & $h$ & Success & $t_d$ & Final rate & Saturation \\
@@ -381,16 +400,26 @@ unsaturated & 2 & 1 & 16138.00 & 0.002165 & 0.000000 \\
 unsaturated & 1 & 1 & 16135.00 & 0.002165 & 0.000000 \\
 unsaturated & 0.5 & 1 & 16135.00 & 0.002165 & 0.000000 \\
 unsaturated & 0.25 & 1 & 16135.00 & 0.002165 & 0.000000 \\
+unsaturated & 0.125 & 1 & 16134.88 & 0.002165 & 0.000000 \\
+unsaturated & 0.0625 & 1 & 16134.88 & 0.002165 & 0.000000 \\
 saturated & 2 & 1 & 24596.00 & 0.002638 & 0.367581 \\
 saturated & 1 & 1 & 24568.00 & 0.002717 & 0.367595 \\
 saturated & 0.5 & 1 & 24567.00 & 0.002719 & 0.367647 \\
 saturated & 0.25 & 1 & 24566.75 & 0.002719 & 0.367606 \\
+saturated & 0.125 & 1 & 24566.75 & 0.002719 & 0.367590 \\
+saturated & 0.0625 & 1 & 24566.75 & 0.002719 & 0.367600 \\
+high\_spin & 2 & 1 & 19093.63 & 0.002165 & 0.420662 \\
+high\_spin & 1 & 1 & 20539.93 & 0.002273 & 0.482528 \\
+high\_spin & 0.5 & 1 & 20651.85 & 0.002295 & 0.485769 \\
+high\_spin & 0.25 & 1 & 20622.34 & 0.002262 & 0.484305 \\
+high\_spin & 0.125 & 1 & 20621.47 & 0.002257 & 0.484240 \\
+high\_spin & 0.0625 & 1 & 20621.44 & 0.002256 & 0.484236 \\
 \end{tabular}
 \end{center}
 Times and steps are in seconds, final rates in radians per second, and
 saturation is a time fraction. Full precision records also include peak
 torque, effort, runtime, evaluation counts and norm diagnostics.
-The screening gate selects $1$ seconds for these two cases after two successive refinements.
+The screening gate selects $0.25$ seconds for these two cases after two successive refinements.
 The declared relative tolerances are one percent for time, final rate
 and peak torque, with absolute floors of one second, $10^{-6}$ radians per
 second and $10^{-10}$ newton metres. Saturation fraction uses $0.005$ absolute.
@@ -407,28 +436,31 @@ A deadline failure does not establish that eventual recovery is impossible.
 ```latex
 \subsection{Accepted numerical production step}
 The production setting in the canonical configuration is
-$1$ second.
-The two successive comparisons from one to half a second and from half to
-a quarter second pass every declared metric tolerance in both saturation
-regimes. Success classification remains unchanged. The earlier two second
-saturated failure is retained in the record rather than discarded.
+$0.25$ second.
+Two successive halvings starting at the accepted step pass every declared
+metric tolerance in the unsaturated, saturated, and audited high-spin cases.
+Success classification remains unchanged. Failed coarser comparisons are
+retained in the record rather than discarded.
 
-To separate output sampling from integration error, each quarter second
+To separate output sampling from integration error, each finest integrated
 trajectory is held fixed while output spacing is coarsened. Complete hold
 intervals use piecewise linear interpolation of rate norm, and saturation
 duration uses crossings of the raw dipole norm. Equality qualifies in this
-diagnostic, matching the Person 4 convention; the original sampled strict
-threshold metric is retained for the integrator comparisons.
+diagnostic, matching the Person 4 convention; the original sampled endpoint
+metric is retained for the integrator comparisons.
 \begin{center}
 \begin{tabular}{lrrr}
 Case & Output spacing & Interpolated start & Saturation fraction \\
 \hline
-unsaturated & 1 & 16134.853507 & 0.00000000 \\
-unsaturated & 0.5 & 16134.853387 & 0.00000000 \\
-unsaturated & 0.25 & 16134.853327 & 0.00000000 \\
-saturated & 1 & 24566.691807 & 0.36759482 \\
-saturated & 0.5 & 24566.691441 & 0.36759145 \\
-saturated & 0.25 & 24566.691327 & 0.36759071 \\
+unsaturated & 0.25 & 16134.853364 & 0.00000000 \\
+unsaturated & 0.125 & 16134.853343 & 0.00000000 \\
+unsaturated & 0.0625 & 16134.853340 & 0.00000000 \\
+saturated & 0.25 & 24566.688689 & 0.36759063 \\
+saturated & 0.125 & 24566.688671 & 0.36759057 \\
+saturated & 0.0625 & 24566.688662 & 0.36759053 \\
+high\_spin & 0.25 & 20621.435666 & 0.48424857 \\
+high\_spin & 0.125 & 20621.435633 & 0.48423820 \\
+high\_spin & 0.0625 & 20621.435617 & 0.48423618 \\
 \end{tabular}
 \end{center}
 All output comparisons pass the same predeclared tolerances. Interpolation
@@ -439,7 +471,7 @@ histories are supplied to reproduce this audit without reintegration.
 The canonical $0.1\ \mathrm{A\,m^2}$ baseline is also integrated separately
 at the accepted step. Its command bound is inactive at every evaluated RK4
 stage. The maximum raw magnitude is
-$0.07030255$ ampere square metres across 136036 stage calls.
+$0.07023404$ ampere square metres across 544144 stage calls.
 Its metrics agree with the unsaturated reference to floating point
 roundoff. This connects the unsaturated refinement case to the actual
 baseline bound. Final contribution percentages, independent teammate
@@ -451,4 +483,6 @@ reproduction and the engineering sweep remain team responsibilities.
 ```latex
 \section{Acknowledgments}
 Generative AI assisted with project ideation, model specification, handoff preparation, repository setup, physics and configuration implementation, numerical methods, verification studies, test design, interface documentation, and LaTeX drafting. Automated tests and exact solution studies were executed during development. AI assisted checks do not establish independent human review. The generated figures show numerical verification, not magnetic detumbling performance. The team must update this account to describe actual use during the remaining control, engineering experiments, and report work.
+
+The integration preserves the numerical architecture, real idealized field and controller, and experiment pipeline. Historical verification evidence is retained. Verification of the merged source and the engineering sweep remain pending.
 ```

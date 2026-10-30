@@ -1,5 +1,15 @@
 ﻿# Team branch integration
 
+## Subsequent Stage 3 numerical acceptance
+
+[STAGE3_VERIFICATION.md](STAGE3_VERIFICATION.md) records regenerated merged-source
+evidence and the pilot-only gate on `codex/production-step-gate`. The common
+accepted step is 0.25 s after adding a real high-spin verification case: the
+historical 1 s step passes the canonical cases but not the broader required
+two-successive-refinement gate. Coarse failures, all finer comparisons, separate
+output audits, and the canonical actuator stage-bound check are retained.
+No real 108-case pilot or production engineering sweep was run.
+
 ## Subsequent Person 3 review
 
 Sidhant's merged-source field/control review is recorded in

@@ -19,6 +19,8 @@ def apply():
     chosen=select_step(record['cases'],record['settings']['step_sizes_s'])
     if chosen is None or chosen!=audit['selected_step_s'] or not audit['output_grid_pass']:
         raise ValueError('Both successive metric refinements and output resolution must pass')
+    if baseline['step_s'] != chosen:
+        raise ValueError('Baseline actuator confirmation must use the selected step')
     output_changes=[]
     for case in audit['cases']:
         for a,b in zip(case['output_audit'][:-1],case['output_audit'][1:]):
@@ -64,26 +66,27 @@ def report():
     text=(r'\paragraph{Historical source evidence} '+'The one second acceptance and measurements below belong to the original source snapshot. The merged numerical architecture requires renewed verification before new production approval.'+'\n' if historical else '')
     text+=r'''\subsection{Accepted numerical production step}
 The production setting in the canonical configuration is
-'''+f"${accepted['accepted_step_s']:g}$ second.\n"+r'''The two successive comparisons from one to half a second and from half to
-a quarter second pass every declared metric tolerance in both saturation
-regimes. Success classification remains unchanged. The earlier two second
-saturated failure is retained in the record rather than discarded.
+'''+f"${accepted['accepted_step_s']:g}$ second.\n"+r'''Two successive halvings starting at the accepted step pass every declared
+metric tolerance in the unsaturated, saturated, and audited high-spin cases.
+Success classification remains unchanged. Failed coarser comparisons are
+retained in the record rather than discarded.
 
-To separate output sampling from integration error, each quarter second
+To separate output sampling from integration error, each finest integrated
 trajectory is held fixed while output spacing is coarsened. Complete hold
 intervals use piecewise linear interpolation of rate norm, and saturation
 duration uses crossings of the raw dipole norm. Equality qualifies in this
-diagnostic, matching the Person 4 convention; the original sampled strict
-threshold metric is retained for the integrator comparisons.
+diagnostic, matching the Person 4 convention; the original sampled endpoint
+metric is retained for the integrator comparisons.
 \begin{center}
 \begin{tabular}{lrrr}
 Case & Output spacing & Interpolated start & Saturation fraction \\
 \hline
 '''
     for case in audit['cases']:
+        label=case['name'].replace('_',r'\_')
         for row in case['output_audit']:
             m=row['metrics']
-            text+=f"{case['name']} & {row['output_spacing_s']:g} & {m['detumbling_time_s']:.6f} & {m['saturation_fraction']:.8f} "+chr(92)*2+'\n'
+            text+=f"{label} & {row['output_spacing_s']:g} & {m['detumbling_time_s']:.6f} & {m['saturation_fraction']:.8f} "+chr(92)*2+'\n'
     text+=r'''\end{tabular}
 \end{center}
 All output comparisons pass the same predeclared tolerances. Interpolation

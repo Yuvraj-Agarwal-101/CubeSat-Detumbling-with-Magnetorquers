@@ -32,9 +32,11 @@ The completed numerical contribution has a dedicated standalone source
 \texttt{person2.tex}. Its exact convergence, physics, full model and output
 sampling evidence and the accepted baseline solver setting are committed.
 The inexpensive reproduction command is \texttt{python run\_all.py}.
-The explicit full command \texttt{python run\_all.py --complete-verification}
-also recomputes the expensive six orbit simulations and acceptance. The
-recorded numerical acceptance applies to the documented baseline scope.
+The standard full command \texttt{python run\_all.py --complete-verification}
+recomputes the canonical study. The broader Stage 3 gate additionally requires
+the high-spin audit and finer levels documented in
+\texttt{docs/stage3\_validation/commands.ps1}; the canonical command alone does
+not reproduce that broader acceptance.
 The remaining engineering sweep and final team submission are separate.
 
 The Person 4 pipeline now provides \texttt{run\_all.py}, seeded study
@@ -55,6 +57,10 @@ refinement and a step accepted by the numerical methods owner. The production
 study also requires the real 108 case pilot. Broader real runtime measurements, and a clean clone reproduction of all final
 engineering results remain required before submission. Evaluator access and the final tested revision must be checked after the remaining modules and results are merged.
 
-Historical production evidence belongs to the original source snapshots.
-The merged numerical architecture requires renewed Person 3 verification
-before extending that acceptance to new engineering runs.
+Historical evidence remains available in Git and the original source snapshots.
+Stage 3 regenerates merged-source numerical acceptance and a pilot-only gate,
+including the retained coarse failures, separate output-grid audit, and baseline
+stage-bound check. The gate pins the tested source commit and full source/configuration
+tree, with raw-file SHA256 evidence digests. Evidence-only descendant commits may
+use it only with an identical tested tree and a clean tracked checkout. The gate
+contains no pilot records; the real 108-case pilot remains required before production.

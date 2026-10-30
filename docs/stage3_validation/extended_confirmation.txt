@@ -1,0 +1,10 @@
+Starting 0.125-second confirmation for unsaturated
+Starting 0.125-second confirmation for saturated
+Completed saturated: {'success': True, 'detumbling_time_s': 24566.75, 'final_rate_rad_s': 0.0027185529794840936, 'peak_torque_Nm': 4.385722610737917e-07, 'saturation_fraction': 0.36758980499969857, 'dipole_effort_A_m2_s': 188.2194031586075}
+Completed unsaturated: {'success': True, 'detumbling_time_s': 16134.875, 'final_rate_rad_s': 0.002165411012181403, 'peak_torque_Nm': 1.8138296755783927e-06, 'saturation_fraction': 0.0, 'dipole_effort_A_m2_s': 188.0402611481237}
+Selected step: 1; output audit pass: True
+Starting 0.0625-second confirmation for unsaturated
+Starting 0.0625-second confirmation for saturated
+Completed saturated: {'success': True, 'detumbling_time_s': 24566.75, 'final_rate_rad_s': 0.0027185520202145626, 'peak_torque_Nm': 4.385722610737916e-07, 'saturation_fraction': 0.36759991265803194, 'dipole_effort_A_m2_s': 188.2194022151736}
+Completed unsaturated: {'success': True, 'detumbling_time_s': 16134.875, 'final_rate_rad_s': 0.002165411010634248, 'peak_torque_Nm': 1.8138387815239058e-06, 'saturation_fraction': 0.0, 'dipole_effort_A_m2_s': 188.0402618524468}
+Selected step: 1; output audit pass: True
