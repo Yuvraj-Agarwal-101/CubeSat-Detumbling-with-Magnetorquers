@@ -104,6 +104,7 @@ def run(adapter, settings_path=None):
                 raise ValueError('Initial quaternion must be normalized')
             runs = []
             for step in steps:
+                print(f"Running {case['name']} at h={step:g} s", flush=True)
                 began = time.perf_counter()
                 def project(y):
                     norm = np.linalg.norm(y[:4])
@@ -131,6 +132,7 @@ def run(adapter, settings_path=None):
                 runs.append(dict(step_s=step, metrics=metric, runtime_s=time.perf_counter()-began,
                                  max_preprojection_norm_error=float(np.max(np.abs(sol.preprojection_norm_error))),
                                  rhs_evaluations=sol.function_evaluations))
+                print(f"Completed {case['name']} h={step:g}: {metric}", flush=True)
             regimes = [r['metrics']['saturation_fraction'] for r in runs]
             regime_ok = all(f == 0 for f in regimes) if case['regime']=='unsaturated' else all(f > 0 for f in regimes)
             records.append(dict(name=case['name'], regime=case['regime'], config=case['config_record'],

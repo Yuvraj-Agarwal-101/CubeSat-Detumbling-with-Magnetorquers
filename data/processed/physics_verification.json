@@ -1,0 +1,231 @@
+{
+  "configuration": {
+    "schema_version": 1,
+    "physical": {
+      "inertia_kg_m2": [
+        [
+          0.03,
+          0,
+          0
+        ],
+        [
+          0,
+          0.035,
+          0
+        ],
+        [
+          0,
+          0,
+          0.007
+        ]
+      ],
+      "orbit": {
+        "earth_radius_m": 6371000,
+        "gravitational_parameter_m3_s2": 398600441800000,
+        "altitude_m": 500000,
+        "inclination_rad": 0.9599310885968813,
+        "raan_rad": 0,
+        "phase_rad": 0
+      },
+      "magnetic": {
+        "equatorial_surface_field_t": 3e-05,
+        "dipole_tilt_rad": 0.19198621771937624,
+        "earth_rotation_rate_rad_s": 7.292115e-05,
+        "earth_rotation_phase_rad": 0
+      },
+      "controller": {
+        "law": "normalized_b_dot",
+        "gain_kg_m2_s": 1e-05,
+        "max_dipole_a_m2": 0.1,
+        "saturation": "vector_norm"
+      }
+    },
+    "initial_conditions": {
+      "quaternion": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "angular_velocity_rad_s": [
+        0.10076663134634543,
+        0.10076663134634543,
+        0.10076663134634543
+      ]
+    },
+    "study": {
+      "rate_threshold_rad_s": 0.008726646259971648,
+      "hold_duration_s": 600,
+      "deadline_orbits": 6
+    },
+    "solver": {
+      "method": "rk4",
+      "step_size_s": null
+    },
+    "provenance": {
+      "physical.inertia_kg_m2": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "physical.orbit.earth_radius_m": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "physical.orbit.gravitational_parameter_m3_s2": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "physical.orbit.altitude_m": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "physical.orbit.inclination_rad": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "physical.orbit.raan_rad": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "physical.orbit.phase_rad": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "physical.magnetic.equatorial_surface_field_t": {
+        "classification": "assumed",
+        "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+      },
+      "physical.magnetic.dipole_tilt_rad": {
+        "classification": "assumed",
+        "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+      },
+      "physical.magnetic.earth_rotation_rate_rad_s": {
+        "classification": "assumed",
+        "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+      },
+      "physical.magnetic.earth_rotation_phase_rad": {
+        "classification": "assumed",
+        "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+      },
+      "physical.controller.law": {
+        "classification": "project_choice",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "physical.controller.gain_kg_m2_s": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "physical.controller.max_dipole_a_m2": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "physical.controller.saturation": {
+        "classification": "project_choice",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "initial_conditions.quaternion": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "initial_conditions.angular_velocity_rad_s": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "study.rate_threshold_rad_s": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "study.hold_duration_s": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "study.deadline_orbits": {
+        "classification": "assumed",
+        "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+      },
+      "solver.method": {
+        "classification": "project_choice",
+        "note": "Planned numerical method. This is not a completed convergence claim."
+      },
+      "solver.step_size_s": {
+        "classification": "pending",
+        "note": "Determine from the convergence and engineering metric refinement studies."
+      }
+    }
+  },
+  "seed": null,
+  "scope": "Independent finite difference and static field identity checks, not detumbling histories",
+  "derivative_checks": [
+    {
+      "time_s": 0.0,
+      "difference_interval_s": 2.0,
+      "absolute_error_T_s": 2.147787764772722e-13
+    },
+    {
+      "time_s": 0.0,
+      "difference_interval_s": 1.0,
+      "absolute_error_T_s": 5.369473307025725e-14
+    },
+    {
+      "time_s": 0.0,
+      "difference_interval_s": 0.5,
+      "absolute_error_T_s": 1.3423688741815041e-14
+    },
+    {
+      "time_s": 123.0,
+      "difference_interval_s": 2.0,
+      "absolute_error_T_s": 2.1498590511006611e-13
+    },
+    {
+      "time_s": 123.0,
+      "difference_interval_s": 1.0,
+      "absolute_error_T_s": 5.3746519886785094e-14
+    },
+    {
+      "time_s": 123.0,
+      "difference_interval_s": 0.5,
+      "absolute_error_T_s": 1.3436629469648634e-14
+    },
+    {
+      "time_s": 3456.0,
+      "difference_interval_s": 2.0,
+      "absolute_error_T_s": 2.2023781113001644e-13
+    },
+    {
+      "time_s": 3456.0,
+      "difference_interval_s": 1.0,
+      "absolute_error_T_s": 5.50594817738874e-14
+    },
+    {
+      "time_s": 3456.0,
+      "difference_interval_s": 0.5,
+      "absolute_error_T_s": 1.3764859269297054e-14
+    }
+  ],
+  "power_checks": [
+    {
+      "limit_A_m2": 1.0,
+      "measured_power_W": -3.714285714285715e-07,
+      "expected_power_W": -3.714285714285716e-07,
+      "saturated": false
+    },
+    {
+      "limit_A_m2": 0.001,
+      "measured_power_W": -7.211102550927979e-09,
+      "expected_power_W": -7.211102550927981e-09,
+      "saturated": true
+    }
+  ],
+  "power_fixture": {
+    "field_T": [
+      1e-05,
+      2e-05,
+      -3e-05
+    ],
+    "omega_rad_s": [
+      0.1,
+      -0.2,
+      0.3
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 {
   "status": "Person 2 local workflow completed",
-  "full_model": "pending, no model supplied",
+  "full_model": "not rerun; existing full model evidence retained",
   "python": "3.12.14",
   "platform": "Windows-10-10.0.19045-SP0",
   "dependencies": {
@@ -9,7 +9,7 @@
     "pytest": "8.4.2"
   },
   "command": "python run_all.py",
-  "elapsed_s": 11.976881499984302,
+  "elapsed_s": 21.529722800012678,
   "seed": null,
   "repository": "https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers",
   "teammate_clean_clone_test": "pending"

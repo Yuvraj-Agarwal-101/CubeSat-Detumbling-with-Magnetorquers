@@ -112,6 +112,8 @@ all accepted states, using memory proportional to the number of steps.
 \input{sections/configuration_verification}
 \input{sections/numerical_verification}
 \input{sections/lecture_alignment}
+\input{sections/physics_verification}
+\input{sections/full_model_verification}
 ```
 
 ## numerical_verification
@@ -186,13 +188,13 @@ Three additional integration tests connect the shared dynamics to RK4 using
 artificial zero torque control. They check exact spherical rotation, fresh
 callback evaluation at all stages, and decreasing energy and inertial momentum
 errors for an asymmetric torque free trajectory. The existing 175 quaternion, instantaneous dynamics, configuration
-and report consistency checks are also retained. These checks do not
-validate the unavailable production magnetic field or controller.
+and report consistency checks are also retained. Twenty two additional checks exercise the implemented orbital field and normalized
+controller against independent geometry, derivative, saturation and power identities.
 
 \subsubsection{Production step study status}
-The production field and controller are unavailable. Unsaturated and saturated full model
-runs, production timing, and production step selection are pending. No
-production step or engineering sweep is claimed. The supplied driver requires
+The real idealized field and controller and the full model adapter are now implemented.
+Measured full model refinement, when available, is tabulated in the following
+subsection. No ensemble engineering sweep is claimed. The supplied driver requires
 both regimes and compares two successive refinements before accepting a
 candidate. Proposed tolerances are one percent relative change in detumbling
 time, final rate, and peak torque, with absolute floors of $1\ \mathrm{s}$,
@@ -252,6 +254,80 @@ count from changing the meaning of a trajectory norm. Endpoint error remains
 the primary convergence plot. Sampled norms are not continuous error bounds.
 ```
 
+## physics_verification
+
+```latex
+\subsection{Orbital field and control verification}
+The circular orbit and tilted rotating dipole use the canonical assumed
+parameters. The analytic total field derivative includes both orbital motion
+and Earth rotation. Dynamics applies the body rotation correction once.
+Independent centered differences give the derivative errors below.
+\begin{center}
+\begin{tabular}{rrr}
+Time & Difference interval & Derivative error norm \\
+\hline
+0 & 2 & 2.14779e-13 \\
+0 & 1 & 5.36947e-14 \\
+0 & 0.5 & 1.34237e-14 \\
+123 & 2 & 2.14986e-13 \\
+123 & 1 & 5.37465e-14 \\
+123 & 0.5 & 1.34366e-14 \\
+3456 & 2 & 2.20238e-13 \\
+3456 & 1 & 5.50595e-14 \\
+3456 & 0.5 & 1.37649e-14 \\
+\end{tabular}
+\end{center}
+Time and interval are in seconds and error is in tesla per second. The
+centered difference errors decrease under refinement, independently of the
+RK4 time update. Tests also verify orbit radius, period and orientation,
+the polar to equatorial field strength ratio of two, zero commands, clipping
+boundaries, vector rather than component saturation, torque orthogonality,
+repeatability and consistent assembly in the full dynamics.
+
+For a static inertial field and unit body field direction $b$, the
+unsaturated torque is $-k_B(I-bb^T)\omega$. Thus power is
+$-k_B\|\omega-(b^T\omega)b\|^2$. Saturation scales this by a factor in
+$(0,1]$. Independent tests verify both regimes. This check does not imply
+monotonic kinetic energy under a changing orbital field. The model remains
+an idealized assumed field, not an epoch specific measured prediction.
+```
+
+## full_model_verification
+
+```latex
+\subsection{Full model numerical refinement}
+The study uses the implemented circular orbit, rotating tilted dipole,
+normalized B dot control and vector norm saturation. Each case runs to six
+orbital periods from the canonical initial state. The unsaturated limit is
+$1\ \mathrm{A\,m^2}$ and the saturated limit is $0.01\ \mathrm{A\,m^2}$.
+These are numerical verification choices, not revised baseline hardware claims.
+\begin{center}
+\begin{tabular}{lrrrrr}
+Case & $h$ & Success & $t_d$ & Final rate & Saturation \\
+\hline
+unsaturated & 2 & 1 & 16138.00 & 0.002165 & 0.000000 \\
+unsaturated & 1 & 1 & 16135.00 & 0.002165 & 0.000000 \\
+unsaturated & 0.5 & 1 & 16135.00 & 0.002165 & 0.000000 \\
+saturated & 2 & 1 & 24596.00 & 0.002638 & 0.367581 \\
+saturated & 1 & 1 & 24568.00 & 0.002717 & 0.367595 \\
+saturated & 0.5 & 1 & 24567.00 & 0.002719 & 0.367647 \\
+\end{tabular}
+\end{center}
+Times and steps are in seconds, final rates in radians per second, and
+saturation is a time fraction. Full precision records also include peak
+torque, effort, runtime, evaluation counts and norm diagnostics.
+No tested step passed all declared comparisons across both cases. Further refinement is required.
+The declared relative tolerances are one percent for time, final rate
+and peak torque, with absolute floors of one second, $10^{-6}$ radians per
+second and $10^{-10}$ newton metres. Saturation fraction uses $0.005$ absolute.
+The JSON records every comparison and classification. Screening acceptance
+does not approve every gain, initial geometry or case near a success boundary.
+The metrics use sampled output; threshold intervals, saturation crossings
+and narrow torque peaks can be unresolved. Separate output grid refinement
+and representative engineering cases remain necessary before production sweeps.
+A deadline failure does not establish that eventual recovery is impossible.
+```
+
 ## acknowledgments
 
 ```latex
@@ -263,8 +339,9 @@ the handoff, implemented RK4, developed exact solution checks and convergence
 studies, generated the convergence figure, and drafted the method and
 verification sections. It also integrated the contribution with the shared
 repository and tested the existing dynamics with the new integrator using
-explicitly artificial zero torque fixtures. The production magnetic field
-and control study remains pending. Students must review, understand, and
+explicitly artificial zero torque fixtures. At the user's request, Codex subsequently implemented the idealized orbital field,
+analytic derivative, normalized control and their independent tests, and
+connected them for full model numerical studies. Students must review, understand, and
 independently verify the generated work. The team must update this statement
 to reflect subsequent AI use and actual student responsibilities.
 ```

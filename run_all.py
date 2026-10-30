@@ -14,6 +14,7 @@ ROOT=Path(__file__).resolve().parent
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--adapter',help='Full model adapter module, when available')
+    parser.add_argument('--settings',help='Full model refinement settings JSON')
     args=parser.parse_args()
     start=time.perf_counter()
     out=ROOT/'data/processed'; out.mkdir(parents=True,exist_ok=True)
@@ -25,18 +26,22 @@ def main():
     print(log)
     if tests.returncode:
         raise SystemExit(tests.returncode)
-    modules=['studies.convergence','studies.lecture_validation','studies.make_figures','studies.report_fragments',
-             'studies.timestep_selection']
+    modules=['studies.convergence','studies.lecture_validation','studies.physics_verification','studies.make_figures']
+    if args.adapter:
+        modules.append('studies.timestep_selection')
+    modules.extend(['studies.full_model_report','studies.report_fragments'])
     for module in modules:
         command=[sys.executable,'-m',module]
         if module=='studies.timestep_selection' and args.adapter:
             command+=['--adapter',args.adapter]
+            if args.settings:
+                command+=['--settings',args.settings]
         subprocess.run(command,cwd=ROOT,check=True)
     result=dict(status='Person 2 local workflow completed',
-                full_model='requested via adapter' if args.adapter else 'pending, no model supplied',
+                full_model='rerun via real adapter' if args.adapter else 'not rerun; existing full model evidence retained',
                 python=platform.python_version(),platform=platform.platform(),
                 dependencies={n:importlib.metadata.version(n) for n in ['numpy','matplotlib','pytest']},
-                command='python run_all.py'+(' --adapter '+args.adapter if args.adapter else ''),
+                command='python run_all.py'+(' --adapter '+args.adapter if args.adapter else '')+(' --settings '+args.settings if args.settings else ''),
                 elapsed_s=time.perf_counter()-start,seed=None,
                 repository='https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers',
                 teammate_clean_clone_test='pending')

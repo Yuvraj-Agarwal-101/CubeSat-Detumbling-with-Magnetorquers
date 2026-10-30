@@ -82,13 +82,13 @@ Three additional integration tests connect the shared dynamics to RK4 using
 artificial zero torque control. They check exact spherical rotation, fresh
 callback evaluation at all stages, and decreasing energy and inertial momentum
 errors for an asymmetric torque free trajectory. The existing 175 quaternion, instantaneous dynamics, configuration
-and report consistency checks are also retained. These checks do not
-validate the unavailable production magnetic field or controller.
+and report consistency checks are also retained. Twenty two additional checks exercise the implemented orbital field and normalized
+controller against independent geometry, derivative, saturation and power identities.
 
 \subsubsection{Production step study status}
-The production field and controller are unavailable. Unsaturated and saturated full model
-runs, production timing, and production step selection are pending. No
-production step or engineering sweep is claimed. The supplied driver requires
+The real idealized field and controller and the full model adapter are now implemented.
+Measured full model refinement, when available, is tabulated in the following
+subsection. No ensemble engineering sweep is claimed. The supplied driver requires
 both regimes and compares two successive refinements before accepting a
 candidate. Proposed tolerances are one percent relative change in detumbling
 time, final rate, and peak torque, with absolute floors of $1\ \mathrm{s}$,
@@ -112,7 +112,7 @@ nothing conclusive about eventual recovery.
     out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(text,encoding='utf-8')
     copyable='# Copyable LaTeX report contributions\n\nRequired packages are amsmath and graphicx. Compile the preview from the report directory. LaTeX compilation remains unverified.\n'
-    for section in ('method','verification','numerical_verification','lecture_alignment','acknowledgments'):
+    for section in ('method','verification','numerical_verification','lecture_alignment','physics_verification','full_model_verification','acknowledgments'):
         content=(ROOT/'report/sections'/f'{section}.tex').read_text(encoding='utf-8')
         copyable+='\n## '+section+'\n\n```latex\n'+content+'```\n'
     (ROOT/'report/PERSON2_FRAGMENTS.md').write_text(copyable,encoding='utf-8')

@@ -1,0 +1,31 @@
+\subsection{Full model numerical refinement}
+The study uses the implemented circular orbit, rotating tilted dipole,
+normalized B dot control and vector norm saturation. Each case runs to six
+orbital periods from the canonical initial state. The unsaturated limit is
+$1\ \mathrm{A\,m^2}$ and the saturated limit is $0.01\ \mathrm{A\,m^2}$.
+These are numerical verification choices, not revised baseline hardware claims.
+\begin{center}
+\begin{tabular}{lrrrrr}
+Case & $h$ & Success & $t_d$ & Final rate & Saturation \\
+\hline
+unsaturated & 2 & 1 & 16138.00 & 0.002165 & 0.000000 \\
+unsaturated & 1 & 1 & 16135.00 & 0.002165 & 0.000000 \\
+unsaturated & 0.5 & 1 & 16135.00 & 0.002165 & 0.000000 \\
+saturated & 2 & 1 & 24596.00 & 0.002638 & 0.367581 \\
+saturated & 1 & 1 & 24568.00 & 0.002717 & 0.367595 \\
+saturated & 0.5 & 1 & 24567.00 & 0.002719 & 0.367647 \\
+\end{tabular}
+\end{center}
+Times and steps are in seconds, final rates in radians per second, and
+saturation is a time fraction. Full precision records also include peak
+torque, effort, runtime, evaluation counts and norm diagnostics.
+No tested step passed all declared comparisons across both cases. Further refinement is required.
+The declared relative tolerances are one percent for time, final rate
+and peak torque, with absolute floors of one second, $10^{-6}$ radians per
+second and $10^{-10}$ newton metres. Saturation fraction uses $0.005$ absolute.
+The JSON records every comparison and classification. Screening acceptance
+does not approve every gain, initial geometry or case near a success boundary.
+The metrics use sampled output; threshold intervals, saturation crossings
+and narrow torque peaks can be unresolved. Separate output grid refinement
+and representative engineering cases remain necessary before production sweeps.
+A deadline failure does not establish that eventual recovery is impossible.

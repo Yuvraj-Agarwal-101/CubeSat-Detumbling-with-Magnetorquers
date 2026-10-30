@@ -42,4 +42,4 @@ No gain tuning or guarantee of recovery is asserted by the baseline. A static in
 6. Supply the real callbacks to runtime_config and run the seven component rhs at multiple times and attitudes.
 7. Combine with Person 2's integrator and complete convergence and production step selection before engineering sweeps.
 
-The production callbacks and their acceptance remain pending. Tests using artificial callbacks establish only the existing connection contract.
+The idealized production callbacks are now implemented in src/orbit_field.py and src/controller.py. Independent geometry, derivative, saturation and static field power tests exercise these implementations. Full model refinement evidence is recorded separately and final team review remains required. Earlier artificial callback tests retain their limited interface scope.
