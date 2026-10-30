@@ -1,0 +1,53 @@
+\subsection{Euler dynamics and interface checks}
+
+\subsubsection{Implemented equations}
+The dynamics module implements the seven component function \texttt{rhs(t, y, config)} with state order
+\[
+y=(s,v_1,v_2,v_3,\omega_1,\omega_2,\omega_3)^T.
+\]
+The first four derivatives use the quaternion kinematics already specified. The final three are obtained by solving
+\[
+J\dot\omega+\omega\times(J\omega)=m\times B_B.
+\]
+The implementation solves this linear system for \(\dot\omega\) without explicitly forming \(J^{-1}\). It supports a full real symmetric positive definite inertia matrix. It rejects invalid shapes, nonfinite values, undefined zero orientations, and nonpositive inertia.
+
+The inertial field callback supplies \(B_I(t)\) and its derivative along the prescribed orbit. The dynamics module evaluates
+\[
+B_B=C_{BI}B_I,
+\qquad
+\dot B_B+\omega\times B_B=C_{BI}\dot B_I.
+\]
+It passes these body quantities, the current time, quaternion, and angular velocity to the controller callback. The controller supplies the raw dipole, commanded dipole, reported torque, and saturation status. The dynamics module forms \(m\times B_B\) independently and checks consistency with the reported torque.
+
+Field and control are reevaluated on every call. This allows the numerical integrator to evaluate the forcing and feedback at each stage using the appropriate intermediate state and time. Quaternion kinematics retain the unprojected stage value. The rotation matrix uses a normalized local copy, without modifying the caller's state. No time integrator is implemented in this module.
+
+\subsubsection{Independent verification}
+The dynamics test file contains 62 passing cases. Together with the 62 quaternion cases, the current suite contains 124 passing cases. The suite is run from the repository root using
+\begin{quote}
+\texttt{.venv/bin/python \string-m pytest \string-q}.
+\end{quote}
+The dynamics checks include the following.
+\begin{enumerate}
+\item A diagonal inertia case is compared against a separate component calculation of all three Euler accelerations. Zero rate motion with a full inertia tensor, spherical inertia, and principal axis spin provide additional limits.
+\item The complete derivative is checked for state order and against an instantaneous exact spherical rotation. A prescribed dipole and field verify the magnetic torque sign.
+\item A known quarter turn checks the inertial to body field transformation. Independently specified field derivative values check both the orbital contribution and the body rotation contribution supplied to the controller.
+\item Energy and inertial momentum balances are checked at six fixed random states, with and without prescribed torque. For
+\[
+E=\tfrac12\omega^TJ\omega,
+\qquad
+H_I=C_{BI}^TJ\omega,
+\]
+the instantaneous identities are
+\[
+\dot E=\omega^T\tau,
+\qquad
+\dot H_I=C_{BI}^T\tau.
+\]
+The momentum derivative is checked using a centered difference at the test state. This is an instantaneous check rather than a time integration experiment.
+\item Repeated calls with different times and states verify fresh callback evaluation and repeatable outputs. Further checks cover input preservation, unprojected quaternion scaling, missing dependencies, invalid inertia, and inconsistent controller torque.
+\end{enumerate}
+
+\subsubsection{Integration status}
+The production geomagnetic field and B dot controller modules are not yet present. The interface tests use explicitly artificial field and prescribed dipole fixtures. These establish the dynamics assembly and callback contract rather than validating a production magnetic controller. Missing callbacks produce an explicit error.
+
+Time integration convergence, conservation errors over finite trajectories, and engineering results remain pending. Those studies require the numerical integrator and the production field and controller modules. The current tests do not establish detumbling performance or a suitable production time step.

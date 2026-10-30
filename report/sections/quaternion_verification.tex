@@ -1,6 +1,6 @@
-\section{Quaternion utilities and verification}
+\subsection{Quaternion utilities and verification}
 
-\subsection{Implemented convention}
+\subsubsection{Implemented convention}
 The quaternion module stores \(q=(s,v_1,v_2,v_3)^T\) and uses Hamilton multiplication. For \(p=(p_s,p_v)\) and \(q=(q_s,q_v)\),
 \[
 p\otimes q=
@@ -27,7 +27,7 @@ For body angular velocity \(\omega\), the derivative is
 \]
 The derivative and multiplication functions retain the magnitude of their quaternion inputs. The rotation matrix function uses a normalized local copy to define the orientation for inputs with norm drift. No function changes the caller's arrays. This orientation evaluation does not project the integrated state. The integrator owner will apply state normalization after a completed step.
 
-\subsection{Independent checks}
+\subsubsection{Independent checks}
 The test suite contains 62 passing cases. It can be run from the repository root with
 \begin{quote}
 \texttt{.venv/bin/python \string-m pytest \string-q}
