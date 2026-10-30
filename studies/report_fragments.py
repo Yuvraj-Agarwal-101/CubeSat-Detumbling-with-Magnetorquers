@@ -13,7 +13,10 @@ def run():
     rows=json.loads((ROOT/'data/processed/convergence.json').read_text())['results']
     scalar=[r for r in rows if r['case']=='scalar']
     spherical=[r for r in rows if r['case']=='spherical']
-    text=r'''\subsection{Numerical integration verification}
+    text=r'''\subsection{Additional terminal error verification}
+These six grid studies measure terminal errors with their own stated
+parameters. They complement the time weighted norm studies rather than
+using an interchangeable error measure.
 The independent scalar problem is $\dot u=tu$ with $u(0)=1$.
 Separation of variables gives $u(t)=\exp(t^2/2)$ and the comparison time is
 $T=2\ \mathrm{s}$. This test exercises nonautonomous stage evaluations.
@@ -61,7 +64,7 @@ errors are in radians.}
 \end{table}
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{../figures/convergence.pdf}
+\includegraphics[width=\linewidth]{convergence.png}
 \caption{Measured convergence with fourth order reference slopes.}
 \label{fig:person2convergence}
 \end{figure}
@@ -78,11 +81,11 @@ extrapolated as a convergence law.
 Twenty Person 2 unit tests check stage evaluation, shortened endpoints,
 projection timing, input validation, exact solutions, the frame convention,
 and synthetic checks of the study's sampled metrics and refinement gate.
-Three additional integration tests connect the shared dynamics to RK4 using
+Three additional integration tests connect the shared dynamics to the common RK4 implementation using
 artificial zero torque control. They check exact spherical rotation, fresh
 callback evaluation at all stages, and decreasing energy and inertial momentum
-errors for an asymmetric torque free trajectory. The existing 175 quaternion, instantaneous dynamics, configuration
-and report consistency checks are also retained. These checks do not
+errors for an asymmetric torque free trajectory. The quaternion, instantaneous dynamics, configuration,
+numerical algorithm and report consistency checks are also retained. These checks do not
 validate the unavailable production magnetic field or controller.
 
 \subsubsection{Production step study status}
@@ -98,7 +101,7 @@ classification must remain unchanged. The team must approve these tolerances
 before production runs. Near zero, the absolute floors control the comparison.
 
 Every full model case must run for six orbital periods. A successful case
-requires the entire $600\ \mathrm{s}$ hold interval below $0.5$ degrees per
+requires the entire $600\ \mathrm{s}$ hold interval at or below $0.5$ degrees per
 second to end by the deadline. Missing times remain absent. The screening
 driver uses stored endpoints for the first qualifying sampled hold interval,
 peak torque, and trapezoidal time weighting of the saturation indicator.
@@ -108,11 +111,11 @@ differences. Person 4 must review event resolution separately from trajectory
 error, with additional refinement where necessary. A missed deadline says
 nothing conclusive about eventual recovery.
 '''
-    out=ROOT/'report/sections/numerical_verification.tex'
+    out=ROOT/'report/sections/person2_verification.tex'
     out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(text,encoding='utf-8')
-    copyable='# Copyable LaTeX report contributions\n\nRequired packages are amsmath and graphicx. Compile the preview from the report directory. LaTeX compilation remains unverified.\n'
-    for section in ('method','verification','numerical_verification','acknowledgments'):
+    copyable='# Copyable LaTeX report contributions\n\nRequired packages are amsmath and graphicx. Compile the shared report main document.\n'
+    for section in ('method','verification','person2_verification','acknowledgments'):
         content=(ROOT/'report/sections'/f'{section}.tex').read_text(encoding='utf-8')
         copyable+='\n## '+section+'\n\n```latex\n'+content+'```\n'
     (ROOT/'report/PERSON2_FRAGMENTS.md').write_text(copyable,encoding='utf-8')

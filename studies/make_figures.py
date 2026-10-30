@@ -3,6 +3,7 @@ from pathlib import Path
 import json
 import os
 import tempfile
+import shutil
 
 # Keep disposable plotting caches out of the user's home and the repository.
 _cache = tempfile.TemporaryDirectory(prefix='ae370-plot-')
@@ -30,10 +31,12 @@ def run():
             axis.legend(frameon=False, fontsize=8)
         folder = ROOT/'figures'
         folder.mkdir(exist_ok=True)
-        figure.savefig(folder/'convergence.pdf', metadata={'CreationDate': None, 'ModDate': None})
         figure.savefig(folder/'convergence.png', dpi=180)
+        report_figures = ROOT/'report/figures'
+        report_figures.mkdir(exist_ok=True)
+        shutil.copyfile(folder/'convergence.png', report_figures/'convergence.png')
         plt.close(figure)
-    print('Wrote figures/convergence.pdf and figures/convergence.png')
+    print('Wrote figures/convergence.png and the report copy')
 
 if __name__ == '__main__':
     run()

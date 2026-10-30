@@ -25,14 +25,14 @@ def main():
     print(log)
     if tests.returncode:
         raise SystemExit(tests.returncode)
-    modules=['studies.convergence','studies.make_figures','studies.report_fragments',
+    modules=['studies.verification','studies.convergence','studies.make_figures','studies.report_fragments',
              'studies.timestep_selection']
     for module in modules:
         command=[sys.executable,'-m',module]
         if module=='studies.timestep_selection' and args.adapter:
             command+=['--adapter',args.adapter]
         subprocess.run(command,cwd=ROOT,check=True)
-    result=dict(status='Person 2 local workflow completed',
+    result=dict(status='Available numerical verification workflow completed',
                 full_model='requested via adapter' if args.adapter else 'pending, no model supplied',
                 python=platform.python_version(),platform=platform.platform(),
                 dependencies={n:importlib.metadata.version(n) for n in ['numpy','matplotlib','pytest']},

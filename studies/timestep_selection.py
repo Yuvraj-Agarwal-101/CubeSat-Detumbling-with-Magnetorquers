@@ -20,7 +20,7 @@ def sampled_metrics(times, states, torque, saturated, threshold, hold):
     times, states = np.asarray(times), np.asarray(states)
     rates = np.linalg.norm(states[:, 4:7], axis=1)
     first, detumble = None, None
-    for i, below in enumerate(rates < threshold):
+    for i, below in enumerate(rates <= threshold):
         if not below:
             first = None
         elif first is None:

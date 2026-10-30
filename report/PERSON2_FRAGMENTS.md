@@ -1,87 +1,92 @@
 # Copyable LaTeX report contributions
 
-Required packages are amsmath and graphicx. Compile the preview from the report directory. LaTeX compilation remains unverified.
+Required packages are amsmath and graphicx. Compile the shared report main document.
 
 ## method
 
 ```latex
 \section{Numerical method}
-We advance $\dot y=f(t,y)$ with classical explicit RK4. For a step
-$h_n=\min(h,T-t_n)$ the update is
-\begin{align}
-k_1&=f(t_n,y_n), & k_2&=f(t_n+h_n/2,y_n+h_nk_1/2),\\
-k_3&=f(t_n+h_n/2,y_n+h_nk_2/2), & k_4&=f(t_n+h_n,y_n+h_nk_3),\\
-\widetilde y_{n+1}&=y_n+\frac{h_n}{6}(k_1+2k_2+2k_3+k_4).
-\end{align}
-Each stage evaluates the derivative at its own time and state, including
-forcing and control when the complete model is connected. Four derivative
-evaluations are used per step. The last step ends at the specified final time.
 
-To derive the order, augment the nonautonomous system by $\dot t=1$ and
-match the elementary differentials in its Taylor expansion. The coefficients are
+\subsection{Time marching from the initial value problem}
+Write the state equation as
 \[
-A=\begin{pmatrix}0&0&0&0\\1/2&0&0&0\\0&1/2&0&0\\0&0&1&0\end{pmatrix},
-\quad b=\begin{pmatrix}1/6\\1/3\\1/3\\1/6\end{pmatrix},
-\quad c=A\mathbf1=\begin{pmatrix}0\\1/2\\1/2\\1\end{pmatrix}.
+\dot u=f(u,t),\qquad u(t_0)=u_0,\qquad
+t_k=t_0+k\Delta t.
 \]
-Writing powers of $c$ componentwise and $C=\operatorname{diag}(c)$,
-the Taylor matching conditions through order four are
-\begin{align}
-b^T\mathbf1&=1,&b^Tc&=1/2,&b^Tc^2&=1/3,&b^TAc&=1/6,\\
-b^Tc^3&=1/4,&b^TCAc&=1/8,&b^TAc^2&=1/12,&b^TA^2c&=1/24.
-\end{align}
-Direct substitution satisfies all eight conditions. With sufficiently bounded
-derivatives through order five and a Lipschitz right hand side in a neighborhood
-of the solution, the one step defect from exact initial data is $O(h_n^5)$.
-The error recurrence has the form
+The symbol \(u(t_k)\) denotes the exact state and \(u_k\) its computed approximation. The model retains the public call \texttt{rhs(t, u, config)}. A state first numerical callback is formed by evaluating that function with the arguments in the required order.
+
+Integrating the differential equation across one step gives
 \[
-\|e_{n+1}\|\leq(1+L_*h_n)\|e_n\|+K h_n^5.
+u(t_{k+1})=u(t_k)+\int_{t_k}^{t_{k+1}}f(u(t),t)\,dt.
 \]
-Over a fixed finite interval, summing the propagated defects yields global error
-$O(h^4)$. These smoothness assumptions need separate consideration at saturation
-crossings. Agreement between refined numerical trajectories alone is not a
-verification of the governing equations.
+The numerical method approximates this integral using slopes evaluated at known or predicted states. Forward Euler uses one slope. Heun uses an Euler prediction and averages two slopes. Classical RK4 uses four stages and is the primary method for the smooth verification problems.
 
-For $\dot y=\lambda y$, substitution of the four stages gives
+\subsection{Classical RK4}
+For a step of length \(h=\Delta t\), define
+\begin{align*}
+y_1&=f(u_k,t_k),\\
+y_2&=f(u_k+\tfrac12hy_1,t_k+\tfrac12h),\\
+y_3&=f(u_k+\tfrac12hy_2,t_k+\tfrac12h),\\
+y_4&=f(u_k+hy_3,t_k+h).
+\end{align*}
+The update is
 \[
-y_{n+1}=R(z)y_n,\qquad
-R(z)=1+z+z^2/2+z^3/6+z^4/24,\qquad z=h\lambda.
+u_{k+1}=u_k+\frac{h}{6}(y_1+2y_2+2y_3+y_4).
 \]
-Absolute stability requires $|R(z)|\leq1$. On the imaginary axis,
-$|R(i\xi)|^2=1-\xi^6/72+\xi^8/576$, so the stable interval is
-$|\xi|\leq2\sqrt2$. This linear result does not establish nonlinear accuracy.
-For a frozen field, the unsaturated rotational part of the normalized feedback
-has torque $-k_B(I-bb^T)\omega$, where $b=B_B/\|B_B\|$.
-The preliminary gain and inertia give a largest damping scale
-$k_B/J_{\min}=1.43\times10^{-3}\ \mathrm{s}^{-1}$.
-At the preliminary rate of $10$ degrees per second, the quaternion frequency
-is $\|\omega\|/2=0.0873\ \mathrm{s}^{-1}$.
-These are scale estimates, not a stiffness classification or an accepted step.
-Orbital forcing, rigid body coupling, gain sweeps, and saturation still require
-the complete model assessment.
+Every argument is available before its slope is evaluated, so the method is explicit. An evaluation at the end time does not make the method implicit when its state is a known prediction. Four derivative evaluations are needed per step.
 
-After each completed step we record $\|\widetilde q_{n+1}\|-1$, then set
-$q_{n+1}=\widetilde q_{n+1}/\|\widetilde q_{n+1}\|$ while leaving angular
-velocity unchanged. The input quaternion must already have unit norm.
-Projection is smooth near a unit quaternion and fixes the exact solution,
-so it preserves fourth order there. Intermediate stages are not projected by
-the integrator. The verification fixture uses polynomial quaternion kinematics
-and evaluates no attitude matrix in its derivative. The shared dynamics module uses a normalized local copy for rotation matrix
-evaluation and retains the unprojected stage value in quaternion kinematics.
-The new integration checks exercise that contract with artificial zero torque
-control. Production magnetic field and control verification remains pending.
+To verify the order for a general smooth problem, include time as an additional component, so the equation is autonomous. Let \(A\) contain the stage coefficients, \(b\) the weights, \(c=A{\bf1}\), and \(C=\operatorname{diag}(c)\). Here
+\[
+A=\begin{pmatrix}
+0&0&0&0\\
+1/2&0&0&0\\
+0&1/2&0&0\\
+0&0&1&0
+\end{pmatrix},
+\quad
+b=\begin{pmatrix}1/6\\1/3\\1/3\\1/6\end{pmatrix},
+\quad
+c=\begin{pmatrix}0\\1/2\\1/2\\1\end{pmatrix}.
+\]
+Expanding the stages in Taylor series and matching the exact solution through degree four requires
+\[
+\begin{aligned}
+b^T{\bf1}&=1,&b^Tc&=1/2,\\
+b^Tc^2&=1/3,&b^TAc&=1/6,\\
+b^Tc^3&=1/4,&b^TCAc&=1/8,\\
+b^TAc^2&=1/12,&b^TA^2c&=1/24.
+\end{aligned}
+\]
+Powers of \(c\) are componentwise. Substitution of the displayed coefficients satisfies all eight conditions. This checks the dependence on the predicted states as well as the integration weights.
 
-\begin{enumerate}
-\item Evaluate the four derivatives using the stage times and states.
-\item Form the weighted update and record the norm error before projection.
-\item Project only the completed quaternion and store the state and time.
-\item Repeat until the deadline, shortening the final step when needed.
-\end{enumerate}
-RK4 offers fourth order accuracy for smooth trajectories with four evaluations
-per step and no nonlinear solve. It is a candidate for this model because the
-right hand side is small and explicit. Its production accuracy and cost remain
-subject to measured full model refinement. The present implementation stores
-all accepted states, using memory proportional to the number of steps.
+\subsection{Truncation error and accumulated error}
+Let \(\Phi_h(u,t)\) denote one complete unprojected RK4 step. Define truncation error with division by the step length
+\[
+\tau_k=\frac{u(t_{k+1})-\Phi_h(u(t_k),t_k)}{h}.
+\]
+For a sufficiently smooth right hand side, \(\tau_k=O(h^4)\). The corresponding error in a single step starting from the exact state is \(h\tau_k=O(h^5)\). These are different conventions for the local error, not different orders of the method.
+
+The global error is \(e_k=u(t_k)-u_k\). It includes the local defect and the propagation of previous errors. For a smooth problem with bounded derivatives and stable propagation on a fixed time interval, the accumulated error is \(O(h^4)\). Measured convergence is therefore checked separately from individual algebraic identities.
+
+The integrator uses the requested step for interior intervals and shortens the last interval to reach the final time exactly. It never changes a stage by quaternion projection. A separate callback normalizes the quaternion after a completed step. The size of this correction is recorded. The projected attitude calculation is verified independently against exact rotation.
+
+\subsection{Absolute stability and stiffness}
+For the scalar model \(\dot u=\lambda u\), substituting the four stages gives
+\[
+u_{k+1}=R(w)u_k,\qquad
+w=h\lambda,\qquad
+R(w)=1+w+\tfrac12w^2+\tfrac16w^3+\tfrac1{24}w^4.
+\]
+A decaying mode is represented as decaying when \(|R(w)|<1\). RK4 has a bounded stability region. Increasing order does not remove a step restriction imposed by a rapidly decaying mode. Neutral and physically growing modes must be interpreted separately.
+
+A nonlinear assessment uses a local Jacobian \(D_uf\) at representative states, its eigenvalues, and the corresponding amplification factors. A large separation between nonzero eigenvalue magnitudes can indicate different time scales. Zero modes must be identified before forming a ratio. Eigenvalues of a frozen local Jacobian do not prove stability of a nonlinear time varying system, and nonorthogonal eigenvectors can permit transient amplification.
+
+The production magnetic model has not yet been assembled, so it has not been established that its complete dynamics are nonstiff. A production step must satisfy both accuracy requirements and the relevant stability restrictions. If stability forces steps far below those needed for accuracy, an implicit method should be assessed rather than claiming that high order alone resolves stiffness.
+
+\subsection{Nonsmooth control and method scope}
+Vector norm saturation produces a continuous command with a possible derivative change at its boundary. Fourth order results for a smooth test do not guarantee fourth order across such transitions. The saturated model requires its own step refinement study using detumbling time, success classification, and other engineering outputs.
+
+This is a finite dimensional initial value problem with all state data specified at the initial time. No spatial differential equation or conditions at separate spatial boundaries are part of the baseline. Time marching therefore supplies the required approximation. Polynomial fits across the entire attitude history, periodic interpolation of a nonperiodic recovery, and spatial weak form discretizations are unnecessary for this model.
 ```
 
 ## verification
@@ -91,13 +96,18 @@ all accepted states, using memory proportional to the number of steps.
 \input{sections/quaternion_verification}
 \input{sections/dynamics_verification}
 \input{sections/configuration_verification}
+
 \input{sections/numerical_verification}
+\input{sections/person2_verification}
 ```
 
-## numerical_verification
+## person2_verification
 
 ```latex
-\subsection{Numerical integration verification}
+\subsection{Additional terminal error verification}
+These six grid studies measure terminal errors with their own stated
+parameters. They complement the time weighted norm studies rather than
+using an interchangeable error measure.
 The independent scalar problem is $\dot u=tu$ with $u(0)=1$.
 Separation of variables gives $u(t)=\exp(t^2/2)$ and the comparison time is
 $T=2\ \mathrm{s}$. This test exercises nonautonomous stage evaluations.
@@ -146,7 +156,7 @@ errors are in radians.}
 \end{table}
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{../figures/convergence.pdf}
+\includegraphics[width=\linewidth]{convergence.png}
 \caption{Measured convergence with fourth order reference slopes.}
 \label{fig:person2convergence}
 \end{figure}
@@ -162,11 +172,11 @@ extrapolated as a convergence law.
 Twenty Person 2 unit tests check stage evaluation, shortened endpoints,
 projection timing, input validation, exact solutions, the frame convention,
 and synthetic checks of the study's sampled metrics and refinement gate.
-Three additional integration tests connect the shared dynamics to RK4 using
+Three additional integration tests connect the shared dynamics to the common RK4 implementation using
 artificial zero torque control. They check exact spherical rotation, fresh
 callback evaluation at all stages, and decreasing energy and inertial momentum
-errors for an asymmetric torque free trajectory. The existing 175 quaternion, instantaneous dynamics, configuration
-and report consistency checks are also retained. These checks do not
+errors for an asymmetric torque free trajectory. The quaternion, instantaneous dynamics, configuration,
+numerical algorithm and report consistency checks are also retained. These checks do not
 validate the unavailable production magnetic field or controller.
 
 \subsubsection{Production step study status}
@@ -182,7 +192,7 @@ classification must remain unchanged. The team must approve these tolerances
 before production runs. Near zero, the absolute floors control the comparison.
 
 Every full model case must run for six orbital periods. A successful case
-requires the entire $600\ \mathrm{s}$ hold interval below $0.5$ degrees per
+requires the entire $600\ \mathrm{s}$ hold interval at or below $0.5$ degrees per
 second to end by the deadline. Missing times remain absent. The screening
 driver uses stored endpoints for the first qualifying sampled hold interval,
 peak torque, and trapezoidal time weighting of the saturation indicator.
@@ -197,15 +207,5 @@ nothing conclusive about eventual recovery.
 
 ```latex
 \section{Acknowledgments}
-Generative AI assisted with the engineering premise, quaternion utilities,
-Euler dynamics, independent checks, and report text as recorded in the workchunk records. AI also assisted with the shared
-configuration, parameter table, field conventions and report assembly. For the Person 2 contribution, OpenAI Codex extracted
-the handoff, implemented RK4, developed exact solution checks and convergence
-studies, generated the convergence figure, and drafted the method and
-verification sections. It also integrated the contribution with the shared
-repository and tested the existing dynamics with the new integrator using
-explicitly artificial zero torque fixtures. The production magnetic field
-and control study remains pending. Students must review, understand, and
-independently verify the generated work. The team must update this statement
-to reflect subsequent AI use and actual student responsibilities.
+Generative AI assisted with project ideation, model specification, handoff preparation, repository setup, physics and configuration implementation, numerical methods, verification studies, test design, interface documentation, and LaTeX drafting. Automated tests and exact solution studies were executed during development. AI assisted checks do not establish independent human review. The generated figures show numerical verification, not magnetic detumbling performance. The team must update this account to describe actual use during the remaining control, engineering experiments, and report work.
 ```

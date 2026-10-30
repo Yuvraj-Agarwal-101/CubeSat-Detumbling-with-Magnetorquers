@@ -15,8 +15,8 @@ class MetricScreeningTests(unittest.TestCase):
     def test_excursion_resets_hold(self):
         self.assertEqual(self.metric([0,400,500,600,1200],[.5,.5,2,.5,.5])['detumbling_time_s'],600)
 
-    def test_strict_threshold(self):
-        self.assertFalse(self.metric([0,600],[1,1])['success'])
+    def test_threshold_equality_satisfies_the_stated_criterion(self):
+        self.assertTrue(self.metric([0,600],[1,1])['success'])
 
     def test_time_weighting(self):
         y=np.zeros((3,7))

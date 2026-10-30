@@ -44,7 +44,7 @@ def run():
     out = ROOT/'data/processed'
     out.mkdir(parents=True, exist_ok=True)
     with (out/'convergence.csv').open('w', newline='') as stream:
-        writer = csv.DictWriter(stream, fieldnames=rows[0].keys())
+        writer = csv.DictWriter(stream, fieldnames=rows[0].keys(), lineterminator='\n')
         writer.writeheader()
         writer.writerows(rows)
     record = dict(kind='exact verification fixtures, not full spacecraft',

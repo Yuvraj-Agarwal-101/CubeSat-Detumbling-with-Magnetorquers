@@ -1,6 +1,6 @@
 # Dynamics integration contract
 
-The reusable functions are `angular_acceleration(omega, torque, inertia)` and `rhs(t, y, config)` in `src/dynamics.py`. The module has no time integrator and no production field or controller implementation. The callback signatures below define the connection points for those future modules. They have not yet been verified against Person 3's production code.
+The reusable functions are `angular_acceleration(omega, torque, inertia)` and `rhs(t, y, config)` in `src/physics/dynamics.py`. Public imports through `src.dynamics` remain available. The physics module has no time integrator and no production field or controller implementation. Generic time methods are in src/numerics/integrators.py. The callback signatures below define the connection points for future production modules. They have not yet been verified against Person 3's code.
 
 ## State and units
 
@@ -10,7 +10,7 @@ The passive matrix `C_BI` maps inertial components into body components. Quatern
 
 ## Required configuration entries
 
-1. `inertia` is a real symmetric positive definite array of shape `(3, 3)` in kilogram metres squared. Full tensors are supported. Symmetry is checked with relative tolerance `1e-12` and zero absolute tolerance, followed by a Cholesky check on the symmetric part.
+1. `inertia` is a real symmetric positive definite array of shape `(3, 3)` in kilogram metres squared. Full tensors are supported. Symmetry is checked with relative tolerance `1e-12` and zero absolute tolerance. The symmetric part must have strictly positive eigenvalues.
 2. `field_model` is a pure callable with signature `field_model(t, config)`.
 3. `controller` is a pure callable with signature `controller(t, q, omega, B_B, dB_B_dt, config)`.
 
@@ -48,4 +48,6 @@ Missing callbacks and malformed callback outputs raise `ValueError`. No fallback
 
 ## Reproduction
 
-Run `.venv/bin/python -m pytest -q tests/test_dynamics.py` for the 62 dynamics cases. Run `.venv/bin/python -m tools.check_project` for all 198 current cases and generated revision evidence. These are instantaneous algebraic, geometry, interface, configuration, and report consistency checks. Exact solution convergence and integrated torque free checks are now available. Production magnetic control and detumbling studies remain pending.
+Run `.venv/bin/python -m pytest -q tests/test_dynamics.py` for the 62 instantaneous dynamics cases. Run `.venv/bin/python -m tools.check_project` for all 222 current cases and generated revision evidence. Run `.venv/bin/python run_all.py` for both numerical contributions and the pending production refinement connection point. Production magnetic trajectory checks and step selection remain pending.
+
+The numerical integrator uses state first callbacks. Connect the public physical RHS with a function f(u, t) returning rhs(t, u, runtime). The projection callback is applied after completed steps only. Solver settings and runtime physics remain separate.
