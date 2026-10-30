@@ -17,3 +17,5 @@ pytest-cache-files-*/
 data/processed/test_runs/
 data/processed/synthetic_*/
 report/build/
+
+report/Overleaf_submission.zip
