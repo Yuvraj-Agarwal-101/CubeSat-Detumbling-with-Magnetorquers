@@ -11,6 +11,7 @@ from pathlib import Path
 import time
 import numpy as np
 from src.integrators import rk4
+from src.config import validate_config, case_summary
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -80,7 +81,20 @@ def run(adapter, settings_path=None):
             # Require serializable provenance before running expensive trajectories.
             # Runtime config contains callable field/controller functions.
             # Record complete parameters and callback import paths separately.
-            json.dumps(case['config_record'])
+            document = validate_config(case['config_record'])
+            summary = case_summary(document)
+            json.dumps(case['callback_identifiers'])
+            limit = case['config']['controller_settings']['max_dipole_a_m2']
+            if limit != document['physical']['controller']['max_dipole_a_m2']:
+                raise ValueError('Runtime dipole limit and recorded case must agree')
+            if not np.isclose(case['orbital_period_s'], summary['orbital_period_s'], rtol=1e-12):
+                raise ValueError('Orbital period must agree with recorded configuration')
+            if not np.allclose(case['y0'], summary['initial_state'], rtol=0, atol=1e-12):
+                raise ValueError('Initial state must agree with recorded configuration')
+            if not np.isclose(settings['rate_threshold_rad_s'], summary['rate_threshold_rad_s'], rtol=1e-12):
+                raise ValueError('Refinement threshold must agree with recorded case')
+            if settings['hold_duration_s'] != summary['hold_duration_s']:
+                raise ValueError('Refinement hold duration must agree with recorded case')
             if not np.isclose(case['t_span'][1]-case['t_span'][0],
                               6*case['orbital_period_s'], rtol=1e-12, atol=1e-8):
                 raise ValueError('Each case must run to six orbital periods')
@@ -108,8 +122,8 @@ def run(adapter, settings_path=None):
                 for values in (torque, raw, command):
                     if values.shape != (len(sol.times), 3) or not np.all(np.isfinite(values)):
                         raise ValueError('Diagnostics must return finite three component vectors')
-                sat = np.linalg.norm(raw, axis=1) > case['config']['mmax']
-                if np.max(np.linalg.norm(command, axis=1)) > case['config']['mmax']*(1+1e-10):
+                sat = np.linalg.norm(raw, axis=1) > limit
+                if np.max(np.linalg.norm(command, axis=1)) > limit*(1+1e-10):
                     raise ValueError('Commanded dipole exceeds vector norm bound')
                 metric = sampled_metrics(sol.times, sol.states, torque, sat,
                                          settings['rate_threshold_rad_s'], settings['hold_duration_s'])
@@ -122,6 +136,7 @@ def run(adapter, settings_path=None):
             records.append(dict(name=case['name'], regime=case['regime'], config=case['config_record'],
                                 y0=np.asarray(case['y0']).tolist(), t_span=case['t_span'],
                                 seed=case['seed'], orbital_period_s=case['orbital_period_s'],
+                                callback_identifiers=case['callback_identifiers'],
                                 intermediate_quaternion_policy=case['intermediate_quaternion_policy'],
                                 regime_check_pass=regime_ok, runs=runs,
                                 comparisons=[compare(a['metrics'], b['metrics'], settings['tolerances'])

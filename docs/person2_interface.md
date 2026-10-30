@@ -31,7 +31,7 @@ The generic solver contains no spacecraft physics and does not build attitude ma
 
 ## Production adapter
 
-Read studies/adapter_template.py for the full case dictionary. Runtime config contains inertia, field_model and controller callbacks. config_record must contain the complete serializable numerical inputs, units, assumptions, and the callbacks' import paths. Do not attempt to serialize Python functions. The diagnostics callback returns raw_dipole, dipole and torque using the same shared controller as rhs. Each is a three component vector.
+Read studies/adapter_template.py for the full case dictionary. Runtime config contains inertia, field_model and controller callbacks. config_record is the complete validated canonical case document from src.config. callback_identifiers separately records the field and controller import paths. The runtime configuration comes from src.config.runtime_config, and the dipole limit is controller_settings[max_dipole_a_m2]. Do not attempt to serialize Python functions. The diagnostics callback returns raw_dipole, dipole and torque using the same shared controller as rhs. Each is a three component vector.
 
 Supply at least one real unsaturated and one real saturated case, normalized initial attitude, explicit seed or null, six orbital periods, and a description of stage matrix handling. Fixtures cannot be labeled as production models.
 
@@ -41,6 +41,6 @@ The proposed tolerance gate requires two consecutive successful comparisons for 
 
 ## Supplied evidence and remaining work
 
-There are 20 independent Person 2 unit tests and three shared dynamics integration checks. The complete suite contains 147 tests. Convergence data and six step sizes for each exact problem are stored with complete inputs. The source extraction is docs/person2_source_extracted.txt and the structured handoff is docs/person2_handoff.md. Copyable LaTeX is in report/PERSON2_FRAGMENTS.md.
+There are 20 independent Person 2 unit tests and three shared dynamics integration checks. The complete suite contains 198 tests. Convergence data and six step sizes for each exact problem are stored with complete inputs. The source extraction is docs/person2_source_extracted.txt and the structured handoff is docs/person2_handoff.md. Copyable LaTeX is in report/PERSON2_FRAGMENTS.md.
 
-Production field/control, final configuration, real smooth and saturated refinement studies, engineering sweeps, final contribution percentages and independent teammate reproduction remain pending. The repository exists on GitHub; this document makes no claim about full model completion. No external numerical solver or fabricated citation was introduced.
+Production field/control, a justified production step, real smooth and saturated refinement studies, engineering sweeps, final contribution percentages and independent teammate reproduction remain pending. The repository exists on GitHub; this document makes no claim about full model completion. No external numerical solver or fabricated citation was introduced.

@@ -70,7 +70,7 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 40,
-      "runtime_s": 0.0010055000893771648
+      "runtime_s": 0.0011163000017404556
     },
     {
       "case": "scalar",
@@ -81,7 +81,7 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 80,
-      "runtime_s": 0.0016908000688999891
+      "runtime_s": 0.001196300028823316
     },
     {
       "case": "scalar",
@@ -92,7 +92,7 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 160,
-      "runtime_s": 0.002830699901096523
+      "runtime_s": 0.002089399960823357
     },
     {
       "case": "scalar",
@@ -103,7 +103,7 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 320,
-      "runtime_s": 0.004956700024195015
+      "runtime_s": 0.005894200061447918
     },
     {
       "case": "scalar",
@@ -114,7 +114,7 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 640,
-      "runtime_s": 0.00969560001976788
+      "runtime_s": 0.0095446000341326
     },
     {
       "case": "scalar",
@@ -125,7 +125,7 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 1280,
-      "runtime_s": 0.019539000000804663
+      "runtime_s": 0.01988169993273914
     },
     {
       "case": "spherical",
@@ -136,7 +136,7 @@
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 1.3351529561500541e-05,
       "rhs_evaluations": 80,
-      "runtime_s": 0.0023957000812515616
+      "runtime_s": 0.0037842000601813197
     },
     {
       "case": "spherical",
@@ -147,7 +147,7 @@
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 2.1109980596900613e-07,
       "rhs_evaluations": 160,
-      "runtime_s": 0.004015399958007038
+      "runtime_s": 0.004348000045865774
     },
     {
       "case": "spherical",
@@ -158,7 +158,7 @@
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 3.3081355432784676e-09,
       "rhs_evaluations": 320,
-      "runtime_s": 0.009482700028456748
+      "runtime_s": 0.00842149998061359
     },
     {
       "case": "spherical",
@@ -169,7 +169,7 @@
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 5.1727622185637756e-11,
       "rhs_evaluations": 640,
-      "runtime_s": 0.021824900060892105
+      "runtime_s": 0.0240446999669075
     },
     {
       "case": "spherical",
@@ -180,7 +180,7 @@
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 8.085754288345015e-13,
       "rhs_evaluations": 1280,
-      "runtime_s": 0.03386059997137636
+      "runtime_s": 0.035609800019301474
     },
     {
       "case": "spherical",
@@ -191,7 +191,7 @@
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 1.27675647831893e-14,
       "rhs_evaluations": 2560,
-      "runtime_s": 0.0697839999338612
+      "runtime_s": 0.07447240001056343
     }
   ]
 }

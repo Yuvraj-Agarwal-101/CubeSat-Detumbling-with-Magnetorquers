@@ -12,9 +12,9 @@ The full project includes attitude dynamics, magnetic forcing and control, a num
 
 ## Current status
 
-The engineering premise, quaternion utilities, Euler dynamics, generic classical RK4, and independent exact solution convergence studies are implemented. The premise is in `report/sections/premise.tex`. It defines the question, full initial value problem, numerical motivation, assumptions, actuator constraint, and deadline criterion. The combined suite has 147 passing tests. All engineering baseline values remain proposed study inputs.
+The engineering premise, quaternion utilities, Euler dynamics, generic classical RK4, and independent exact solution convergence studies are implemented. The premise is in `report/sections/premise.tex`. It defines the question, full initial value problem, numerical motivation, assumptions, actuator constraint, and deadline criterion. The combined suite has 198 passing tests. All engineering baseline values remain proposed study inputs.
 
-The production field and controller modules and final common configuration are still missing. Consequently full detumbling runs, production step selection, and engineering sweeps remain pending. `run_all.py` regenerates the completed numerical contribution and explicitly records the full model step study as pending. The delivered convergence results use known scalar and spherical torque free solutions. Integration checks additionally connect RK4 to the actual dynamics with artificial zero torque callbacks. They do not substitute for production control verification.
+The canonical shared configuration is now available in configs/baseline.json. The production field and controller modules are still missing. Consequently full detumbling runs, production step selection, and engineering sweeps remain pending. `run_all.py` regenerates the completed numerical contribution and explicitly records the full model step study as pending. The delivered convergence results use known scalar and spherical torque free solutions. Integration checks additionally connect RK4 to the actual dynamics with artificial zero torque callbacks. They do not substitute for production control verification.
 
 ## Local environment
 
@@ -31,9 +31,9 @@ On Windows use `python` instead of `python3` and `.venv\Scripts\python.exe` inst
 ## Organization and ownership
 
 1. `src` holds reusable numerical and physics modules. Person 1 owns quaternion utilities and dynamics. Person 2 owns the integrator. Person 3 owns orbital forcing and control.
-2. `tests` holds 62 quaternion cases, 62 instantaneous dynamics cases, 20 integrator and study metric cases, and three integration checks. All 147 pass. Artificial fixtures are labeled explicitly.
+2. `tests` holds 62 quaternion cases, 62 instantaneous dynamics cases, 50 configuration cases, one canonical report table check, 20 integrator and study metric cases, and three integration checks. All 198 pass. Artificial fixtures are labeled explicitly.
 3. `studies` holds `convergence.py`, `timestep_selection.py`, `make_figures.py`, and report generation. Person 2 owns numerical studies. Person 4's `parameter_sweep.py` and engineering figure generation remain pending.
-4. `configs` holds exact verification inputs and proposed refinement settings. It does not yet contain the final engineering configuration.
+4. `configs` holds exact verification inputs and proposed refinement settings. The canonical baseline and per-parameter provenance are in configs/baseline.json. All engineering inputs remain preliminary and the production step is unset.
 5. `data/processed` holds convergence CSV and JSON, test evidence, environment metadata and the step selection status.
 6. `figures` holds the monochrome convergence PDF and PNG.
 7. `report` holds the shared `main.tex`, section fragments, bibliography, workchunk records and copyable Person 2 fragments. Person 1 owns final assembly.
@@ -58,7 +58,7 @@ Run the current checks from the repository root.
 .venv/bin/python -m pytest -q
 ```
 
-The observed result is 147 passing tests. The 124 original checks cover instantaneous algebraic, geometry, and interface behavior. The new checks add exact solution convergence and integration behavior. Production detumbling accuracy is not established by these tests.
+The observed result is 198 passing tests. The 175 teammate checks cover instantaneous algebra, geometry, interfaces, configuration and report consistency. The new checks add exact solution convergence and integration behavior. Production detumbling accuracy is not established by these tests.
 
 ## Dynamics API
 
@@ -68,9 +68,32 @@ The configuration must supply `inertia`, `field_model`, and `controller`. The in
 
 See `docs/dynamics_interface.md` for exact callback signatures, units, output keys, validation, and integration instructions. The documented contract is ready for Person 3's modules, but production integration remains pending. Tests use labeled artificial callbacks only. Missing callbacks fail explicitly.
 
+## Shared case and current verification
+
+Use `src.config.load_config` to load `configs/baseline.json`. The loader validates SI values, required keys, inertia, initial attitude, controller bounds, durations, and provenance. `initial_state` returns the seven component initial state. `case_summary` derives the orbital period and mission deadline. `runtime_config` binds explicit field and controller callbacks for the dynamics. `solver_settings` keeps numerical settings separate and can reject a missing production step.
+
+The baseline step size is deliberately unset. Person 2 must determine it from convergence and engineering metric refinement. Field and controller conventions, including the total orbital field derivative, are documented in `docs/field_controller_contract.md`.
+
+Run the available checks and print the baseline summary.
+
+```sh
+.venv/bin/python -m src.config
+.venv/bin/python -m tools.check_project
+```
+
+The second command executes the test suite and writes `report/build/verification.json`, `pytest.xml`, and LaTeX revision records. It records the full Git revision, whether tracked or untracked source changes exist, Python version, test counts, and baseline timing. Generated build records are ignored by Git. Run it on the final clean revision before exporting the report.
+
+After editing the canonical baseline, regenerate the report table.
+
+```sh
+.venv/bin/python -m tools.export_report_inputs
+```
+
+The table consistency check fails if the stored parameter table differs from the configuration. Commit the configuration and regenerated table together.
+
 ## Overleaf
 
-Upload `report` and `figures` to Overleaf while retaining the repository layout, then select `report/main.tex` as the main document. Compile locally from the `report` directory. Alternatively upload the contents of `report` at the Overleaf root, add a root `figures` folder, and change the figure path in `sections/verification.tex` from `../figures/convergence.pdf` to `figures/convergence.pdf`. The source uses standard packages and BibTeX. Preserve the `nasa_gnc` entry in `references.bib`. The main file loads `amsmath`, `amssymb`, `graphicx`, and `hyperref`.
+Upload `report` and `figures` to Overleaf while retaining the repository layout, then select `report/main.tex` as the main document. Compile locally from the `report` directory. Alternatively upload the contents of `report` at the Overleaf root, add a root `figures` folder, and change the figure path in `sections/numerical_verification.tex` from `../figures/convergence.pdf` to `figures/convergence.pdf`. The source uses standard packages and BibTeX. Preserve the `nasa_gnc` entry in `references.bib`. The main file loads `amsmath`, `amssymb`, `graphicx`, and `hyperref`.
 
 The shared preview includes premise, method, quaternion and dynamics checks, measured numerical convergence, reproducibility status and acknowledgments. `report/PERSON2_FRAGMENTS.md` contains copyable LaTeX source in separate fenced blocks. `report/main_preview.tex` is an optional Person 2 preview, not another final report. LaTeX compilation remains unverified in this environment. Full model verification and engineering results remain pending.
 
@@ -87,13 +110,13 @@ python -m studies.timestep_selection
 python run_all.py
 ```
 
-Use the environment's Python executable where `python` is shown. `run_all.py` runs all tests and each generation command in order. It creates `data/processed/test_results.txt`, `convergence.csv`, `convergence.json`, `timestep_selection.json`, `run_summary.json`, `figures/convergence.pdf`, `figures/convergence.png`, and the numerical report fragment. The exact problems use six step sizes each and no random sampling, so seeds are explicitly null. Complete configuration and initial conditions are stored in the JSON. Runtime is recorded in `run_summary.json`; allow seconds to tens of seconds on a typical computer. Full model runtime has not been measured.
+Use the environment's Python executable where `python` is shown. `run_all.py` regenerates the canonical baseline report table, then runs all tests and each numerical generation command in order. It creates `data/processed/test_results.txt`, `convergence.csv`, `convergence.json`, `timestep_selection.json`, `run_summary.json`, `figures/convergence.pdf`, `figures/convergence.png`, and the numerical report fragment. The exact problems use six step sizes each and no random sampling, so seeds are explicitly null. Complete configuration and initial conditions are stored in the JSON. Runtime is recorded in `run_summary.json`; allow seconds to tens of seconds on a typical computer. Full model runtime has not been measured.
 
 The finest observed orders are approximately 3.99 for the scalar problem and 4.00 for quaternion attitude. This is the full delivered verification study, not a reduced demonstration presented as a completed engineering sweep. `manifest.json` links the figure and table to their script, configuration, seeds and data.
 
 ## Connect the production model
 
-Read `docs/person2_interface.md` and `studies/adapter_template.py`. Supply a `team_adapter.py` implementing `build_cases()` with real unsaturated and saturated cases. Runtime `config` contains the callable field and controller required by `src.dynamics.rhs`. A separate JSON compatible `config_record` stores the full numerical configuration and callback import paths. Diagnostics use the shared controller keys `raw_dipole`, `dipole`, and `torque`.
+Read `docs/person2_interface.md` and `studies/adapter_template.py`. Supply a `team_adapter.py` implementing `build_cases()` with real unsaturated and saturated cases. Runtime `config` comes from `src.config.runtime_config` and contains the callable field and controller required by `src.dynamics.rhs`. The dipole limit is `config["controller_settings"]["max_dipole_a_m2"]`. A separate JSON compatible `config_record` stores the canonical validated case document. `callback_identifiers` stores the import paths of the real field and controller functions. Diagnostics use the shared controller keys `raw_dipole`, `dipole`, and `torque`.
 
 ```sh
 python -m studies.timestep_selection --adapter team_adapter
@@ -112,6 +135,6 @@ Before submission, a teammate must follow only this README in a clean clone and 
 
 ## Team progress records
 
-Each member should record completed work, checks, dependencies, and AI use as their contributions are added. `report/WORKCHUNK_1.md` through `report/WORKCHUNK_4.md` document the premise, quaternion, dynamics, and numerical contributions. Copyable report fragments are in `report/sections`. These records describe individual contributions within the shared project rather than limiting the repository's scope. Final student contribution percentages have not been assigned by the agent.
+Each member should record completed work, checks, dependencies, and AI use as their contributions are added. `report/WORKCHUNK_1.md` through `report/WORKCHUNK_4.md` and the teammate record `report/WORKCHUNKS_4_TO_6.md` document the premise, quaternion, dynamics, and numerical contributions. Copyable report fragments are in `report/sections`. These records describe individual contributions within the shared project rather than limiting the repository's scope. Final student contribution percentages have not been assigned by the agent.
 
 Runtime and platform metadata vary across runs. Compare numerical convergence values and report content rather than requiring identical timing logs or image metadata. SHA256SUMS.txt is the committed file snapshot, not a promise that regenerated runtime logs are byte identical.

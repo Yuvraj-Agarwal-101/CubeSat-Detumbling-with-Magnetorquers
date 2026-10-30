@@ -12,3 +12,4 @@ report/*.out
 report/*.toc
 report/*.synctex.gz
 report/*.pdf
+report/build/

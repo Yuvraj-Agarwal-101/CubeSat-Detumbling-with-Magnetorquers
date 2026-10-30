@@ -1,8 +1,8 @@
 {
   "status": "integrated workflow passed",
-  "scope": "Current working tree with freshly installed dependencies",
+  "scope": "Merged shared configuration and numerical contribution with freshly installed dependencies",
   "command": "python run_all.py",
-  "tests": 147,
+  "tests": 198,
   "python": "3.12.14",
   "fresh_dependency_install": "completed from requirements.txt",
   "dependency_check": "pip check passed",

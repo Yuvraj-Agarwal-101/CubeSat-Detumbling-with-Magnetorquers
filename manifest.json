@@ -1,7 +1,30 @@
 {
-  "scope": "Delivered Person 2 exact verification results only",
+  "scope": "All currently supplied report figures and generated numerical tables",
   "artifacts": [
-    {"artifact": "figures/convergence.pdf", "also": "figures/convergence.png", "generator": "python -m studies.make_figures", "data_generator": "python -m studies.convergence", "configuration": "configs/convergence.json", "data": "data/processed/convergence.json", "seed": null},
-    {"artifact": "report/sections/verification.tex", "table": "tab:person2convergence", "generator": "python -m studies.report_fragments", "data_generator": "python -m studies.convergence", "configuration": "configs/convergence.json", "data": "data/processed/convergence.json", "seed": null}
+    {
+      "artifact": "figures/convergence.pdf",
+      "also": "figures/convergence.png",
+      "generator": "python -m studies.make_figures",
+      "data_generator": "python -m studies.convergence",
+      "configuration": "configs/convergence.json",
+      "data": "data/processed/convergence.json",
+      "seed": null
+    },
+    {
+      "artifact": "report/sections/numerical_verification.tex",
+      "table": "tab:person2convergence",
+      "generator": "python -m studies.report_fragments",
+      "data_generator": "python -m studies.convergence",
+      "configuration": "configs/convergence.json",
+      "data": "data/processed/convergence.json",
+      "seed": null
+    },
+    {
+      "artifact": "report/sections/baseline_parameters.tex",
+      "generator": "python -m tools.export_report_inputs",
+      "configuration": "configs/baseline.json",
+      "data": "configs/baseline.json",
+      "seed": null
+    }
   ]
 }

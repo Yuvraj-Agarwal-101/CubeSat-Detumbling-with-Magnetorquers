@@ -17,6 +17,7 @@ def main():
     args=parser.parse_args()
     start=time.perf_counter()
     out=ROOT/'data/processed'; out.mkdir(parents=True,exist_ok=True)
+    subprocess.run([sys.executable,'-m','tools.export_report_inputs'], cwd=ROOT, check=True)
     tests=subprocess.run([sys.executable,'-m','pytest','-q'],
                          cwd=ROOT,capture_output=True,text=True)
     log=tests.stdout+tests.stderr

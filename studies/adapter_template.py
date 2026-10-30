@@ -10,12 +10,14 @@ is_fixture                 False only for the independently verified full model
 rhs                        Callable rhs(t, y, config), seven finite derivatives
 diagnostics                Callable diagnostics(t, y, config), dictionary with
                            torque, raw_dipole, dipole, each shape (3,)
-config                     Runtime config with inertia, field_model and
-                           controller callbacks for src.dynamics.rhs.
-config_record              JSON serializable complete physical configuration,
-                           including mmax in A m^2, gain, inertia, orbit, field
-                           constants and orientation, units and assumptions,
-                           plus import paths identifying the callbacks.
+config                     Result of src.config.runtime_config with the real
+                           field_model and controller supplied explicitly.
+                           Limit is controller_settings['max_dipole_a_m2'].
+config_record              Canonical JSON document accepted by validate_config,
+                           including physical inputs, initial conditions, study,
+                           solver settings and all required provenance.
+callback_identifiers       JSON mapping of field_model and controller to their
+                           import paths, recorded separately from the case.
 y0                         Seven components, unit scalar first quaternion and
                            body angular velocity in rad/s
 t_span                     [0.0, 6*orbital_period_s]

@@ -87,6 +87,16 @@ all accepted states, using memory proportional to the number of steps.
 ## verification
 
 ```latex
+\section{Correct implementation and verification}
+\input{sections/quaternion_verification}
+\input{sections/dynamics_verification}
+\input{sections/configuration_verification}
+\input{sections/numerical_verification}
+```
+
+## numerical_verification
+
+```latex
 \subsection{Numerical integration verification}
 The independent scalar problem is $\dot u=tu$ with $u(0)=1$.
 Separation of variables gives $u(t)=\exp(t^2/2)$ and the comparison time is
@@ -155,8 +165,8 @@ and synthetic checks of the study's sampled metrics and refinement gate.
 Three additional integration tests connect the shared dynamics to RK4 using
 artificial zero torque control. They check exact spherical rotation, fresh
 callback evaluation at all stages, and decreasing energy and inertial momentum
-errors for an asymmetric torque free trajectory. The existing 124 quaternion
-and instantaneous dynamics checks are also retained. These checks do not
+errors for an asymmetric torque free trajectory. The existing 175 quaternion, instantaneous dynamics, configuration
+and report consistency checks are also retained. These checks do not
 validate the unavailable production magnetic field or controller.
 
 \subsubsection{Production step study status}
@@ -188,8 +198,8 @@ nothing conclusive about eventual recovery.
 ```latex
 \section{Acknowledgments}
 Generative AI assisted with the engineering premise, quaternion utilities,
-Euler dynamics, independent checks, and report text as recorded in the first
-three workchunk records. For the Person 2 contribution, OpenAI Codex extracted
+Euler dynamics, independent checks, and report text as recorded in the workchunk records. AI also assisted with the shared
+configuration, parameter table, field conventions and report assembly. For the Person 2 contribution, OpenAI Codex extracted
 the handoff, implemented RK4, developed exact solution checks and convergence
 studies, generated the convergence figure, and drafted the method and
 verification sections. It also integrated the contribution with the shared

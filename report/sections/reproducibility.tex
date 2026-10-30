@@ -1,13 +1,23 @@
 \section{Reproducibility}
-The shared source repository is available at
-\href{https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers}{CubeSat Detumbling with Magnetorquers}.
-The top level script \texttt{run\_all.py} runs the complete automated test
-suite and regenerates the exact solution convergence data, table, figure,
-and numerical verification fragment. It records the full model time step
-study as pending unless a real model adapter is supplied.
-The commands, tested environment, and figure manifest are documented in
-the repository README. A successful agent reproduction check is distinct
-from the required independent teammate clean clone check. The latter and
-the tested final submission commit remain pending until the complete model
-and engineering studies are present. No full project reproduction claim
-is made at this stage.
+The shared code is available in the \href{https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers}{project repository}. The README records environment setup, module ownership, current commands, and outstanding reproduction requirements.
+
+The available configuration and correctness checks can be reproduced from the repository root using
+\begin{quote}
+\texttt{.venv/bin/python \string-m src.config}\\
+\texttt{.venv/bin/python \string-m tools.check\_project}.
+\end{quote}
+The second command runs the current test suite and records the Git revision, working tree status, Python version, test counts, and derived baseline timings in \texttt{report/build/verification.json}. These generated records describe available checks rather than a full engineering simulation.
+
+\IfFileExists{build/revision.tex}{
+Current checked revision is \input{build/revision.tex}.
+}{
+The checked revision record has not yet been generated for this copy. Run the repository verification command before recording a tested revision.
+}
+
+The parameter table is generated with
+\begin{quote}
+\texttt{.venv/bin/python \string-m tools.export\_report\_inputs}.
+\end{quote}
+A consistency test fails if the stored table differs from the baseline configuration.
+
+The top level \texttt{run\_all.py} now regenerates the canonical parameter table, executes all available tests, and recreates the exact solution convergence data, numerical table and monochrome figure. It records the full model step selection as pending unless a real model adapter is supplied. A figure and table manifest and measured runtimes are included. Engineering sweep commands, saved production configurations and seeds, and independent teammate clean clone reproduction of all final results remain required before submission. Evaluator access and the final tested revision must be checked after the remaining modules and results are merged.
