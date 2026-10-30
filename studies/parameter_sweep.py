@@ -23,7 +23,7 @@ def source_tree(commit='HEAD'):
     cannot contain the hash of its own enclosing commit.
     """
     listing=subprocess.check_output(['git','ls-tree','-r',commit,'--','src','studies','tests',
-                                     'configs','team_adapter.py','run_all.py','requirements.txt'],text=True)
+                                     'configs','team_adapter.py','run_all.py','requirements.txt','.gitattributes'],text=True)
     result={}
     for line in listing.splitlines():
         meta,path=line.split('\t',1)

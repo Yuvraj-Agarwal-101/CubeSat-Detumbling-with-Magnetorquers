@@ -1,7 +1,7 @@
 """Confirm the remaining RK4 refinement and independently audit output sampling.
 
 Reuse recorded coarser simulations only when their physics hashes match.
-Quarter-second runs use the same scratch RK4 and full six-orbit deadline.
+Refined runs use the same scratch RK4 and full six-orbit deadline.
 """
 from concurrent.futures import ProcessPoolExecutor
 import hashlib
@@ -60,7 +60,7 @@ def trace_metrics(t, rate, raw, torque, threshold, hold, limit):
 
 def run_case(parameters):
     name,step=parameters
-    # Replay the archived case, even after a production solver setting is set
+    # Replay the recorded case, even after a production solver setting is set
     # in the canonical baseline. Physics hashes are checked in main().
     archived=json.loads((ROOT/'data/processed/timestep_selection.json').read_text())
     saved=next(c for c in archived['cases'] if c['name']==name)
@@ -112,6 +112,10 @@ def run_case(parameters):
 
 def main(fine_step=.25):
     old=json.loads((ROOT/'data/processed/timestep_selection.json').read_text())
+    existing=old['settings']['step_sizes_s']
+    if (not np.allclose(np.array(existing[:-1])/existing[1:],2)
+            or (fine_step not in existing and fine_step != min(existing)/2)):
+        raise ValueError('Confirmation must preserve successive step halvings')
     evidence=old.get('source_hashes')
     if evidence is None:
         evidence=json.loads((ROOT/'data/processed/field_control_validation.json').read_text())['source_hashes']

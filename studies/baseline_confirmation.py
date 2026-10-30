@@ -22,7 +22,7 @@ def compare_reference(metric,reference):
                for key in metric)
 
 
-def main():
+def main(step=None):
     document=load_config();maximum=0.;calls=0
     def observed_controller(*args):
         nonlocal maximum,calls
@@ -32,9 +32,11 @@ def main():
         return value
     config=runtime_config(document,field_model=field_model,controller=observed_controller)
     original=json.loads((ROOT/'data/processed/timestep_selection.json').read_text())
-    step=original['selected_step_s']
+    step=original['selected_step_s'] if step is None else step
     if step is None:
         raise ValueError('Select a refined step before baseline confirmation')
+    # Record the actual tested numerical setting, before apply() updates disk.
+    document['solver']['step_size_s']=step
     timing=case_summary(document);began=time.perf_counter()
     sol=rk4(lambda t,y:rhs(t,y,config),initial_state(document),(0,timing['deadline_s']),step,
             projection=project,norm_diagnostic=lambda y:np.linalg.norm(y[:4]))
@@ -60,4 +62,10 @@ def main():
 
 
 if __name__=='__main__':
-    main()
+    import argparse
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--step',type=float,help='Explicit candidate verification; does not approve the step')
+    args=parser.parse_args()
+    if args.step is not None and (args.step<=0 or not np.isfinite(args.step)):
+        parser.error('step must be positive and finite')
+    main(args.step)

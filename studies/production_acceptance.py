@@ -19,6 +19,8 @@ def apply():
     chosen=select_step(record['cases'],record['settings']['step_sizes_s'])
     if chosen is None or chosen!=audit['selected_step_s'] or not audit['output_grid_pass']:
         raise ValueError('Both successive metric refinements and output resolution must pass')
+    if baseline['step_s'] != chosen:
+        raise ValueError('Baseline actuator confirmation must use the selected step')
     output_changes=[]
     for case in audit['cases']:
         for a,b in zip(case['output_audit'][:-1],case['output_audit'][1:]):
@@ -81,9 +83,10 @@ Case & Output spacing & Interpolated start & Saturation fraction \\
 \hline
 '''
     for case in audit['cases']:
+        label=case['name'].replace('_',r'\_')
         for row in case['output_audit']:
             m=row['metrics']
-            text+=f"{case['name']} & {row['output_spacing_s']:g} & {m['detumbling_time_s']:.6f} & {m['saturation_fraction']:.8f} "+chr(92)*2+'\n'
+            text+=f"{label} & {row['output_spacing_s']:g} & {m['detumbling_time_s']:.6f} & {m['saturation_fraction']:.8f} "+chr(92)*2+'\n'
     text+=r'''\end{tabular}
 \end{center}
 All output comparisons pass the same predeclared tolerances. Interpolation
