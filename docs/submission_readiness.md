@@ -2,36 +2,38 @@
 
 ## Available
 
-1. Engineering premise and full initial value problem
-2. Quaternion utilities and 62 passing geometry cases
-3. Euler dynamics and 62 passing instantaneous cases
-4. Shared SI configuration and 50 passing configuration cases
-5. Canonical report parameter table and its consistency test
-6. Explicit orbit field and control connection contract
-7. Assembled Overleaf report with accurate draft status
-8. Current checks with generated revision and environment evidence
+1. Engineering premise and complete stated initial value problem
+2. Separate physics, case input, numerical algorithm, and study modules
+3. Quaternion and Euler dynamics checks with backward compatible public imports
+4. Shared SI case and generated parameter table
+5. Explicit Euler, Heun, and RK4 implementations with stage evaluation and completed step projection
+6. Weighted error norms, logarithmic order fits, local Jacobians, and amplification checks
+7. Exact scalar and quaternion convergence studies
+8. Asymmetric torque free conservation studies over finite trajectories
+9. Three monochrome verification figures with saved data and an executable generator
+10. Assembled report with method derivation and measured verification
+11. Current test, revision, and environment records
 
-## Pending by owner
+## Pending
 
-1. Person 1 and Person 3 must confirm the real field and controller interface after those modules are supplied.
-2. Person 2 must provide the integrator, derivation, error and stability discussion, independent exact solution comparison, convergence evidence, and justified production step.
-3. Person 3 must provide the production field, total derivative, normalized controller, saturation, and physics tests.
-4. Person 4 must provide verified metrics, sweeps, seeds, runtime estimates, plots, the figure and table manifest, and the full reproduction pipeline.
-5. All members must provide actual names, contribution records, final percentages, and updates to the AI usage account.
-6. A teammate must reproduce all final results from a clean clone and verify evaluator access and the tested final commit.
+1. Production orbital field and controller callbacks and their interface acceptance
+2. Saturation transition studies and local linear assessment along actual magnetic trajectories
+3. A production time step justified by both accuracy and stability
+4. Engineering metrics, sweep inputs and seeds, runtime estimates, detumbling figures, and interpretations
+5. Final names, actual contribution records, percentages, and updated Acknowledgments
+6. Full engineering runner and reproduction of all final results from a clean clone
+7. Evaluator access and tested final revision checks after the remaining work is merged
 
-## Current commands
+## Current reproduction commands
 
-Run these from the repository root after creating the documented environment.
+Run from the repository root using the documented environment.
 
 1. .venv/bin/python -m src.config
 2. .venv/bin/python -m tools.check_project
-3. .venv/bin/python -m tools.export_report_inputs
+3. .venv/bin/python -m studies.verification
 
-The third command is needed only after changing the canonical baseline. The report consistency test prevents a stale parameter table.
+The parameter table exporter is needed only after canonical inputs change. Saved verification figures describe numerical special cases rather than magnetic detumbling.
 
-## Report sections
+## Interpretation
 
-The report follows the assignment categories. Method and results are explicitly pending. Quaternion, dynamics, and configuration checks are completed evidence. Field and control conventions are a specification rather than a completed production model.
-
-No checked box in this record establishes recovery performance, convergence order, actual contribution percentages, or complete final submission readiness.
+Fourth order is supported for the tested smooth cases. It is not asserted across every saturation transition. A bounded linear amplification factor does not establish nonlinear stability or engineering accuracy. The production model has not yet been classified as nonstiff.

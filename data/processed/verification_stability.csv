@@ -1,0 +1,7 @@
+dt_for_lambda_minus_one,rk4_amplification,absolutely_stable
+0.5,0.6067708333333333,True
+1,0.37500000000000006,True
+2,0.33333333333333337,True
+2.7,0.8788375000000004,True
+2.8,1.0224000000000002,False
+3,1.375,False

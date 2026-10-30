@@ -31,7 +31,7 @@ def main():
     summary = {"revision": revision, "working_tree_modified": dirty,
                "python_version": platform.python_version(), "counts": counts,
                "case": case_summary(case),
-               "scope": "Instantaneous checks and configuration only. No engineering simulation."}
+               "scope": "Physics, inputs, numerical method and exact convergence tests. No magnetic detumbling simulation."}
     (build / "verification.json").write_text(json.dumps(summary, indent=2, allow_nan=False) + "\n", encoding="utf8")
     revision_tex = r"\texttt{" + revision + "}"
     if dirty:
