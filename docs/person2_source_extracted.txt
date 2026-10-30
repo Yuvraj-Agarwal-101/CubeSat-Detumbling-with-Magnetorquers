@@ -1,0 +1,297 @@
+Extracted source text. Formula layout may differ from the PDF.
+
+PAGE 1
+
+Person 2 Handoff
+CubeSat Detumbling with Magnetorquers
+Numerical method and convergence
+AE 370 Fall 2026 Project 1
+Project idea
+AE 370 Aerospace Numerical Methods Fall 2026 Project 1 studies a numerical method for a dy-
+namical system. Our question is how initial angular rate, controller gain, and magnetic dipole
+limit affect CubeSat detumbling time in an orbital magnetic field. A magnetorquer commands a
+dipole moment. Its interaction with Earth’s magnetic field produces torque. The available torque
+is perpendicular to the field, so changing field direction and initial geometry matter.
+We will solve quaternion attitude and rigid body angular velocity equations using our own classi-
+cal RK4 implementation. Nonlinear rotational coupling, orbital forcing, and actuator saturation
+require numerical solution for the full problem. An exact special case will verify the implementation.
+We will report detumbling time, success before a deadline, and saturation fraction. A missed
+deadline is a failed case for this study. It does not prove that the spacecraft can never recover.
+Assignment requirements
+The final submission is one technical report typeset in LaTeX and submitted as a PDF. These
+handoffs are working documents rather than separate final submissions.
+1. The premise is worth 22 points. State the engineering question, initial value problem, parameters,
+and reason a numerical solution is needed.
+2. The method is worth 22 points. Derive the method, explain error and stability, justify accuracy
+and cost, and state the advancement algorithm.
+3. Correct implementation is worth 22 points. Implement the time integrator from scratch. Do
+not advance any solution using an external time integrator. Show expected convergence and
+independently establish that the equations are correct. Determine a suitable production time
+step.
+4. Results are worth 22 points. Answer the engineering question with concise analysis and useful
+figures. State histories alone are insufficient.
+5. Contributions are worth 6 points. Every member must contribute to at least one of the first four
+categories. Report actual responsibilities and approximate percentages.
+6. Reproducibility is worth 6 points. Provide the full code through a link, including tests and figure
+generation. Separate integration code from studies. An organized GitHub repository can earn
+up to 3 bonus points.
+7. Include an Acknowledgments section explaining actual use of generative AI throughout the work.
+1
+
+PAGE 2
+
+The assignment does not specify a due date or page limit in the provided statement. Confirm these
+separately. The initial workload target is 25 percent per person. Final percentages must reflect
+actual work.
+Shared scope and model
+Use SI units internally. Convert angular rates to degrees per second only for input and figures.
+The baseline includes a rigid body, constant positive definite inertia, an analytic circular orbit,
+a rotating tilted dipole Earth field, ideal continuous B dot feedback, and vector norm actuator
+saturation. Disturbance torques, sensor noise, detailed field models, and orbital perturbations are
+outside the baseline. A sampled controller is optional after the baseline is verified.
+The state order is
+y = (q0, q1, q2, q3, ω1, ω2, ω3)T .
+Let q = (s, v) be a scalar first unit quaternion. Define CBI as the matrix mapping inertial compo-
+nents into body components. Let [a]×b = a × b. Fix the convention through
+CBI + 2s[v]× + (vT v)I3 = s2I3 + 2vv T ,  ̇s + 1
+2 vT ω = 0,  ̇v = 1
+2 (sω + v × ω).
+Here I3 is the identity and J is the inertia matrix. The identity quaternion maps every vector to
+itself. A positive quarter turn quaternion about body axis three maps inertial axis one into the
+direction opposite body axis two. Verify this explicitly.
+The rotational and control equations are
+J  ̇ω + ω × (J ω) = τ, τ = m × BB, B B = CBI BI (t),
+ ̇BB + ω × BB = CBI  ̇BI (t), m raw + kB
+ ̇BB
+∥BB∥2 = 0.
+This is a normalized B dot law. Use kB > 0, with units kg m2/s. Its numerical gain is not
+interchangeable with the gain in an unnormalized law. Saturation is
+m =
+{
+mraw, ∥mraw∥ ≤ mmax,
+mmaxmraw/∥mraw∥, ∥mraw∥ > m max.
+This defines a bound on total dipole magnitude, rather than individual rod commands. The zero
+command must return zero without division.
+Initial parameters and measurements
+The following are proposed study assumptions. They are not measured hardware specifications.
+Person 1 records the final values and sources or assumption labels in a shared configuration before
+production runs.
+1. Use J = diag(0.030, 0.035, 0.007) kg m 2 as a preliminary asymmetric CubeSat inertia.
+2. Use an orbit altitude of 500 km , inclination 55◦, zero initial ascending node, and zero phase in
+the baseline.
+2
+
+PAGE 3
+
+3. Use identity initial attitude and an initial spin magnitude of 10◦/s along the direction
+(1, 1, 1)/
+√
+3.
+4. Start pilot tuning near mmax = 0 .1 A m 2 and kB = 0 .00001 kg m 2/s. These values remain
+subject to verification and pilot timing.
+5. Use a rate threshold 0.5◦/s, a hold duration of 600 s , and a deadline of six orbital periods.
+Define td as the earliest start of a complete interval of length 600 s for which the angular rate
+norm remains below the threshold. Mission success requires that the entire hold interval end by
+the deadline. If no qualifying interval exists, record an absent detumbling time and a false success
+flag.
+Measure saturation fraction by time weighting the condition ∥mraw∥ > m max. Define dipole effort
+as
+∫
+∥m∥ dt. This is an actuator activity measure and is not electrical energy. All ensemble cases
+run to the same deadline. Report absent times separately rather than replacing them with a finite
+recovery time.
+Shared code and Overleaf organization
+Use Python and NumPy for the simulation. Keep the following interfaces consistent.
+1. Person 1 owns quaternion.py, dynamics.py, and the common configuration. The dynamics
+function rhs(t, y, config) returns seven derivatives.
+2. Person 2 owns integrators.py. The RK4 routine accepts a derivative function, initial state,
+time interval, and step size. It returns times, states, and quaternion norm diagnostics.
+3. Person 3 owns orbit_field.py and controller.py. The field function returns BI and  ̇BI .
+The controller returns commanded and raw dipoles, torque, and saturation status.
+4. Person 4 owns study runners, metrics, plotting, and reproducibility instructions. Stored case
+records include configuration, initial conditions, seed, step size, runtime, success, and metrics.
+Agree on array shapes, configuration keys, and return names before merging. Each vector has three
+components. Quaternion order and state order are fixed above. The derivative function must be
+deterministic and must evaluate forcing and control at each RK4 stage. It must not depend on
+earlier calls.
+The final Overleaf project uses one main.tex with sections/premise.tex, sections/method.tex,
+sections/verification.tex, sections/results.tex, sections/reproducibility.tex, sections/contributions.tex,
+and sections/acknowledgments.tex. Put figures in figures and references in references.bib.
+Section fragments contain no preamble or document environment.
+Use black text, numbered lists, ordinary equations, and simple tables. Do not use colors, emo-
+jis, decorative elements, dashes in prose, or colons in prose or headings. Preserve mathematical
+operators and necessary programming syntax. Provide copyable LaTeX source for every report
+contribution. Never invent results, citations, completed tests, or contribution percentages.
+3
+
+PAGE 4
+
+Required repository and code link
+The assignment requires a link to the full code needed to run convergence tests and regenerate
+every reported result. GitHub is the planned host because an organized repository is eligible for
+the stated bonus. A repository must actually be created and checked before the report claims it
+exists.
+Use the following ownership and folder structure.
+1. Keep reusable modules in src. Person 2 owns src/integrators.py. Person 1 owns quaternion
+and dynamics modules. Person 3 owns orbit, field, and control modules.
+2. Keep independent checks in tests. Keep convergence and time step selection drivers in
+studies/convergence.py and studies/timestep_selection.py.
+3. Keep engineering sweeps and plotting drivers in studies/parameter_sweep.py and studies/make_figures.py.
+Keep parameter files in configs.
+4. Store processed results in data/processed and report figures in figures. Include enough data
+or executable generation steps to recreate every report result.
+5. Keep Overleaf sources in report. Include a repository README, a dependency file with tested
+versions, and a top level run_all.py.
+Person 4 owns repository setup, documentation, reproduction commands, and the figure manifest.
+Each owner supplies complete code, tests, and execution instructions for their portion. Person 1
+checks the report link and final submission.
+The README must state environment setup, exact commands for tests, convergence, step selec-
+tion, sweeps, and figures, expected outputs, approximate runtime, parameter files, and random
+seeds. Explain how python run_all.py regenerates the submitted results. Document any faster
+demonstration mode separately. Do not replace the submitted study with a smaller demonstration
+without saying so.
+Before submission, a teammate must clone the repository into a clean directory and follow only the
+README. Confirm that tests run and every report figure and table can be regenerated. Record
+the tested commit identifier and run commands. Check repository access using the access available
+to the evaluator. The report must include a working clickable code link and the tested commit
+identifier in its Reproducibility section. Use hyperref in the final report for the code link.
+Maintain a manifest associating each report figure or table with its generating script, configuration,
+seed set, and stored data. Do not require private local paths or undocumented manual edits. Do
+not submit a repository containing only notebooks, screenshots, or final plots when the underlying
+simulation and reproduction code are missing.
+No GitHub repository has been created as part of this handoff preparation. Repository publication,
+access checks, and the clean clone test remain implementation deliverables.
+Team dependencies
+Person 1 supplies equations, quaternion utilities, and the configuration. Person 3 supplies magnetic
+forcing and control. Person 2 can develop RK4 and exact case tests independently while these
+4
+
+PAGE 5
+
+modules are built. Person 4 can develop metric tests and plotting against clearly marked synthetic
+fixtures. Run a combined pilot only after interfaces agree. Begin the main sweep only after
+independent physics checks, smooth case convergence, and production step selection pass.
+Your workload
+Your target share is 25 percent. Own the numerical integrator, method derivation, exact solution
+convergence, and production time step study.
+1. Derive classical RK4 and implement its four stages directly in integrators.py. Support a
+generic derivative function and an optional projection after each completed step.
+2. Apply quaternion normalization only after a completed step. Record its norm error before
+correction. Evaluate the derivative at every stage using that stage’s time and state.
+3. Derive local error O(h5), global error O(h4) under the required smoothness assumptions, and
+the stability polynomial
+R(z) = 1 + z + 1
+2 z2 + 1
+6 z3 + 1
+24 z4.
+Explain that linear test equation stability alone does not prove nonlinear accuracy. Assess the
+actual gain and rate regime before describing it as nonstiff.
+4. Verify against exact spherical torque free rotation and a separate scalar ODE with a known
+solution. Use several step halvings at a fixed final time and report errors and observed orders.
+5. Run unsaturated and saturated full model step studies with Person 4. Compare success classifi-
+cation, detumbling time, final rate, peak torque, and saturation fraction.
+6. Write method and numerical verification material for Overleaf.
+Exact solution and error definition
+For J = jI3 and zero torque, ω(t) = ω0. Let a = ω0/∥ω0∥. Under the shared convention,
+q(t) = q(0) ⊗ (cos(∥ω0∥t/2), a sin(∥ω0∥t/2)) .
+Handle zero angular velocity separately. Derive this solution independently from the numerical
+update. Since q and its opposite represent the same attitude, align their signs before computing
+component error. A stable small error angle uses the relative quaternion and atan2. A void relying
+on inverse cosine near unit argument.
+Compute
+p = log(eh/eh/2)
+log 2 .
+Choose a time interval and step sizes that expose truncation error before roundoff dominates.
+Report both angular velocity error and attitude error where informative.
+5
+
+PAGE 6
+
+Deliverables and completion checks
+Deliver the RK4 module, exact solution test, convergence script, convergence data and monochrome
+figure, and a time step selection script. Write sections/method.tex and contribute numerical
+material to sections/verification.tex.
+Aim for less than one percent change in detumbling time after step halving. Check that success
+classification is unchanged. Use explicit absolute tolerances when a metric is zero and for saturation
+fraction. State tolerances before the production sweep. Require the result to persist across another
+refinement or explain why more refinement is necessary.
+Saturation crossings can reduce observed order. Hold interval detection also has sampling error.
+Separate these effects from integrator errors. Never infer correctness solely from agreement with a
+finer numerical trajectory.
+Review and dependencies
+Start with generic and exact case tests while other modules are being built. Review Person 1’s
+torque free invariants. Jointly select the production step with Person 4 after the full model is
+available. Person 4 must not begin production sweeps until you provide measured step selection
+evidence.
+6
+
+PAGE 7
+
+Prompt for your coding agent
+Copy the text from the next paragraph through the end of this document into your coding agent.
+Attach this handoff so the equations and shared interfaces are available.
+You are implementing one part of an AE 370 Fall 2026 numerical methods group project. Read
+this entire handoff before editing. Build the assigned work and return evidence, not a plan alone.
+The full project simulates CubeSat detumbling using scalar first quaternion attitude, body angular
+velocity, Euler rigid body equations, magnetic torque, normalized continuous B dot control, vector
+norm dipole saturation, and an analytic circular orbit with a rotating tilted dipole field. Use the
+exact equations, units, parameters, interfaces, and success definition in this handoff.
+Implement all time advancement from scratch using classical RK4. Do not use an external time
+integrator for production, verification, or a reference trajectory. NumPy and ordinary plotting
+libraries are permitted. Keep implementation, tests, and studies separate. Respect other members’
+module ownership. If an upstream component is unavailable, use an explicitly labeled test fixture
+and report the dependency. Do not silently replace the physics or claim an integrated test passed
+with a fixture.
+Use the documented frame convention consistently. Evaluate time dependent forcing and control
+at every RK4 stage. Store complete configuration and initial conditions with every result. Treat
+saturation as a possible loss of smoothness. Distinguish a deadline failure from proof that eventual
+recovery is impossible. Distinguish completed calculations from proposed experiments.
+For the report, return copyable LaTeX source in fenced code blocks labeled latex. Provide separate
+fragments for each named section. Fragments must compile when inserted using \input and must
+not contain a document class, preamble, or document environment. If a standalone preview is useful,
+return it separately with a minimal preamble. Use only standard packages and list any required
+packages outside the fragments. Use black text, numbered lists, simple equations and tables, and
+monochrome figures. Do not use emojis, decorative elements, dashes in prose, or colons in prose
+and headings. Keep valid mathematical operators and programming syntax. A void unsupported
+claims and filler.
+Return implementation files, commands to run the relevant checks, observed test outcomes, numer-
+ical evidence where available, copyable LaTeX report fragments, and a concise list of unresolved
+dependencies. Provide only verified references with matching BibTeX entries. If evidence is missing,
+state that the result is pending and do not fabricate numerical values or citations. Record how
+AI was used so the team can write the required Acknowledgments section. Students must review,
+understand, and verify all generated work.
+The complete source repository is a required project deliverable. Separate reusable code in src, in-
+dependent checks in tests, convergence and engineering drivers in studies, parameters in configs,
+processed records in data/processed, figures in figures, and Overleaf sources in report. Supply
+exact run commands for your work to Person 4. The repository must include tested dependencies
+and run_all.py, and must regenerate all report results. Person 4 coordinates a clean clone repro-
+duction test and a figure and table manifest. Person 1 verifies the clickable code link, evaluator
+access, and tested commit in the final Reproducibility section. Do not claim repository publication
+or successful reproduction unless performed.
+Complete the following assigned tasks.
+1. Implement generic classical RK4 from scratch with four derivative evaluations per step. Support
+7
+
+PAGE 8
+
+a shortened final step, deterministic outputs, and a callback for quaternion projection after
+completed steps. Keep the generic RK4 formula separate from spacecraft physics.
+2. Build an independent exact spherical torque free reference using quaternion multiplication under
+the convention in this handoff. Include a scalar exact ODE test. Do not use an external numerical
+solver as a reference.
+3. Run at least five step sizes when practical, compare at an identical final time, tabulate errors
+and observed orders, and produce a monochrome logarithmic convergence plot with a fourth
+order reference slope. Report roundoff limitations honestly.
+4. Derive the RK4 update, fourth order conditions or Taylor matching, error assumptions, and
+stability polynomial. Explain why accuracy, stability, and four evaluations per step fit this
+project.
+5. Evaluate the full model at successively halved steps for both smooth and saturated cases. Report
+engineering metric differences, classification changes, saturation crossing effects, and a justified
+production step.
+6. Deliver copyable sections/method.tex and your contribution to sections/verification.tex.
+Include equations, algorithm, figure inclusion code, tables with actual values, and precise limi-
+tations. State pending experiments plainly.
+7. Return code, commands, outcomes, figure files, and the interface Person 4 should use. Pre-
+serve preprojection quaternion norm diagnostics and document any normalization of the matrix
+evaluation at intermediate stages.
+8

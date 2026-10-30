@@ -48,6 +48,6 @@ Missing callbacks and malformed callback outputs raise `ValueError`. No fallback
 
 ## Reproduction
 
-Run `.venv/bin/python -m pytest -q tests/test_dynamics.py` for the 62 instantaneous dynamics cases. Run `.venv/bin/python -m tools.check_project` for all 199 current cases and generated revision evidence. Run `.venv/bin/python -m studies.verification` for the exact solution convergence, torque free invariant, and amplification studies. Production magnetic trajectory checks and step selection remain pending.
+Run `.venv/bin/python -m pytest -q tests/test_dynamics.py` for the 62 instantaneous dynamics cases. Run `.venv/bin/python -m tools.check_project` for all 222 current cases and generated revision evidence. Run `.venv/bin/python run_all.py` for both numerical contributions and the pending production refinement connection point. Production magnetic trajectory checks and step selection remain pending.
 
 The numerical integrator uses state first callbacks. Connect the public physical RHS with a function f(u, t) returning rhs(t, u, runtime). The projection callback is applied after completed steps only. Solver settings and runtime physics remain separate.

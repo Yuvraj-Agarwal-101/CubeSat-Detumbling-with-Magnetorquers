@@ -1,0 +1,12 @@
+{
+  "status": "integrated workflow passed",
+  "scope": "Merged shared configuration and numerical contribution with freshly installed dependencies",
+  "command": "python run_all.py",
+  "tests": 198,
+  "python": "3.12.14",
+  "fresh_dependency_install": "completed from requirements.txt",
+  "dependency_check": "pip check passed",
+  "clean_git_clone": "passed, see clean_clone_verification.json",
+  "teammate_clean_clone": "pending",
+  "latex_compilation": "not performed"
+}

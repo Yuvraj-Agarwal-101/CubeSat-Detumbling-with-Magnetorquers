@@ -80,6 +80,8 @@ def integrate(f, u0, t_final, dt, *, t0=0.0, method="rk4", project=None):
     corrections = np.zeros(n + 1)
     step, stages = STEPS[method]
     for k in range(n):
+        if method == "rk4" and times[k] + (times[k + 1] - times[k]) / 2 == times[k]:
+            raise ValueError("step too small to resolve intermediate stage times")
         raw = step(f, states[k], times[k], times[k + 1] - times[k])
         if not np.all(np.isfinite(raw)):
             raise ValueError("time step produced nonfinite state")
