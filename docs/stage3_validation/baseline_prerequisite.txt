@@ -1,0 +1,16 @@
+.venv/Scripts/python.exe : Traceback (most recent call last):
+At line:2 char:1
++ .venv/Scripts/python.exe -m studies.baseline_confirmation *> docs/sta ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\m_ara\Documents\CubeSat-Detumbling-with-Magnetorquers\studies\baseline_confirmation.py", line 63, in 
+<module>
+    main()
+  File "C:\Users\m_ara\Documents\CubeSat-Detumbling-with-Magnetorquers\studies\baseline_confirmation.py", line 37, in 
+main
+    raise ValueError('Select a refined step before baseline confirmation')
+ValueError: Select a refined step before baseline confirmation

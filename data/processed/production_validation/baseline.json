@@ -60,7 +60,7 @@
     },
     "solver": {
       "method": "rk4",
-      "step_size_s": null
+      "step_size_s": 0.25
     },
     "provenance": {
       "physical.inertia_kg_m2": {
@@ -148,34 +148,29 @@
         "note": "Planned numerical method. This is not a completed convergence claim."
       },
       "solver.step_size_s": {
-        "classification": "pending",
-        "note": "Determine from the convergence and engineering metric refinement studies."
+        "classification": "derived",
+        "note": "Accepted from two successive real-model refinements and independent output sampling audit; see data/processed/production_validation/acceptance.json. Applies to the stated baseline and tested saturation regimes."
       }
     }
   },
-  "step_s": 1.0,
+  "step_s": 0.25,
   "metrics": {
     "success": true,
     "detumbling_time_s": 16135.0,
-    "final_rate_rad_s": 0.002165399857812425,
-    "peak_torque_Nm": 1.8123269592201208e-06,
+    "final_rate_rad_s": 0.0021654110271238053,
+    "peak_torque_Nm": 1.8137810456251983e-06,
     "saturation_fraction": 0.0
   },
-  "runtime_s": 501.2991094000172,
-  "max_raw_dipole_at_all_stages_A_m2": 0.07030255292146413,
-  "controller_stage_calls": 136036,
+  "runtime_s": 221.63960470000166,
+  "max_preprojection_norm_error": 5.065992070285574e-11,
+  "max_projected_norm_error": 3.3306690738754696e-16,
+  "max_raw_dipole_at_all_stages_A_m2": 0.07023404258978391,
+  "controller_stage_calls": 544144,
   "bound_inactive_at_all_stages": true,
-  "reference_unsaturated_metrics_identical": false,
-  "explanation": "The inactive bound yields the same RHS. Robust max-scaled versus direct Euclidean quaternion projection explains last-bit differences. Both retain the accepted mathematical projection and fourth order accuracy.",
   "reference_unsaturated_metrics_agree": true,
   "reference_roundoff_tolerance": {
     "relative": 1e-10,
     "absolute": 1e-12
   },
-  "reference_absolute_differences": {
-    "detumbling_time_s": 0.0,
-    "final_rate_rad_s": 1.951563910473908e-17,
-    "peak_torque_Nm": 0.0,
-    "saturation_fraction": 0.0
-  }
+  "explanation": "The observer does not alter commands. The inactive bound gives the same RHS. Different norm implementations in the two projection callbacks can change the last floating point bits."
 }

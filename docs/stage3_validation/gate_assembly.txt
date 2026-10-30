@@ -1,0 +1,122 @@
+{
+  "tested_commit": "e62bf63a2d1232047b6ca9d366f990d90d3dfb21",
+  "accepted_step_s": 0.25,
+  "stress_comparisons": [
+    {
+      "pass": true,
+      "metrics": {
+        "success": {
+          "pass": true
+        },
+        "detumbling_time_s": {
+          "pass": true,
+          "absolute_difference": 0.8689369745843578,
+          "allowed_difference": 206.21474696381426
+        },
+        "final_rate_rad_s": {
+          "pass": true,
+          "absolute_difference": 5.7810591713686015e-06,
+          "allowed_difference": 2.2565119762503156e-05
+        },
+        "peak_torque_Nm": {
+          "pass": true,
+          "absolute_difference": 2.464257071579175e-15,
+          "allowed_difference": 1.3368358160842376e-08
+        },
+        "saturation_fraction": {
+          "pass": true,
+          "absolute_difference": 6.545393395351873e-05,
+          "allowed_difference": 0.005
+        }
+      }
+    },
+    {
+      "pass": true,
+      "metrics": {
+        "success": {
+          "pass": true
+        },
+        "detumbling_time_s": {
+          "pass": true,
+          "absolute_difference": 0.03907923293445492,
+          "allowed_difference": 206.21435617148492
+        },
+        "final_rate_rad_s": {
+          "pass": true,
+          "absolute_difference": 3.0335580159489284e-07,
+          "allowed_difference": 2.2562086204487208e-05
+        },
+        "peak_torque_Nm": {
+          "pass": true,
+          "absolute_difference": 9.947891628151037e-16,
+          "allowed_difference": 1.3368358170790268e-08
+        },
+        "saturation_fraction": {
+          "pass": true,
+          "absolute_difference": 3.7186754244800113e-06,
+          "allowed_difference": 0.005
+        }
+      }
+    }
+  ],
+  "stress_output_comparisons": [
+    {
+      "pass": true,
+      "metrics": {
+        "success": {
+          "pass": true
+        },
+        "detumbling_time_s": {
+          "pass": true,
+          "absolute_difference": 3.3058164262911305e-05,
+          "allowed_difference": 206.21435632728762
+        },
+        "final_rate_rad_s": {
+          "pass": true,
+          "absolute_difference": 0.0,
+          "allowed_difference": 2.2562086204487208e-05
+        },
+        "peak_torque_Nm": {
+          "pass": true,
+          "absolute_difference": 2.4642566480627013e-15,
+          "allowed_difference": 1.3368358160842376e-08
+        },
+        "saturation_fraction": {
+          "pass": true,
+          "absolute_difference": 1.0366872674305583e-05,
+          "allowed_difference": 0.005
+        }
+      }
+    },
+    {
+      "pass": true,
+      "metrics": {
+        "success": {
+          "pass": true
+        },
+        "detumbling_time_s": {
+          "pass": true,
+          "absolute_difference": 1.558026997372508e-05,
+          "allowed_difference": 206.21435617148492
+        },
+        "final_rate_rad_s": {
+          "pass": true,
+          "absolute_difference": 0.0,
+          "allowed_difference": 2.2562086204487208e-05
+        },
+        "peak_torque_Nm": {
+          "pass": true,
+          "absolute_difference": 9.947891628151037e-16,
+          "allowed_difference": 1.3368358170790268e-08
+        },
+        "saturation_fraction": {
+          "pass": true,
+          "absolute_difference": 2.0281019914580867e-06,
+          "allowed_difference": 0.005
+        }
+      }
+    }
+  ],
+  "scope": "Numerical pilot entry only. Real 108-case pilot runtime/accuracy review still required before production.",
+  "external_ode_integrator_used": false
+}

@@ -1,27 +1,29 @@
 {
   "status": "numerical verification complete",
-  "accepted_step_s": 1,
+  "accepted_step_s": 0.25,
   "accepted_by": "Automated numerical checks executed by Codex at the user request",
   "student_review": "Not claimed; students must review and understand the generated work",
-  "scope": "Canonical geometry at gain 1e-5, with unsaturated and saturated bounds; larger engineering grids require their own audit",
-  "baseline_max_raw_dipole_A_m2": 0.07030255292146413,
-  "maximum_output_event_change_s": 0.00036599915983970277,
+  "scope": "Canonical gain 1e-5 in both saturation regimes, plus seeded pilot geometry 0 at 30 deg/s, gain 3e-5, limit 0.03 A m^2. Finite numerical pilot-entry verification; no blanket approval of the engineering grid.",
+  "baseline_max_raw_dipole_A_m2": 0.07023404258978391,
+  "maximum_output_event_change_s": 3.3058164262911305e-05,
   "output_event_absolute_tolerance_s": 1.0,
-  "baseline_checks": 136036,
+  "baseline_checks": 544144,
   "physics_source_sha256": {
     "src/orbit_field.py": "8b996c9a5ccccba8d40ed8a5e6758c5af25856a404c818b84d2963594a316433",
     "src/controller.py": "0fd808cb3f698ff9601b8cde740abda9b4e7b24556a360b6083318333aed9ecb",
     "team_adapter.py": "8cf024498e3583ac47f238b1dac8bcf74ad16c00770ea48f8d6dfb79846123c5",
-    "src/dynamics.py": "6c303c4cd5218fd3dbcc0fd4794929171a5c835d9aca2467abc5eb2917b7578a",
-    "src/integrators.py": "add75ddbaffd295585e1fb67e5f6deff4a50e706651c65b0e38483cc04c34a90"
+    "src/dynamics.py": "6db912107dfc846db53678e3ae8d4cd9b9fdf248cabbf849a06ff29fae2886cb",
+    "src/integrators.py": "045026c61085c496eaf3b4d218c2fbe82ea3e848af80f4561b30fdb51c52c81c",
+    "src/physics/dynamics.py": "f3e7723295ab7067a32a8d65cc4da9814227b6ae85938ccd3e887e3a510c1e62",
+    "src/physics/quaternion.py": "6d125d4686f025888fdfb8f19fd2f66de685ad5f1633b685255708b45d6e6033",
+    "src/numerics/integrators.py": "42f97f97f01c56dd36cb12668ff276b13b6e932ddd28a85a13c8f0e1ce26beb3",
+    "src/numerics/algebra.py": "6e337b4c07c7df638defe09322a4bcae8ddca8263487eadeb8772adb866247b3",
+    "src/inputs/case.py": "d30a35ffb57ef11379687e104cea5c2cd45a759e8a5687fce7b68c7bc4cdc5ce"
   },
   "evidence_sha256": {
-    "data/processed/timestep_selection.json": "ca17640432e388183182035e9a1dac545325cf877c3e4086aeb79be4cc641f81",
-    "data/processed/production_validation/confirmation.json": "7444e69cbdb714d66230cff7351b6719da474442598cfcf68f2d659ff4f4fbc5",
-    "data/processed/production_validation/baseline.json": "22154c75a68073a0457a76ba3168e3c8d09f8256215af6306a73d6744c081faa"
+    "data/processed/timestep_selection.json": "2375119e91589903926f9e6843ced665690e487cf8aaeb92fd6c9307184d195d",
+    "data/processed/production_validation/confirmation.json": "caad466546e00caf3d1d9d7c9b9aef5feba7f9e9c5e1870760537fb74f406754",
+    "data/processed/production_validation/baseline.json": "349263124545620d854362bc11b08d3177d75ccfc099a1b1cbf16514243e24cc"
   },
-  "limitations": "Finite sampled verification for declared physical settings; other sweep gains, rates and geometries require their own numerical audit. This is not final team submission approval.",
-  "source_revision": "7f0a3de",
-  "source_snapshot_root": "docs/integration_sources/aleksandar",
-  "integration_status": "Historical baseline evidence retained. Merged numerical architecture requires Person 3 verification before new production approval."
+  "limitations": "Finite sampled verification for declared physical settings; other sweep gains, rates and geometries require their own numerical audit. This is not final team submission approval."
 }

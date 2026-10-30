@@ -1,0 +1,65 @@
+{
+  "scope": "Exact analytic sampled histories; no spacecraft physics or IVP integration",
+  "exact": {
+    "time_s": 1.3862943611198906,
+    "saturation_fraction": 0.17328679513998632,
+    "effort": 1.656515902782477
+  },
+  "rows": [
+    {
+      "step_s": 0.25,
+      "detumbling_time_s": 1.3940039689151227,
+      "time_error_s": 0.00770960779523211,
+      "saturation_fraction": 0.17462703052499778,
+      "saturation_error": 0.0013402353850114623,
+      "effort": 1.6559182434614432,
+      "effort_error": 0.0005976593210337278
+    },
+    {
+      "step_s": 0.125,
+      "detumbling_time_s": 1.3869473651300355,
+      "time_error_s": 0.0006530040101448975,
+      "saturation_fraction": 0.17377002253901128,
+      "saturation_error": 0.0004832273990249547,
+      "effort": 1.6558297632435384,
+      "effort_error": 0.0006861395389385905
+    },
+    {
+      "step_s": 0.0625,
+      "detumbling_time_s": 1.3865854379996965,
+      "time_error_s": 0.00029107687980589603,
+      "saturation_fraction": 0.1733272688053608,
+      "saturation_error": 4.047366537449082e-05,
+      "effort": 1.6566703240711838,
+      "effort_error": 0.0001544212887067964
+    },
+    {
+      "step_s": 0.03125,
+      "detumbling_time_s": 1.3864072147724837,
+      "time_error_s": 0.00011285365259317004,
+      "saturation_fraction": 0.17330492799845487,
+      "saturation_error": 1.8132858468550284e-05,
+      "effort": 1.6565222500854495,
+      "effort_error": 6.347302972553592e-06
+    },
+    {
+      "step_s": 0.015625,
+      "detumbling_time_s": 1.3863187885360746,
+      "time_error_s": 2.442741618402522e-05,
+      "saturation_fraction": 0.173293843509054,
+      "saturation_error": 7.048369067674809e-06,
+      "effort": 1.6565073496824292,
+      "effort_error": 8.553100047770101e-06
+    },
+    {
+      "step_s": 0.0078125,
+      "detumbling_time_s": 1.3863019015185232,
+      "time_error_s": 7.5403986325994765e-06,
+      "saturation_fraction": 0.17328832274516076,
+      "saturation_error": 1.5276051744395058e-06,
+      "effort": 1.6565146852075097,
+      "effort_error": 1.2175749672937997e-06
+    }
+  ],
+  "interpretation": "Piecewise linear crossings and trapezoid effort have second order bounds on this smooth case. Crossing location within a cell causes nonmonotone error constants."
+}

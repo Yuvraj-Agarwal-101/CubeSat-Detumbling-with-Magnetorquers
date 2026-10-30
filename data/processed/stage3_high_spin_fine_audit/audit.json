@@ -1,0 +1,599 @@
+{
+  "case": {
+    "config": {
+      "inertia_kg_m2": [
+        [
+          0.03,
+          0,
+          0
+        ],
+        [
+          0,
+          0.035,
+          0
+        ],
+        [
+          0,
+          0,
+          0.007
+        ]
+      ],
+      "orbit": {
+        "earth_radius_m": 6371000,
+        "gravitational_parameter_m3_s2": 398600441800000,
+        "altitude_m": 500000,
+        "inclination_rad": 0.9599310885968813,
+        "raan_rad": 0,
+        "phase_rad": 5.819412893022831
+      },
+      "magnetic": {
+        "equatorial_surface_field_t": 3e-05,
+        "dipole_tilt_rad": 0.19198621771937624,
+        "earth_rotation_rate_rad_s": 7.292115e-05,
+        "earth_rotation_phase_rad": 0
+      },
+      "controller": {
+        "law": "normalized_b_dot",
+        "gain_kg_m2_s": 3e-05,
+        "max_dipole_a_m2": 0.03,
+        "saturation": "vector_norm"
+      }
+    },
+    "document": {
+      "schema_version": 1,
+      "physical": {
+        "inertia_kg_m2": [
+          [
+            0.03,
+            0,
+            0
+          ],
+          [
+            0,
+            0.035,
+            0
+          ],
+          [
+            0,
+            0,
+            0.007
+          ]
+        ],
+        "orbit": {
+          "earth_radius_m": 6371000,
+          "gravitational_parameter_m3_s2": 398600441800000,
+          "altitude_m": 500000,
+          "inclination_rad": 0.9599310885968813,
+          "raan_rad": 0,
+          "phase_rad": 5.819412893022831
+        },
+        "magnetic": {
+          "equatorial_surface_field_t": 3e-05,
+          "dipole_tilt_rad": 0.19198621771937624,
+          "earth_rotation_rate_rad_s": 7.292115e-05,
+          "earth_rotation_phase_rad": 0
+        },
+        "controller": {
+          "law": "normalized_b_dot",
+          "gain_kg_m2_s": 3e-05,
+          "max_dipole_a_m2": 0.03,
+          "saturation": "vector_norm"
+        }
+      },
+      "initial_conditions": {
+        "quaternion": [
+          -0.40037078328895975,
+          -0.15250265634559299,
+          -0.577317523868783,
+          0.6950903914816692
+        ],
+        "angular_velocity_rad_s": [
+          0.280670655708559,
+          -0.3014834708468535,
+          -0.323245073648926
+        ]
+      },
+      "study": {
+        "rate_threshold_rad_s": 0.008726646259971648,
+        "hold_duration_s": 600,
+        "deadline_orbits": 6
+      },
+      "solver": {
+        "method": "rk4",
+        "step_size_s": 1
+      },
+      "provenance": {
+        "physical.inertia_kg_m2": {
+          "classification": "assumed",
+          "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+        },
+        "physical.orbit.earth_radius_m": {
+          "classification": "assumed",
+          "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+        },
+        "physical.orbit.gravitational_parameter_m3_s2": {
+          "classification": "assumed",
+          "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+        },
+        "physical.orbit.altitude_m": {
+          "classification": "assumed",
+          "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+        },
+        "physical.orbit.inclination_rad": {
+          "classification": "assumed",
+          "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+        },
+        "physical.orbit.raan_rad": {
+          "classification": "assumed",
+          "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+        },
+        "physical.orbit.phase_rad": {
+          "classification": "project_choice",
+          "note": "Seeded pilot ensemble or parameter sweep override; seed 3702026."
+        },
+        "physical.magnetic.equatorial_surface_field_t": {
+          "classification": "assumed",
+          "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+        },
+        "physical.magnetic.dipole_tilt_rad": {
+          "classification": "assumed",
+          "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+        },
+        "physical.magnetic.earth_rotation_rate_rad_s": {
+          "classification": "assumed",
+          "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+        },
+        "physical.magnetic.earth_rotation_phase_rad": {
+          "classification": "assumed",
+          "note": "Idealized dipole model input. This is not a measured field or an epoch specific geomagnetic prediction."
+        },
+        "physical.controller.law": {
+          "classification": "project_choice",
+          "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+        },
+        "physical.controller.gain_kg_m2_s": {
+          "classification": "project_choice",
+          "note": "Seeded pilot ensemble or parameter sweep override; seed 3702026."
+        },
+        "physical.controller.max_dipole_a_m2": {
+          "classification": "project_choice",
+          "note": "Seeded pilot ensemble or parameter sweep override; seed 3702026."
+        },
+        "physical.controller.saturation": {
+          "classification": "project_choice",
+          "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+        },
+        "initial_conditions.quaternion": {
+          "classification": "project_choice",
+          "note": "Seeded pilot ensemble or parameter sweep override; seed 3702026."
+        },
+        "initial_conditions.angular_velocity_rad_s": {
+          "classification": "project_choice",
+          "note": "Seeded pilot ensemble or parameter sweep override; seed 3702026."
+        },
+        "study.rate_threshold_rad_s": {
+          "classification": "assumed",
+          "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+        },
+        "study.hold_duration_s": {
+          "classification": "assumed",
+          "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+        },
+        "study.deadline_orbits": {
+          "classification": "assumed",
+          "note": "Preliminary project assumption from the shared handoffs. Review before production studies."
+        },
+        "solver.method": {
+          "classification": "project_choice",
+          "note": "Planned numerical method. This is not a completed convergence claim."
+        },
+        "solver.step_size_s": {
+          "classification": "derived",
+          "note": "Accepted from two successive real-model refinements and independent output sampling audit; see data/processed/production_validation/acceptance.json. Applies to the stated baseline and tested saturation regimes."
+        }
+      }
+    },
+    "seed": 3702026,
+    "geometry_id": 0,
+    "spin_deg_s": 30,
+    "gain_kg_m2_s": 3e-05,
+    "dipole_limit_Am2": 0.03,
+    "field_mode": "orbital",
+    "phase_rad": 5.819412893022831,
+    "y0": [
+      -0.40037078328895975,
+      -0.15250265634559299,
+      -0.577317523868783,
+      0.6950903914816692,
+      0.280670655708559,
+      -0.3014834708468535,
+      -0.323245073648926
+    ],
+    "metrics": {
+      "threshold_rad_s": 0.008726646259971648,
+      "hold_s": 600,
+      "deadline_s": 34008.86621436699
+    },
+    "grid": "pilot",
+    "case_id": "0fabee58582d0662"
+  },
+  "steps_s": [
+    0.25,
+    0.125,
+    0.0625
+  ],
+  "runtime_s": [
+    197.26952249999158,
+    408.6099708999973,
+    818.768485499997
+  ],
+  "metrics": [
+    {
+      "detumbling_time_s": 20622.34363335601,
+      "success": true,
+      "censored": false,
+      "final_rate_rad_s": 0.002262293035421684,
+      "saturation_fraction": 0.48430534850241824,
+      "peak_torque_Nm": 1.3368358136199805e-06,
+      "dipole_effort_Am2_s": 565.7895311330503,
+      "max_output_spacing_s": 0.25,
+      "crossing_rule": "piecewise linear rate norm; equality qualifies"
+    },
+    {
+      "detumbling_time_s": 20621.474696381425,
+      "success": true,
+      "censored": false,
+      "final_rate_rad_s": 0.0022565119762503155,
+      "saturation_fraction": 0.4842398945684647,
+      "peak_torque_Nm": 1.3368358160842376e-06,
+      "dipole_effort_Am2_s": 565.7967509287059,
+      "max_output_spacing_s": 0.125,
+      "crossing_rule": "piecewise linear rate norm; equality qualifies"
+    },
+    {
+      "detumbling_time_s": 20621.43561714849,
+      "success": true,
+      "censored": false,
+      "final_rate_rad_s": 0.0022562086204487206,
+      "saturation_fraction": 0.48423617589304024,
+      "peak_torque_Nm": 1.3368358170790268e-06,
+      "dipole_effort_Am2_s": 565.7965950621607,
+      "max_output_spacing_s": 0.0625,
+      "crossing_rule": "piecewise linear rate norm; equality qualifies"
+    }
+  ],
+  "state_differences": [
+    {
+      "scaled_time_rms": 0.037550570434483024,
+      "scaled_sampled_max": 0.11667205011827658,
+      "quaternion_chord_max": 0.028487913624850928,
+      "rate_error_max_rad_s": 0.0010178093001387482,
+      "actual_quaternion_norm_defect_max": 3.3306690738754696e-16,
+      "reference_quaternion_norm_defect_max": 3.3306690738754696e-16
+    },
+    {
+      "scaled_time_rms": 0.009376525704850529,
+      "scaled_sampled_max": 0.026871978408939533,
+      "quaternion_chord_max": 0.0013237167485022497,
+      "rate_error_max_rad_s": 0.00023448586139544124,
+      "actual_quaternion_norm_defect_max": 3.3306690738754696e-16,
+      "reference_quaternion_norm_defect_max": 3.3306690738754696e-16
+    }
+  ],
+  "metric_changes": [
+    {
+      "success_changed": false,
+      "detumbling_time_change_s": 0.8689369745843578,
+      "both_censored": false,
+      "final_rate_rad_s_absolute_change": 5.7810591713686015e-06,
+      "saturation_fraction_absolute_change": 6.545393395351873e-05,
+      "peak_torque_Nm_absolute_change": 2.464257071579175e-15,
+      "dipole_effort_Am2_s_absolute_change": 0.007219795655601047
+    },
+    {
+      "success_changed": false,
+      "detumbling_time_change_s": 0.03907923293445492,
+      "both_censored": false,
+      "final_rate_rad_s_absolute_change": 3.0335580159489284e-07,
+      "saturation_fraction_absolute_change": 3.7186754244800113e-06,
+      "peak_torque_Nm_absolute_change": 9.947891628151037e-16,
+      "dipole_effort_Am2_s_absolute_change": 0.00015586654524213372
+    }
+  ],
+  "observed_difference_order": 2.0017094606643795,
+  "approved": false,
+  "scope": "Preliminary numerical diagnostic; not a production approval",
+  "limitations": "Self convergence does not verify the equations. Saturation and threshold functionals can reduce observed order. Compare against independent physics checks.",
+  "output_only_metric_changes": [
+    {
+      "success_changed": false,
+      "detumbling_time_change_s": 3.3058164262911305e-05,
+      "both_censored": false,
+      "final_rate_rad_s_absolute_change": 0.0,
+      "saturation_fraction_absolute_change": 1.0366872674305583e-05,
+      "peak_torque_Nm_absolute_change": 2.4642566480627013e-15,
+      "dipole_effort_Am2_s_absolute_change": 0.002076364463164282
+    },
+    {
+      "success_changed": false,
+      "detumbling_time_change_s": 1.558026997372508e-05,
+      "both_censored": false,
+      "final_rate_rad_s_absolute_change": 0.0,
+      "saturation_fraction_absolute_change": 2.0281019914580867e-06,
+      "peak_torque_Nm_absolute_change": 9.947891628151037e-16,
+      "dipole_effort_Am2_s_absolute_change": 0.0002897311212564091
+    }
+  ],
+  "output_only_metrics": [
+    {
+      "detumbling_time_s": 20621.435665786925,
+      "success": true,
+      "censored": false,
+      "final_rate_rad_s": 0.0022562086204487206,
+      "saturation_fraction": 0.484248570867706,
+      "peak_torque_Nm": 1.336835813619981e-06,
+      "dipole_effort_Am2_s": 565.7948084288188,
+      "max_output_spacing_s": 0.25,
+      "crossing_rule": "piecewise linear rate norm; equality qualifies"
+    },
+    {
+      "detumbling_time_s": 20621.43563272876,
+      "success": true,
+      "censored": false,
+      "final_rate_rad_s": 0.0022562086204487206,
+      "saturation_fraction": 0.4842382039950317,
+      "peak_torque_Nm": 1.3368358160842376e-06,
+      "dipole_effort_Am2_s": 565.796884793282,
+      "max_output_spacing_s": 0.125,
+      "crossing_rule": "piecewise linear rate norm; equality qualifies"
+    },
+    {
+      "detumbling_time_s": 20621.43561714849,
+      "success": true,
+      "censored": false,
+      "final_rate_rad_s": 0.0022562086204487206,
+      "saturation_fraction": 0.48423617589304024,
+      "peak_torque_Nm": 1.3368358170790268e-06,
+      "dipole_effort_Am2_s": 565.7965950621607,
+      "max_output_spacing_s": 0.0625,
+      "crossing_rule": "piecewise linear rate norm; equality qualifies"
+    }
+  ],
+  "frozen_modal_diagnostics": [
+    {
+      "time_s": 0.0,
+      "eigenvalues": [
+        {
+          "real": -0.09639998938899147,
+          "imag": 0.3395830840494837
+        },
+        {
+          "real": -0.09639998938899147,
+          "imag": -0.3395830840494837
+        },
+        {
+          "real": 0.19204710417908097,
+          "imag": 0.0
+        },
+        {
+          "real": 3.944289215490615e-06,
+          "imag": 0.2617862467032853
+        },
+        {
+          "real": 3.944289215490615e-06,
+          "imag": -0.2617862467032853
+        },
+        {
+          "real": 0.00026067899973477096,
+          "imag": 0.26204412665063975
+        },
+        {
+          "real": 0.00026067899973477096,
+          "imag": -0.26204412665063975
+        }
+      ],
+      "amplification_moduli": [
+        0.9761881316055844,
+        0.9761881316055844,
+        1.0491830083347247,
+        1.0000009855266239,
+        1.0000009855266239,
+        1.0000651712749458,
+        1.0000651712749458
+      ],
+      "neutral_mode_count": 0,
+      "growing_mode_count": 5,
+      "non_growing_modes_outside_rk4": 0,
+      "decaying_mode_magnitude_ratio": 1.0,
+      "interpretation": "frozen linear modal diagnostic only; check nonlinear refinement and saturation switches"
+    },
+    {
+      "time_s": 8502.1875,
+      "eigenvalues": [
+        {
+          "real": 0.010133402789052948,
+          "imag": 0.1718989470336644
+        },
+        {
+          "real": 0.010133402789052948,
+          "imag": -0.1718989470336644
+        },
+        {
+          "real": -0.0003290227829544721,
+          "imag": 0.11394893649657487
+        },
+        {
+          "real": -0.0003290227829544721,
+          "imag": -0.11394893649657487
+        },
+        {
+          "real": 5.213463529967952e-05,
+          "imag": 0.11388948470135364
+        },
+        {
+          "real": 5.213463529967952e-05,
+          "imag": -0.11388948470135364
+        },
+        {
+          "real": -0.020365269355509995,
+          "imag": 0.0
+        }
+      ],
+      "amplification_moduli": [
+        1.002536561941968,
+        1.002536561941968,
+        0.9999177476857141,
+        0.9999177476857141,
+        1.000013033739707,
+        1.000013033739707,
+        0.9949216214494678
+      ],
+      "neutral_mode_count": 0,
+      "growing_mode_count": 4,
+      "non_growing_modes_outside_rk4": 0,
+      "decaying_mode_magnitude_ratio": 5.59528133540298,
+      "interpretation": "frozen linear modal diagnostic only; check nonlinear refinement and saturation switches"
+    },
+    {
+      "time_s": 17004.4375,
+      "eigenvalues": [
+        {
+          "real": -0.000649926951624268,
+          "imag": 0.0356425936544354
+        },
+        {
+          "real": -0.000649926951624268,
+          "imag": -0.0356425936544354
+        },
+        {
+          "real": 0.00019350276313518516,
+          "imag": 0.021520321220713734
+        },
+        {
+          "real": 0.00019350276313518516,
+          "imag": -0.021520321220713734
+        },
+        {
+          "real": -0.002241997241426808,
+          "imag": 0.02098744554967111
+        },
+        {
+          "real": -0.002241997241426808,
+          "imag": -0.02098744554967111
+        },
+        {
+          "real": 0.0002770894310481759,
+          "imag": 0.0
+        }
+      ],
+      "amplification_moduli": [
+        0.9998375314615758,
+        0.9998375314615758,
+        1.0000483768609045,
+        1.0000483768609045,
+        0.9994396577400554,
+        0.9994396577400554,
+        1.0000692747571474
+      ],
+      "neutral_mode_count": 0,
+      "growing_mode_count": 3,
+      "non_growing_modes_outside_rk4": 0,
+      "decaying_mode_magnitude_ratio": 1.6889543682795438,
+      "interpretation": "frozen linear modal diagnostic only; check nonlinear refinement and saturation switches"
+    },
+    {
+      "time_s": 25506.625,
+      "eigenvalues": [
+        {
+          "real": -0.002174393689401013,
+          "imag": 0.0014579768901875052
+        },
+        {
+          "real": -0.002174393689401013,
+          "imag": -0.0014579768901875052
+        },
+        {
+          "real": 0.0004286314363555874,
+          "imag": 0.0016301283825893987
+        },
+        {
+          "real": 0.0004286314363555874,
+          "imag": -0.0016301283825893987
+        },
+        {
+          "real": 3.591098616179112e-05,
+          "imag": 0.0012080666537180075
+        },
+        {
+          "real": 3.591098616179112e-05,
+          "imag": -0.0012080666537180075
+        },
+        {
+          "real": 0.0003032002739128899,
+          "imag": 0.0
+        }
+      ],
+      "amplification_moduli": [
+        0.9994565493005035,
+        0.9994565493005035,
+        1.0001071636006973,
+        1.0001071636006973,
+        1.0000089777868406,
+        1.0000089777868406,
+        1.0000758029413759
+      ],
+      "neutral_mode_count": 0,
+      "growing_mode_count": 5,
+      "non_growing_modes_outside_rk4": 0,
+      "decaying_mode_magnitude_ratio": 1.0,
+      "interpretation": "frozen linear modal diagnostic only; check nonlinear refinement and saturation switches"
+    },
+    {
+      "time_s": 34008.86621436699,
+      "eigenvalues": [
+        {
+          "real": -7.441676593441377e-05,
+          "imag": 0.0016926819034869482
+        },
+        {
+          "real": -7.441676593441377e-05,
+          "imag": -0.0016926819034869482
+        },
+        {
+          "real": -0.0009503847478426093,
+          "imag": 0.0009246322217267293
+        },
+        {
+          "real": -0.0009503847478426093,
+          "imag": -0.0009246322217267293
+        },
+        {
+          "real": -3.21529270489368e-05,
+          "imag": 0.0011214082635346355
+        },
+        {
+          "real": -3.21529270489368e-05,
+          "imag": -0.0011214082635346355
+        },
+        {
+          "real": -0.00015295700636546776,
+          "imag": 0.0
+        }
+      ],
+      "amplification_moduli": [
+        0.9999813959815733,
+        0.9999813959815733,
+        0.9997624320367781,
+        0.9997624320367781,
+        0.9999919618005443,
+        0.9999919618005443,
+        0.9999617614795194
+      ],
+      "neutral_mode_count": 0,
+      "growing_mode_count": 0,
+      "non_growing_modes_outside_rk4": 0,
+      "decaying_mode_magnitude_ratio": 11.077079610796693,
+      "interpretation": "frozen linear modal diagnostic only; check nonlinear refinement and saturation switches"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "step_s": 2.0,
+  "metrics": {
+    "detumbling_time_s": 19093.629517567886,
+    "success": true,
+    "censored": false,
+    "final_rate_rad_s": 0.0021645987949008567,
+    "saturation_fraction": 0.4206620900377067,
+    "peak_torque_Nm": 1.328887877097857e-06,
+    "dipole_effort_Am2_s": 514.1483536991522,
+    "max_output_spacing_s": 2.0,
+    "crossing_rule": "piecewise linear rate norm; equality qualifies"
+  },
+  "runtime_s": 26.134567100001732,
+  "max_preprojection_norm_error": 0.0006937664689110612,
+  "max_projected_norm_error": 3.3306690738754696e-16,
+  "rhs_evaluations": 68020
+}
