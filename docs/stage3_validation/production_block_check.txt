@@ -1,0 +1,21 @@
+.venv/Scripts/python.exe : Traceback (most recent call last):
+At line:2 char:1
++ .venv/Scripts/python.exe -m studies.parameter_sweep --config configs/ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\m_ara\Documents\CubeSat-Detumbling-with-Magnetorquers\studies\parameter_sweep.py", line 141, in 
+<module>
+    if __name__=='__main__': main()
+                             ^^^^^^
+  File "C:\Users\m_ara\Documents\CubeSat-Detumbling-with-Magnetorquers\studies\parameter_sweep.py", line 129, in main
+    simulate,dt,gate=resolve_backend(config,a.verification,a.grid)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\m_ara\Documents\CubeSat-Detumbling-with-Magnetorquers\studies\parameter_sweep.py", line 68, in 
+resolve_backend
+    if not pilot_path: raise ValueError('Production requires pilot_records')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Production requires pilot_records
