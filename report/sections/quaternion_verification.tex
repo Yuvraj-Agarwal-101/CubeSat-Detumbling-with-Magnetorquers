@@ -1,0 +1,49 @@
+\section{Quaternion utilities and verification}
+
+\subsection{Implemented convention}
+The quaternion module stores \(q=(s,v_1,v_2,v_3)^T\) and uses Hamilton multiplication. For \(p=(p_s,p_v)\) and \(q=(q_s,q_v)\),
+\[
+p\otimes q=
+\begin{bmatrix}
+p_sq_s-p_v^Tq_v\\
+p_sq_v+q_sp_v+p_v\times q_v
+\end{bmatrix}.
+\]
+The matrix \(C_{BI}(q)\) transforms inertial vector components into body components and agrees with the convention in the initial value problem. Its composition rule is
+\[
+C_{BI}(p\otimes q)=C_{BI}(q)C_{BI}(p).
+\]
+A positive quarter turn about coordinate axis three maps inertial axis one into the direction opposite body axis two. This example fixes the passive transformation sign.
+
+The implemented utilities are \texttt{multiply}, \texttt{normalize}, \texttt{conjugate}, \texttt{inverse}, \texttt{rotation\_matrix}, and \texttt{quaternion\_derivative}. The inverse uses the quaternion conjugate divided by its squared norm, so it also handles nonunit quaternions. Normalization rescales before forming the norm to handle very large and small finite inputs. A zero quaternion is rejected when an orientation or inverse is required.
+
+For body angular velocity \(\omega\), the derivative is
+\[
+\dot q=\tfrac12 q\otimes(0,\omega),
+\qquad
+\dot s+\tfrac12 v^T\omega=0,
+\qquad
+\dot v=\tfrac12(s\omega+v\times\omega).
+\]
+The derivative and multiplication functions retain the magnitude of their quaternion inputs. The rotation matrix function uses a normalized local copy to define the orientation for inputs with norm drift. No function changes the caller's arrays. This orientation evaluation does not project the integrated state. The integrator owner will apply state normalization after a completed step.
+
+\subsection{Independent checks}
+The test suite contains 62 passing cases. It can be run from the repository root with
+\begin{quote}
+\texttt{.venv/bin/python \string-m pytest \string-q}
+\end{quote}
+The checks establish the following algebraic and geometric properties.
+\begin{enumerate}
+\item Identity, quarter turns about all three coordinate axes, and half turns produce independently specified matrices. An oblique axis rotation agrees with Rodrigues geometry.
+\item Hamilton basis products verify operand order. Multiplication retains algebraic scale.
+\item For eight fixed random seeds, rotation matrices satisfy orthogonality, unit determinant, vector norm preservation, quaternion sign equivalence, inverse transformation, and the passive composition rule.
+\item Multiplicative inverses return the identity for nonunit quaternions over several scales. Normalization handles input scales near both ends of the ordinary floating point exponent range.
+\item Zero angular velocity produces zero derivative. A known constant rate quaternion curve gives the expected instantaneous derivative. The derivative is tangent to constant quaternion norm surfaces.
+\item An instantaneous centered difference of \(C_{BI}\) agrees with
+\[
+\dot C_{BI}+[\omega]_\times C_{BI}=0
+\]
+at a nonidentity attitude. This independently connects the derivative sign to the passive matrix convention.
+\item Invalid shapes, complex values, nonfinite inputs, and undefined zero orientations are rejected. Function calls preserve their input arrays.
+\end{enumerate}
+These checks verify the quaternion utility layer. Time integration, convergence order, torque free conservation studies, and engineering results remain pending. The constant rate check evaluates an instantaneous exact derivative and is not a completed integration convergence study.
