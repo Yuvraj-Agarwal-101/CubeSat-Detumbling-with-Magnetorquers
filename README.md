@@ -1,6 +1,6 @@
 # CubeSat Detumbling with Magnetorquers
 
-AE 370 Fall 2026 Project 1. Current implementation status is recorded here; older workchunk documents preserve the state at their original revisions.
+AE 370 Fall 2026 Project 1. Current code is on the [aleksandar branch](https://github.com/Yuvraj-Agarwal-101/CubeSat-Detumbling-with-Magnetorquers/tree/aleksandar). Current implementation status is recorded here; older workchunk documents preserve the state at their original revisions.
 
 ## Full idealized model
 
