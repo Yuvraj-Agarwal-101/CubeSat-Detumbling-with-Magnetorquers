@@ -1,0 +1,34 @@
+\subsection{Lecture alignment checks}
+Lecture 11 defines truncation error as the one step defect divided by $h$.
+For $u'=u$, $u(0)=1$, each row below starts from the exact initial state.
+The numerical update is unprojected RK4 and the reference is the exponential.
+\begin{center}
+\begin{tabular}{rrrr}
+$h$ & Defect & Defect divided by $h$ & Defect order \\
+\hline
+0.4 & 9.1364e-05 & 2.2841e-04 & {} \\
+0.2 & 2.7582e-06 & 1.3791e-05 & 5.0499 \\
+0.1 & 8.4742e-08 & 8.4742e-07 & 5.0245 \\
+0.05 & 2.6260e-09 & 5.2520e-08 & 5.0121 \\
+0.025 & 8.1721e-11 & 3.2688e-09 & 5.0060 \\
+\end{tabular}
+\end{center}
+The fifth order defect yields fourth order truncation error per unit time.
+At very small steps floating point cancellation would limit this comparison.
+
+Lectures 12 and 13 use the frozen Jacobian
+$A=\left(\begin{smallmatrix}-2&0\\400&-2000\end{smallmatrix}\right)$.
+Its eigenvalues are $-2$ and $-2000$, with magnitude ratio $1000$.
+For $h=0.001$ the fast scaled eigenvalue is $-2$, inside the RK4 region.
+For $h=0.0015$ it is $-3$, outside. This constant coefficient verification
+fixture demonstrates the stability restriction. It does not classify the
+full CubeSat system as stiff or nonstiff.
+
+Following Lecture 3 and the grid norm discussion in Lecture 14, convergence
+records additionally store the time weighted norm
+$\sqrt{\int_0^T e(t)^2\,dt}$ using trapezoidal quadrature, and the largest
+sampled error. Scalar error and attitude angle error in radians are separate.
+No norm mixes quaternion components and dimensional angular rates.
+Time weighting includes the shortened final interval and prevents sample
+count from changing the meaning of a trajectory norm. Endpoint error remains
+the primary convergence plot. Sampled norms are not continuous error bounds.

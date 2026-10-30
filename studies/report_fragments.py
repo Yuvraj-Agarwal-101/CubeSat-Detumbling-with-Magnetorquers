@@ -112,7 +112,7 @@ nothing conclusive about eventual recovery.
     out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(text,encoding='utf-8')
     copyable='# Copyable LaTeX report contributions\n\nRequired packages are amsmath and graphicx. Compile the preview from the report directory. LaTeX compilation remains unverified.\n'
-    for section in ('method','verification','numerical_verification','acknowledgments'):
+    for section in ('method','verification','numerical_verification','lecture_alignment','acknowledgments'):
         content=(ROOT/'report/sections'/f'{section}.tex').read_text(encoding='utf-8')
         copyable+='\n## '+section+'\n\n```latex\n'+content+'```\n'
     (ROOT/'report/PERSON2_FRAGMENTS.md').write_text(copyable,encoding='utf-8')

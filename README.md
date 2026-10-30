@@ -12,7 +12,7 @@ The full project includes attitude dynamics, magnetic forcing and control, a num
 
 ## Current status
 
-The engineering premise, quaternion utilities, Euler dynamics, generic classical RK4, and independent exact solution convergence studies are implemented. The premise is in `report/sections/premise.tex`. It defines the question, full initial value problem, numerical motivation, assumptions, actuator constraint, and deadline criterion. The combined suite has 198 passing tests. All engineering baseline values remain proposed study inputs.
+The engineering premise, quaternion utilities, Euler dynamics, generic classical RK4, and independent exact solution convergence studies are implemented. The premise is in `report/sections/premise.tex`. It defines the question, full initial value problem, numerical motivation, assumptions, actuator constraint, and deadline criterion. The combined suite has 204 passing tests. All engineering baseline values remain proposed study inputs.
 
 The canonical shared configuration is now available in configs/baseline.json. The production field and controller modules are still missing. Consequently full detumbling runs, production step selection, and engineering sweeps remain pending. `run_all.py` regenerates the completed numerical contribution and explicitly records the full model step study as pending. The delivered convergence results use known scalar and spherical torque free solutions. Integration checks additionally connect RK4 to the actual dynamics with artificial zero torque callbacks. They do not substitute for production control verification.
 
@@ -31,7 +31,7 @@ On Windows use `python` instead of `python3` and `.venv\Scripts\python.exe` inst
 ## Organization and ownership
 
 1. `src` holds reusable numerical and physics modules. Person 1 owns quaternion utilities and dynamics. Person 2 owns the integrator. Person 3 owns orbital forcing and control.
-2. `tests` holds 62 quaternion cases, 62 instantaneous dynamics cases, 50 configuration cases, one canonical report table check, 20 integrator and study metric cases, and three integration checks. All 198 pass. Artificial fixtures are labeled explicitly.
+2. `tests` holds 62 quaternion cases, 62 instantaneous dynamics cases, 50 configuration cases, one canonical report table check, 20 integrator and study metric cases, and three integration checks. All 204 pass. Artificial fixtures are labeled explicitly.
 3. `studies` holds `convergence.py`, `timestep_selection.py`, `make_figures.py`, and report generation. Person 2 owns numerical studies. Person 4's `parameter_sweep.py` and engineering figure generation remain pending.
 4. `configs` holds exact verification inputs and proposed refinement settings. The canonical baseline and per-parameter provenance are in configs/baseline.json. All engineering inputs remain preliminary and the production step is unset.
 5. `data/processed` holds convergence CSV and JSON, test evidence, environment metadata and the step selection status.
@@ -58,7 +58,7 @@ Run the current checks from the repository root.
 .venv/bin/python -m pytest -q
 ```
 
-The observed result is 198 passing tests. The 175 teammate checks cover instantaneous algebra, geometry, interfaces, configuration and report consistency. The new checks add exact solution convergence and integration behavior. Production detumbling accuracy is not established by these tests.
+The observed result is 204 passing tests. The 175 teammate checks cover instantaneous algebra, geometry, interfaces, configuration and report consistency. The new checks add exact solution convergence and integration behavior. Production detumbling accuracy is not established by these tests.
 
 ## Dynamics API
 
@@ -139,4 +139,8 @@ Each member should record completed work, checks, dependencies, and AI use as th
 
 Runtime and platform metadata vary across runs. Compare numerical convergence values and report content rather than requiring identical timing logs or image metadata. SHA256SUMS.txt is the committed file snapshot, not a promise that regenerated runtime logs are byte identical.
 
-The agent reproduced all 198 tests, the numerical data, both generated tables and both figure files from a clean local Git clone of commit `02666f0e5645b83c10c65d8c1591b70d61c1fc71`. See `data/processed/clean_clone_verification.json`. This does not replace the independent teammate check or the final full project reproduction.
+The agent reproduced all 204 tests, the numerical data, both generated tables and both figure files from a clean local Git clone of commit `02666f0e5645b83c10c65d8c1591b70d61c1fc71`. See `data/processed/clean_clone_verification.json`. This does not replace the independent teammate check or the final full project reproduction.
+
+## Local lecture review
+
+The followup on branch aleksandar uses the provided AE 370 Lectures 2 through 19. See docs/lecture_review.md for the mathematical comparison and changes. No remote publication is part of this review. Run python -m studies.lecture_validation for the one step defect and frozen linear stability examples; python run_all.py includes that command. There are six additional lecture checks and the current suite has 204 tests. The clean clone evidence for commit 02666f0 remains historical evidence for the earlier version, not for these local edits.

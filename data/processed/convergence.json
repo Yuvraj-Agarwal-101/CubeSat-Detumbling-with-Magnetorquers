@@ -70,7 +70,9 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 40,
-      "runtime_s": 0.0011163000017404556
+      "runtime_s": 0.0014176999684423208,
+      "l2_time": 0.0003038735170087687,
+      "linfinity_sampled": 0.0008312557299401391
     },
     {
       "case": "scalar",
@@ -81,7 +83,9 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 80,
-      "runtime_s": 0.001196300028823316
+      "runtime_s": 0.005875400034710765,
+      "l2_time": 1.9351519968775734e-05,
+      "linfinity_sampled": 5.856511176105528e-05
     },
     {
       "case": "scalar",
@@ -92,7 +96,9 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 160,
-      "runtime_s": 0.002089399960823357
+      "runtime_s": 0.005117800086736679,
+      "l2_time": 1.2389236175503606e-06,
+      "linfinity_sampled": 3.879137709716929e-06
     },
     {
       "case": "scalar",
@@ -103,7 +109,9 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 320,
-      "runtime_s": 0.005894200061447918
+      "runtime_s": 0.009497900027781725,
+      "l2_time": 7.882769269837701e-08,
+      "linfinity_sampled": 2.4945402365972313e-07
     },
     {
       "case": "scalar",
@@ -114,7 +122,9 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 640,
-      "runtime_s": 0.0095446000341326
+      "runtime_s": 0.010439499979838729,
+      "l2_time": 4.979234821146872e-09,
+      "linfinity_sampled": 1.5812313236551745e-08
     },
     {
       "case": "scalar",
@@ -125,7 +135,9 @@
       "omega_error_rad_s": null,
       "max_preprojection_norm_error": null,
       "rhs_evaluations": 1280,
-      "runtime_s": 0.01988169993273914
+      "runtime_s": 0.02409680001437664,
+      "l2_time": 3.1299567582194923e-10,
+      "linfinity_sampled": 9.952305646265813e-10
     },
     {
       "case": "spherical",
@@ -136,7 +148,9 @@
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 1.3351529561500541e-05,
       "rhs_evaluations": 80,
-      "runtime_s": 0.0037842000601813197
+      "runtime_s": 0.007828200003132224,
+      "l2_time": 0.004546893648521791,
+      "linfinity_sampled": 0.0017599047408231223
     },
     {
       "case": "spherical",
@@ -147,7 +161,9 @@
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 2.1109980596900613e-07,
       "rhs_evaluations": 160,
-      "runtime_s": 0.004348000045865774
+      "runtime_s": 0.013926099985837936,
+      "l2_time": 0.00029389468846025983,
+      "linfinity_sampled": 0.0001138071424168376
     },
     {
       "case": "spherical",
@@ -158,7 +174,9 @@
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 3.3081355432784676e-09,
       "rhs_evaluations": 320,
-      "runtime_s": 0.00842149998061359
+      "runtime_s": 0.027432499919086695,
+      "l2_time": 1.8521336014269185e-05,
+      "linfinity_sampled": 7.173002402931608e-06
     },
     {
       "case": "spherical",
@@ -169,7 +187,9 @@
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 5.1727622185637756e-11,
       "rhs_evaluations": 640,
-      "runtime_s": 0.0240446999669075
+      "runtime_s": 0.05518260004464537,
+      "l2_time": 1.1599771532527817e-06,
+      "linfinity_sampled": 4.492528317587527e-07
     },
     {
       "case": "spherical",
@@ -180,7 +200,9 @@
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 8.085754288345015e-13,
       "rhs_evaluations": 1280,
-      "runtime_s": 0.035609800019301474
+      "runtime_s": 0.09899549989495426,
+      "l2_time": 7.253598838904556e-08,
+      "linfinity_sampled": 2.8092999071876544e-08
     },
     {
       "case": "spherical",
@@ -191,7 +213,9 @@
       "omega_error_rad_s": 0.0,
       "max_preprojection_norm_error": 1.27675647831893e-14,
       "rhs_evaluations": 2560,
-      "runtime_s": 0.07447240001056343
+      "runtime_s": 0.2103388000978157,
+      "l2_time": 4.534085015525729e-09,
+      "linfinity_sampled": 1.7560417037050913e-09
     }
   ]
 }

@@ -25,6 +25,13 @@
       "configuration": "configs/baseline.json",
       "data": "configs/baseline.json",
       "seed": null
+    },
+    {
+      "artifact": "report/sections/lecture_alignment.tex",
+      "generator": "python -m studies.lecture_validation",
+      "configuration": "Fixture settings embedded and recorded in lecture_validation.json",
+      "data": "data/processed/lecture_validation.json",
+      "seed": null
     }
   ]
 }

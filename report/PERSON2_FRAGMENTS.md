@@ -33,6 +33,15 @@ b^Tc^3&=1/4,&b^TCAc&=1/8,&b^TAc^2&=1/12,&b^TA^2c&=1/24.
 Direct substitution satisfies all eight conditions. With sufficiently bounded
 derivatives through order five and a Lipschitz right hand side in a neighborhood
 of the solution, the one step defect from exact initial data is $O(h_n^5)$.
+Lecture 11 divides this defect by the step length when defining truncation
+error. With $\Phi_h$ denoting one unprojected RK4 update, its convention gives
+\[
+\tau_n=\frac{y(t_n+h_n)-\Phi_{h_n}(t_n,y(t_n))}{h_n}=O(h_n^4).
+\]
+Thus fifth order one step defect and fourth order truncation error per unit
+time describe the same method. The Adams moment conditions in Lecture 11
+do not apply directly to RK stage states. The eight conditions above account
+for the intermediate states and time dependence.
 The error recurrence has the form
 \[
 \|e_{n+1}\|\leq(1+L_*h_n)\|e_n\|+K h_n^5.
@@ -47,9 +56,19 @@ For $\dot y=\lambda y$, substitution of the four stages gives
 y_{n+1}=R(z)y_n,\qquad
 R(z)=1+z+z^2/2+z^3/6+z^4/24,\qquad z=h\lambda.
 \]
-Absolute stability requires $|R(z)|\leq1$. On the imaginary axis,
+Following Lecture 12, strict modal decay requires $|R(z)|<1$.
+Equality is the marginal boundary, not strict decay. On the imaginary axis,
 $|R(i\xi)|^2=1-\xi^6/72+\xi^8/576$, so the stable interval is
 $|\xi|\leq2\sqrt2$. This linear result does not establish nonlinear accuracy.
+On the negative real axis the bounded region extends to approximately
+$z=-2.785$. Consequently a fast decaying mode can restrict an explicit step
+even when its amplitude is small. Lecture 13 distinguishes that stability
+restriction from the step needed to resolve the desired dynamics.
+Frozen Jacobian spectra should be reviewed at representative trajectory
+states and across gains. Neutral modes must be counted separately when
+forming a ratio of nonzero mode magnitudes. Nonnormality, time dependence,
+projection and saturation prevent this check from being a full nonlinear
+stability proof. No full model stiffness classification has been measured.
 For a frozen field, the unsaturated rotational part of the normalized feedback
 has torque $-k_B(I-bb^T)\omega$, where $b=B_B/\|B_B\|$.
 The preliminary gain and inertia give a largest damping scale
@@ -92,6 +111,7 @@ all accepted states, using memory proportional to the number of steps.
 \input{sections/dynamics_verification}
 \input{sections/configuration_verification}
 \input{sections/numerical_verification}
+\input{sections/lecture_alignment}
 ```
 
 ## numerical_verification
@@ -191,6 +211,45 @@ reduce smooth convergence order and event sampling can dominate metric
 differences. Person 4 must review event resolution separately from trajectory
 error, with additional refinement where necessary. A missed deadline says
 nothing conclusive about eventual recovery.
+```
+
+## lecture_alignment
+
+```latex
+\subsection{Lecture alignment checks}
+Lecture 11 defines truncation error as the one step defect divided by $h$.
+For $u'=u$, $u(0)=1$, each row below starts from the exact initial state.
+The numerical update is unprojected RK4 and the reference is the exponential.
+\begin{center}
+\begin{tabular}{rrrr}
+$h$ & Defect & Defect divided by $h$ & Defect order \\
+\hline
+0.4 & 9.1364e-05 & 2.2841e-04 & {} \\
+0.2 & 2.7582e-06 & 1.3791e-05 & 5.0499 \\
+0.1 & 8.4742e-08 & 8.4742e-07 & 5.0245 \\
+0.05 & 2.6260e-09 & 5.2520e-08 & 5.0121 \\
+0.025 & 8.1721e-11 & 3.2688e-09 & 5.0060 \\
+\end{tabular}
+\end{center}
+The fifth order defect yields fourth order truncation error per unit time.
+At very small steps floating point cancellation would limit this comparison.
+
+Lectures 12 and 13 use the frozen Jacobian
+$A=\left(\begin{smallmatrix}-2&0\\400&-2000\end{smallmatrix}\right)$.
+Its eigenvalues are $-2$ and $-2000$, with magnitude ratio $1000$.
+For $h=0.001$ the fast scaled eigenvalue is $-2$, inside the RK4 region.
+For $h=0.0015$ it is $-3$, outside. This constant coefficient verification
+fixture demonstrates the stability restriction. It does not classify the
+full CubeSat system as stiff or nonstiff.
+
+Following Lecture 3 and the grid norm discussion in Lecture 14, convergence
+records additionally store the time weighted norm
+$\sqrt{\int_0^T e(t)^2\,dt}$ using trapezoidal quadrature, and the largest
+sampled error. Scalar error and attitude angle error in radians are separate.
+No norm mixes quaternion components and dimensional angular rates.
+Time weighting includes the shortened final interval and prevents sample
+count from changing the meaning of a trajectory norm. Endpoint error remains
+the primary convergence plot. Sampled norms are not continuous error bounds.
 ```
 
 ## acknowledgments

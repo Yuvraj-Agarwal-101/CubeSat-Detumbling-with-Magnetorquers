@@ -41,6 +41,6 @@ The proposed tolerance gate requires two consecutive successful comparisons for 
 
 ## Supplied evidence and remaining work
 
-There are 20 independent Person 2 unit tests and three shared dynamics integration checks. The complete suite contains 198 tests. Convergence data and six step sizes for each exact problem are stored with complete inputs. The source extraction is docs/person2_source_extracted.txt and the structured handoff is docs/person2_handoff.md. Copyable LaTeX is in report/PERSON2_FRAGMENTS.md.
+There are 20 independent Person 2 unit tests and three shared dynamics integration checks. The complete suite contains 204 tests. Convergence data and six step sizes for each exact problem are stored with complete inputs. The source extraction is docs/person2_source_extracted.txt and the structured handoff is docs/person2_handoff.md. Copyable LaTeX is in report/PERSON2_FRAGMENTS.md.
 
 Production field/control, a justified production step, real smooth and saturated refinement studies, engineering sweeps, final contribution percentages and independent teammate reproduction remain pending. The repository exists on GitHub; this document makes no claim about full model completion. No external numerical solver or fabricated citation was introduced.

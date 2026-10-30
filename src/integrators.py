@@ -25,6 +25,8 @@ def rk4(rhs: Callable, y0, t_span, step_size, *, projection=None,
     """
     start, end = map(float, t_span)
     h = float(step_size)
+    if np.iscomplexobj(y0):
+        raise ValueError('This solver uses real states; represent a complex mode with two real components')
     y = np.asarray(y0, dtype=float).copy()
     if y.ndim != 1 or not y.size or not np.all(np.isfinite(y)):
         raise ValueError('y0 must be a finite nonempty one dimensional array')
@@ -32,6 +34,8 @@ def rk4(rhs: Callable, y0, t_span, step_size, *, projection=None,
         raise ValueError('Require finite times, positive step, and end >= start')
 
     def checked(value, label):
+        if np.iscomplexobj(value):
+            raise ValueError(label + ' must return real values')
         value = np.asarray(value, dtype=float)
         if value.shape != y.shape or not np.all(np.isfinite(value)):
             raise ValueError(label + ' returned invalid shape or nonfinite values')

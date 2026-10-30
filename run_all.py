@@ -25,7 +25,7 @@ def main():
     print(log)
     if tests.returncode:
         raise SystemExit(tests.returncode)
-    modules=['studies.convergence','studies.make_figures','studies.report_fragments',
+    modules=['studies.convergence','studies.lecture_validation','studies.make_figures','studies.report_fragments',
              'studies.timestep_selection']
     for module in modules:
         command=[sys.executable,'-m',module]
