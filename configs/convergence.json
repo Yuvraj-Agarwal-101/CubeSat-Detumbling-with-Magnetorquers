@@ -1,0 +1,5 @@
+{
+  "seed": null,
+  "scalar": {"equation": "y_prime = t*y", "t_span": [0.0, 2.0], "y0": [1.0], "step_sizes": [0.2, 0.1, 0.05, 0.025, 0.0125, 0.00625]},
+  "spherical": {"inertia_kg_m2": [0.02, 0.02, 0.02], "torque_Nm": [0, 0, 0], "t_span": [0.0, 20.0], "q0": [0.8, 0.2, -0.4, 0.4], "omega_rad_s": [0.3, -0.4, 0.5], "step_sizes": [1.0, 0.5, 0.25, 0.125, 0.0625, 0.03125], "projection": "after each completed step"}
+}

@@ -48,4 +48,4 @@ Missing callbacks and malformed callback outputs raise `ValueError`. No fallback
 
 ## Reproduction
 
-Run `.venv/bin/python -m pytest -q tests/test_dynamics.py` for the 62 dynamics cases. Run `.venv/bin/python -m pytest -q` for all 124 current cases. These are instantaneous algebraic, geometry, and interface checks. Time integration and convergence studies remain pending.
+Run `.venv/bin/python -m pytest -q tests/test_dynamics.py` for the 62 dynamics cases. Run `.venv/bin/python -m pytest -q` for all 147 current cases. These are instantaneous algebraic, geometry, and interface checks. The numerical contribution adds exact convergence and integrated torque free checks with artificial callbacks. Production field and controller integration remains pending.

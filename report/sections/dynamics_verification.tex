@@ -22,7 +22,7 @@ It passes these body quantities, the current time, quaternion, and angular veloc
 Field and control are reevaluated on every call. This allows the numerical integrator to evaluate the forcing and feedback at each stage using the appropriate intermediate state and time. Quaternion kinematics retain the unprojected stage value. The rotation matrix uses a normalized local copy, without modifying the caller's state. No time integrator is implemented in this module.
 
 \subsubsection{Independent verification}
-The dynamics test file contains 62 passing cases. Together with the 62 quaternion cases, the current suite contains 124 passing cases. The suite is run from the repository root using
+The dynamics test file contains 62 passing cases. Together with the 62 quaternion cases, this dynamics contribution originally comprised 124 passing cases. The numerical integration contribution adds further checks. The suite is run from the repository root using
 \begin{quote}
 \texttt{.venv/bin/python \string-m pytest \string-q}.
 \end{quote}
@@ -50,4 +50,4 @@ The momentum derivative is checked using a centered difference at the test state
 \subsubsection{Integration status}
 The production geomagnetic field and B dot controller modules are not yet present. The interface tests use explicitly artificial field and prescribed dipole fixtures. These establish the dynamics assembly and callback contract rather than validating a production magnetic controller. Missing callbacks produce an explicit error.
 
-Time integration convergence, conservation errors over finite trajectories, and engineering results remain pending. Those studies require the numerical integrator and the production field and controller modules. The current tests do not establish detumbling performance or a suitable production time step.
+The numerical integration contribution now supplies exact solution convergence and finite trajectory torque free checks using the shared dynamics and artificial callbacks. Production detumbling studies still require the field and controller modules. The current checks do not establish detumbling performance or a suitable production time step.

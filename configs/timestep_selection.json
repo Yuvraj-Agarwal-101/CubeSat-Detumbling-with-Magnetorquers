@@ -1,0 +1,12 @@
+{
+  "step_sizes_s": [4, 2, 1, 0.5, 0.25],
+  "rate_threshold_rad_s": 0.008726646259971648,
+  "hold_duration_s": 600,
+  "tolerances": {
+    "detumbling_time_s": {"relative": 0.01, "absolute": 1.0},
+    "final_rate_rad_s": {"relative": 0.01, "absolute": 0.000001},
+    "peak_torque_Nm": {"relative": 0.01, "absolute": 0.0000000001},
+    "saturation_fraction": {"relative": 0, "absolute": 0.005}
+  },
+  "status": "Proposed screening tolerances. Team approval and full model runs pending."
+}

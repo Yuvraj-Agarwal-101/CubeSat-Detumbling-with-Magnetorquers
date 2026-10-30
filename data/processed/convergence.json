@@ -1,0 +1,197 @@
+{
+  "kind": "exact verification fixtures, not full spacecraft",
+  "configuration": {
+    "seed": null,
+    "scalar": {
+      "equation": "y_prime = t*y",
+      "t_span": [
+        0.0,
+        2.0
+      ],
+      "y0": [
+        1.0
+      ],
+      "step_sizes": [
+        0.2,
+        0.1,
+        0.05,
+        0.025,
+        0.0125,
+        0.00625
+      ]
+    },
+    "spherical": {
+      "inertia_kg_m2": [
+        0.02,
+        0.02,
+        0.02
+      ],
+      "torque_Nm": [
+        0,
+        0,
+        0
+      ],
+      "t_span": [
+        0.0,
+        20.0
+      ],
+      "q0": [
+        0.8,
+        0.2,
+        -0.4,
+        0.4
+      ],
+      "omega_rad_s": [
+        0.3,
+        -0.4,
+        0.5
+      ],
+      "step_sizes": [
+        1.0,
+        0.5,
+        0.25,
+        0.125,
+        0.0625,
+        0.03125
+      ],
+      "projection": "after each completed step"
+    }
+  },
+  "seed": null,
+  "python": "3.12.14",
+  "numpy": "2.0.2",
+  "results": [
+    {
+      "case": "scalar",
+      "step_s": 0.2,
+      "error": 0.0008312557299401391,
+      "order": null,
+      "quaternion_component_error": null,
+      "omega_error_rad_s": null,
+      "max_preprojection_norm_error": null,
+      "rhs_evaluations": 40,
+      "runtime_s": 0.0010055000893771648
+    },
+    {
+      "case": "scalar",
+      "step_s": 0.1,
+      "error": 5.856511176105528e-05,
+      "order": 3.8271789926625965,
+      "quaternion_component_error": null,
+      "omega_error_rad_s": null,
+      "max_preprojection_norm_error": null,
+      "rhs_evaluations": 80,
+      "runtime_s": 0.0016908000688999891
+    },
+    {
+      "case": "scalar",
+      "step_s": 0.05,
+      "error": 3.879137709716929e-06,
+      "order": 3.916233584733881,
+      "quaternion_component_error": null,
+      "omega_error_rad_s": null,
+      "max_preprojection_norm_error": null,
+      "rhs_evaluations": 160,
+      "runtime_s": 0.002830699901096523
+    },
+    {
+      "case": "scalar",
+      "step_s": 0.025,
+      "error": 2.4945402365972313e-07,
+      "order": 3.958890147451567,
+      "quaternion_component_error": null,
+      "omega_error_rad_s": null,
+      "max_preprojection_norm_error": null,
+      "rhs_evaluations": 320,
+      "runtime_s": 0.004956700024195015
+    },
+    {
+      "case": "scalar",
+      "step_s": 0.0125,
+      "error": 1.5812313236551745e-08,
+      "order": 3.979653595045878,
+      "quaternion_component_error": null,
+      "omega_error_rad_s": null,
+      "max_preprojection_norm_error": null,
+      "rhs_evaluations": 640,
+      "runtime_s": 0.00969560001976788
+    },
+    {
+      "case": "scalar",
+      "step_s": 0.00625,
+      "error": 9.952305646265813e-10,
+      "order": 3.989873836724181,
+      "quaternion_component_error": null,
+      "omega_error_rad_s": null,
+      "max_preprojection_norm_error": null,
+      "rhs_evaluations": 1280,
+      "runtime_s": 0.019539000000804663
+    },
+    {
+      "case": "spherical",
+      "step_s": 1.0,
+      "error": 0.0017599047408231223,
+      "order": null,
+      "quaternion_component_error": 0.0008799523420215178,
+      "omega_error_rad_s": 0.0,
+      "max_preprojection_norm_error": 1.3351529561500541e-05,
+      "rhs_evaluations": 80,
+      "runtime_s": 0.0023957000812515616
+    },
+    {
+      "case": "spherical",
+      "step_s": 0.5,
+      "error": 0.0001138071424168376,
+      "order": 3.950834333929645,
+      "quaternion_component_error": 5.690357120075067e-05,
+      "omega_error_rad_s": 0.0,
+      "max_preprojection_norm_error": 2.1109980596900613e-07,
+      "rhs_evaluations": 160,
+      "runtime_s": 0.004015399958007038
+    },
+    {
+      "case": "spherical",
+      "step_s": 0.25,
+      "error": 7.173002402931608e-06,
+      "order": 3.9878701782186625,
+      "quaternion_component_error": 3.5865012014530948e-06,
+      "omega_error_rad_s": 0.0,
+      "max_preprojection_norm_error": 3.3081355432784676e-09,
+      "rhs_evaluations": 320,
+      "runtime_s": 0.009482700028456748
+    },
+    {
+      "case": "spherical",
+      "step_s": 0.125,
+      "error": 4.492528317587527e-07,
+      "order": 3.9969776115059616,
+      "quaternion_component_error": 2.2462641586892482e-07,
+      "omega_error_rad_s": 0.0,
+      "max_preprojection_norm_error": 5.1727622185637756e-11,
+      "rhs_evaluations": 640,
+      "runtime_s": 0.021824900060892105
+    },
+    {
+      "case": "spherical",
+      "step_s": 0.0625,
+      "error": 2.8092999071876544e-08,
+      "order": 3.999245044549451,
+      "quaternion_component_error": 1.4046499511094807e-08,
+      "omega_error_rad_s": 0.0,
+      "max_preprojection_norm_error": 8.085754288345015e-13,
+      "rhs_evaluations": 1280,
+      "runtime_s": 0.03386059997137636
+    },
+    {
+      "case": "spherical",
+      "step_s": 0.03125,
+      "error": 1.7560417037050913e-09,
+      "order": 3.999811635265657,
+      "quaternion_component_error": 8.780208477527101e-10,
+      "omega_error_rad_s": 0.0,
+      "max_preprojection_norm_error": 1.27675647831893e-14,
+      "rhs_evaluations": 2560,
+      "runtime_s": 0.0697839999338612
+    }
+  ]
+}

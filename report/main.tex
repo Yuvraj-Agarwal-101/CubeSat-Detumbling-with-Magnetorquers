@@ -2,6 +2,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb}
+\usepackage{graphicx}
 \usepackage{microtype}
 \usepackage[hidelinks]{hyperref}
 \setlength{\parindent}{0pt}
@@ -13,9 +14,13 @@
 \begin{document}
 \maketitle
 \input{sections/premise}
+\input{sections/method}
 \section{Correct implementation and verification}
 \input{sections/quaternion_verification}
 \input{sections/dynamics_verification}
+\input{sections/verification}
+\input{sections/reproducibility}
+\input{sections/acknowledgments}
 \bibliographystyle{unsrt}
 \bibliography{references}
 \end{document}

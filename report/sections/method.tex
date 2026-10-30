@@ -1,0 +1,77 @@
+\section{Numerical method}
+We advance $\dot y=f(t,y)$ with classical explicit RK4. For a step
+$h_n=\min(h,T-t_n)$ the update is
+\begin{align}
+k_1&=f(t_n,y_n), & k_2&=f(t_n+h_n/2,y_n+h_nk_1/2),\\
+k_3&=f(t_n+h_n/2,y_n+h_nk_2/2), & k_4&=f(t_n+h_n,y_n+h_nk_3),\\
+\widetilde y_{n+1}&=y_n+\frac{h_n}{6}(k_1+2k_2+2k_3+k_4).
+\end{align}
+Each stage evaluates the derivative at its own time and state, including
+forcing and control when the complete model is connected. Four derivative
+evaluations are used per step. The last step ends at the specified final time.
+
+To derive the order, augment the nonautonomous system by $\dot t=1$ and
+match the elementary differentials in its Taylor expansion. The coefficients are
+\[
+A=\begin{pmatrix}0&0&0&0\\1/2&0&0&0\\0&1/2&0&0\\0&0&1&0\end{pmatrix},
+\quad b=\begin{pmatrix}1/6\\1/3\\1/3\\1/6\end{pmatrix},
+\quad c=A\mathbf1=\begin{pmatrix}0\\1/2\\1/2\\1\end{pmatrix}.
+\]
+Writing powers of $c$ componentwise and $C=\operatorname{diag}(c)$,
+the Taylor matching conditions through order four are
+\begin{align}
+b^T\mathbf1&=1,&b^Tc&=1/2,&b^Tc^2&=1/3,&b^TAc&=1/6,\\
+b^Tc^3&=1/4,&b^TCAc&=1/8,&b^TAc^2&=1/12,&b^TA^2c&=1/24.
+\end{align}
+Direct substitution satisfies all eight conditions. With sufficiently bounded
+derivatives through order five and a Lipschitz right hand side in a neighborhood
+of the solution, the one step defect from exact initial data is $O(h_n^5)$.
+The error recurrence has the form
+\[
+\|e_{n+1}\|\leq(1+L_*h_n)\|e_n\|+K h_n^5.
+\]
+Over a fixed finite interval, summing the propagated defects yields global error
+$O(h^4)$. These smoothness assumptions need separate consideration at saturation
+crossings. Agreement between refined numerical trajectories alone is not a
+verification of the governing equations.
+
+For $\dot y=\lambda y$, substitution of the four stages gives
+\[
+y_{n+1}=R(z)y_n,\qquad
+R(z)=1+z+z^2/2+z^3/6+z^4/24,\qquad z=h\lambda.
+\]
+Absolute stability requires $|R(z)|\leq1$. On the imaginary axis,
+$|R(i\xi)|^2=1-\xi^6/72+\xi^8/576$, so the stable interval is
+$|\xi|\leq2\sqrt2$. This linear result does not establish nonlinear accuracy.
+For a frozen field, the unsaturated rotational part of the normalized feedback
+has torque $-k_B(I-bb^T)\omega$, where $b=B_B/\|B_B\|$.
+The preliminary gain and inertia give a largest damping scale
+$k_B/J_{\min}=1.43\times10^{-3}\ \mathrm{s}^{-1}$.
+At the preliminary rate of $10$ degrees per second, the quaternion frequency
+is $\|\omega\|/2=0.0873\ \mathrm{s}^{-1}$.
+These are scale estimates, not a stiffness classification or an accepted step.
+Orbital forcing, rigid body coupling, gain sweeps, and saturation still require
+the complete model assessment.
+
+After each completed step we record $\|\widetilde q_{n+1}\|-1$, then set
+$q_{n+1}=\widetilde q_{n+1}/\|\widetilde q_{n+1}\|$ while leaving angular
+velocity unchanged. The input quaternion must already have unit norm.
+Projection is smooth near a unit quaternion and fixes the exact solution,
+so it preserves fourth order there. Intermediate stages are not projected by
+the integrator. The verification fixture uses polynomial quaternion kinematics
+and evaluates no attitude matrix in its derivative. The shared dynamics module uses a normalized local copy for rotation matrix
+evaluation and retains the unprojected stage value in quaternion kinematics.
+The new integration checks exercise that contract with artificial zero torque
+control. Production magnetic field and control verification remains pending.
+
+\begin{enumerate}
+\item Evaluate the four derivatives using the stage times and states.
+\item Form the weighted update and record the norm error before projection.
+\item Project only the completed quaternion and store the state and time.
+\item Repeat until the deadline, shortening the final step when needed.
+\end{enumerate}
+RK4 offers fourth order accuracy for smooth trajectories with four evaluations
+per step and no nonlinear solve. It is a candidate for this model because the
+right hand side is small and explicit. Its production accuracy and cost remain
+subject to measured full model refinement. The present implementation stores
+all accepted states, using memory proportional to the number of steps.

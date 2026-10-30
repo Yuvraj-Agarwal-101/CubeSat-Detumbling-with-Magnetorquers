@@ -1,0 +1,7 @@
+{
+  "scope": "Delivered Person 2 exact verification results only",
+  "artifacts": [
+    {"artifact": "figures/convergence.pdf", "also": "figures/convergence.png", "generator": "python -m studies.make_figures", "data_generator": "python -m studies.convergence", "configuration": "configs/convergence.json", "data": "data/processed/convergence.json", "seed": null},
+    {"artifact": "report/sections/verification.tex", "table": "tab:person2convergence", "generator": "python -m studies.report_fragments", "data_generator": "python -m studies.convergence", "configuration": "configs/convergence.json", "data": "data/processed/convergence.json", "seed": null}
+  ]
+}
