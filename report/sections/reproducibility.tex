@@ -20,4 +20,21 @@ The parameter table is generated with
 \end{quote}
 A consistency test fails if the stored table differs from the baseline configuration.
 
-A complete \texttt{run\_all.py}, convergence and engineering study commands, saved sweep configurations and seeds, figure and table manifest, runtime records, and a clean clone reproduction of all final results remain required before submission. Evaluator access and the final tested revision must be checked after the remaining modules and results are merged.
+The Person 4 pipeline now provides \texttt{run\_all.py}, seeded study
+configurations, metric tests, persisted case records, saved histories,
+monochrome figure drivers, and figure manifests. Run
+\texttt{python run\_all.py \string--demo} for an explicitly synthetic
+pipeline demonstration. Run
+\texttt{python \string-m studies.metric\_refinement} for the analytic
+metric check. The latter uses exact sampled functions and no IVP integrator.
+The README documents all generating commands.
+
+The preliminary refinement audit compares three integration steps, audits
+output spacing separately, and optionally records frozen Jacobian spectra.
+Its outputs provide evidence for the numerical methods owner and do not
+automatically approve a production step. The real study runner requires
+independent physics checks, smooth convergence evidence, output grid
+refinement and a step accepted by the numerical methods owner. The production
+study also requires the real 108 case pilot. Convergence driver implementation,
+real runtime measurements, and a clean clone reproduction of all final
+engineering results remain required before submission. Evaluator access and the final tested revision must be checked after the remaining modules and results are merged.

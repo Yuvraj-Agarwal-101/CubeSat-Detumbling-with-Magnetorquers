@@ -27,7 +27,8 @@ def generate(records_path, outdir):
              command=f'python -m studies.make_figures --records {records_path} --output {outdir}',
              synthetic=synthetic,description=description,
              seeds=sorted({r['case']['seed'] for r in rows}),
-             configs=sorted({r['config_sha256'] for r in rows})))
+             configs=sorted({r['config_sha256'] for r in rows}),
+             baselines=sorted({r.get('baseline_sha256','legacy') for r in rows})))
     orbital=[r for r in rows if r['case']['field_mode']=='orbital']
     gains=sorted({r['case']['gain_kg_m2_s'] for r in orbital})
     spins=sorted({r['case']['spin_deg_s'] for r in orbital})
@@ -52,9 +53,9 @@ def generate(records_path, outdir):
                             bbox=dict(facecolor='white',edgecolor='none',alpha=.85))
             image=ax.imshow(np.ma.masked_invalid(z),cmap='Greys',aspect='auto',origin='lower',**({'vmin':0,'vmax':1} if metric=='success_fraction' else {}))
             ax.set_xticks(range(len(limits)),[str(x) for x in limits]);ax.set_yticks(range(len(spins)),[str(x) for x in spins])
-            ax.set_xlabel('Dipole limit [A m²]');ax.set_ylabel('Initial spin [deg/s]');ax.set_title(title,fontsize=9)
+            ax.set_xlabel('Dipole limit [A mÂ²]');ax.set_ylabel('Initial spin [deg/s]');ax.set_title(title,fontsize=9)
             fig.colorbar(image,ax=ax)
-        save(fig,f'maps_gain_{gain:g}',f'Orbital field, gain {gain:g} kg m²/s; labels show successes/valid')
+        save(fig,f'maps_gain_{gain:g}',f'Orbital field, gain {gain:g} kg mÂ²/s; labels show successes/valid')
     fig,axes=plt.subplots(1,2,figsize=(10,4))
     for i,limit in enumerate(limits):
         fractions=[];saturations=[]
@@ -64,8 +65,8 @@ def generate(records_path, outdir):
             sat=[r['metrics']['saturation_fraction'] for r in sub if r['status']=='valid']
             saturations.append(np.mean(sat) if sat else np.nan)
         for ax,y in zip(axes,[fractions,saturations]):
-            ax.plot(gains,y,color='black',linestyle=['-','--',':','-.'][i%4],marker=['o','s','^','x'][i%4],label=f'{limit:g} A m²')
-            ax.set_xscale('log');ax.set_xlabel('Gain [kg m²/s]');ax.set_ylim(-.03,1.03);ax.legend(fontsize=7)
+            ax.plot(gains,y,color='black',linestyle=['-','--',':','-.'][i%4],marker=['o','s','^','x'][i%4],label=f'{limit:g} A mÂ²')
+            ax.set_xscale('log');ax.set_xlabel('Gain [kg mÂ²/s]');ax.set_ylim(-.03,1.03);ax.legend(fontsize=7)
     axes[0].set_ylabel('Success fraction of valid cases');axes[1].set_ylabel('Mean time weighted saturation fraction')
     save(fig,'gain_saturation','Common ensemble across gains; aggregated over initial spins')
     index={}

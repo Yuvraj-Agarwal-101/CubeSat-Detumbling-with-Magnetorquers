@@ -8,7 +8,7 @@ import numpy as np
 
 def _history(t, values):
     t, values = np.asarray(t, float), np.asarray(values, float)
-    if (t.ndim != 1 or len(t) < 2 or values.shape[0] != len(t)
+    if (t.ndim != 1 or len(t) < 2 or values.ndim == 0 or values.shape[0] != len(t)
             or not np.all(np.isfinite(t)) or not np.all(np.isfinite(values))
             or np.any(np.diff(t) <= 0)):
         raise ValueError("finite histories with strictly increasing times required")

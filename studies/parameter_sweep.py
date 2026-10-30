@@ -65,7 +65,7 @@ def run(config_path, output, grid='pilot', synthetic=False, verification=None):
         for case in generate_cases(config,grid):
             then=time.perf_counter()
             record=dict(case=case,synthetic=synthetic,dt_s=dt,tested_commit=commit,
-                        config_sha256=digest(config_path),verification=gate)
+                        config_sha256=digest(config_path),baseline_sha256=digest(config['baseline_path']),verification=gate)
             try:
                 result=simulate(case,dt)
                 metrics=compute_metrics(**{k:result[k] for k in
@@ -82,7 +82,7 @@ def run(config_path, output, grid='pilot', synthetic=False, verification=None):
     summary=summarize(records)
     summary.update(synthetic=synthetic,runtime_s=time.perf_counter()-start,
                    mean_case_runtime_s=float(np.mean([r['runtime_s'] for r in records])),
-                   proposed_1152_runtime_s=float(np.mean([r['runtime_s'] for r in records])*1152))
+                   proposed_1152_runtime_s=None if synthetic else float(np.mean([r['runtime_s'] for r in records])*1152))
     output.with_suffix('.summary.json').write_text(json.dumps(summary,indent=2))
     return summary
 

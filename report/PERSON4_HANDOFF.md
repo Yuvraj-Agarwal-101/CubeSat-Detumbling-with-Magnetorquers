@@ -2,7 +2,7 @@
 
 No other owner's physics or RK4 module is implemented here. Provide a small team_adapter.py after interfaces settle.
 
-`simulate(case, dt_s) -> dict` must return finite arrays `t (N,)`, `states (N,7)`, `raw_dipole (N,3)`, `dipole (N,3)`, `torque (N,3)`. Time begins at zero and ends exactly at `case['metrics']['deadline_s']`. All cases run the full horizon even after success. Evaluate forcing and control at every RK4 stage. Use only the team's scratch RK4. Retain quaternion norm diagnostics as an additional return array. The runner saves all returned arrays.
+simulate(case, dt_s) -> dict` must return finite arrays `t (N,)`, `states (N,7)`, `raw_dipole (N,3)`, `dipole (N,3)`, `torque (N,3)`. Time begins at zero and ends exactly at `case['metrics']['deadline_s']`. All cases run the full horizon even after success. Evaluate forcing and control at every RK4 stage. Use only the team's scratch RK4. Retain quaternion norm diagnostics as an additional return array. The runner saves all returned arrays.
 
 Case keys are demonstrated in configs/study.json and src/experiments.py. Translate these explicitly into the team's final configuration. Reject unsupported configurations rather than ignoring keys. `y0` is scalar first quaternion followed by body angular velocity in rad/s. `gain_kg_m2_s` is for normalized B dot. The dipole limit is a vector norm. `phase_rad` varies uniformly with the common geometry ensemble. `field_mode='frozen_inertial'` freezes the inertial field at initial phase and sets its inertial derivative to zero, but still rotates it to body coordinates. Person 1 must finalize assumptions and Person 3 must provide Earth dipole constants before real runs.
 
@@ -29,3 +29,8 @@ Saturation fraction integrates the above-limit duration of the piecewise linear 
 Generated manifest.json contains actual commands, config hashes, seeds, and source records. summary_table.json preserves counts, invalids, censoring, and conditional medians. paired_outcomes.json retains outcomes that cannot appear in the successful-pair scatter. Copy verified PDF figures to report/figures for Overleaf. Standard packages for the fragments are hyperref and graphicx. No fragment is inserted into another member's main.tex automatically.
 
 AI assisted implementation, tests, documentation and draft pending report sections. Students must review and understand all changes. Actual contribution percentages and final AI acknowledgment remain the team's responsibility.
+
+
+## Revision based on course lectures
+
+The current generator obtains the physical dictionary and deadline from the canonical baseline. Each case contains document, a full validated src.config case with per-override provenance. The old flat physical keys described during initial development are superseded by the canonical physical.orbit, physical.magnetic and physical.controller structure. See docs/lecture_basis.md for lecture mapping, studies/refinement_audit.py for preproduction diagnostic checks and the README for commands. The user's existing handoff edit has been retained.

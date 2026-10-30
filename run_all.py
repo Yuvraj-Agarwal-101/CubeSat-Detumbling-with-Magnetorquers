@@ -15,6 +15,7 @@ def main():
     def call(*args):subprocess.run([sys.executable,*args],cwd=root,check=True)
     call('-m','pytest','-q','-p','no:cacheprovider')
     out=Path(a.output or ('data/processed/synthetic_demo' if a.demo else 'data/processed/production'))
+    call('-m','studies.metric_refinement','--output',str(out/'metric_verification'))
     flags=['--synthetic'] if a.demo else ['--verification',a.verification]
     call('-m','studies.parameter_sweep','--grid','demo' if a.demo else 'production',
          '--output',str(out/'records.jsonl'),*flags)

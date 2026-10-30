@@ -1,5 +1,7 @@
 # Person 4 observed verification
 
+Historical initial pipeline check. See PERSON4_LECTURE_REVISION.md for the revised code, current combined suite, shared baseline integration, and lecture-based checks.
+
 Base repository commit 79161bc. Local working branch person4-experiments. Checks run on Python 3.13.14 with NumPy 2.3.2, Matplotlib 3.10.5 and pytest 8.4.2.
 
 - `python -m pytest -q -p no:cacheprovider` passed 78 cases including the 62 existing quaternion cases.

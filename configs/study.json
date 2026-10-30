@@ -1,37 +1,8 @@
 {
   "seed": 3702026,
-  "physical": {
-    "inertia_kg_m2": [
-      [
-        0.03,
-        0,
-        0
-      ],
-      [
-        0,
-        0.035,
-        0
-      ],
-      [
-        0,
-        0,
-        0.007
-      ]
-    ],
-    "altitude_m": 500000,
-    "inclination_rad": 0.9599310885968813,
-    "raan_rad": 0,
-    "parameter_status": "proposed assumptions; Person 1 must finalize",
-    "field_model": "rotating tilted dipole; Person 3 must supply constants"
-  },
   "field_modes": [
     "orbital"
   ],
-  "metrics": {
-    "threshold_rad_s": 0.008726646259971648,
-    "hold_s": 600,
-    "deadline_s": 34008.86621436699
-  },
   "grids": {
     "pilot": {
       "spin_deg_s": [
@@ -110,5 +81,6 @@
       ],
       "geometries": 2
     }
-  }
+  },
+  "baseline_path": "configs/baseline.json"
 }
