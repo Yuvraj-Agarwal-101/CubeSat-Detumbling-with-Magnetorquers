@@ -12,9 +12,9 @@ The full project includes attitude dynamics, magnetic forcing and control, a num
 
 ## Current status
 
-The engineering premise and quaternion utility layer are complete. The premise is in `report/sections/premise.tex`. It defines the question, full initial value problem, numerical motivation, assumptions, actuator constraint, and deadline criterion. Quaternion utilities and their independent geometry tests are implemented. All numerical values remain proposed study inputs.
+The engineering premise, quaternion utilities, and Euler dynamics layer are implemented. The premise is in `report/sections/premise.tex`. It defines the question, full initial value problem, numerical motivation, assumptions, actuator constraint, and deadline criterion. Independent quaternion and dynamics checks pass. All numerical values remain proposed study inputs.
 
-The repository contains the agreed folder structure and a local development environment. Dynamics and control modules, the numerical integrator, convergence drivers, engineering results remain pending. Person 4 metrics, experiment generators, study runner, monochrome plotting, and run_all.py are now available. The synthetic pipeline is verified. Real physics, convergence, production step selection, and engineering results remain pending.
+The repository contains the agreed folder structure and a local development environment. Dynamics accepts explicit field and controller callbacks, but the production field and controller modules are not yet present. Production field and control, the final shared configuration, numerical integrator, convergence drivers, and engineering results remain pending. Person 4 metrics, study runners, plotting and run_all.py are implemented with synthetic pipeline checks. No full physics simulation or convergence claim is made.
 
 ## Local environment
 
@@ -31,12 +31,12 @@ python3 -m venv .venv
 ## Organization and ownership
 
 1. `src` holds reusable numerical and physics modules. Person 1 owns quaternion utilities and dynamics. Person 2 owns the integrator. Person 3 owns orbital forcing and control.
-2. `tests` holds independent correctness checks. `tests/test_quaternion.py` contains 62 passing quaternion cases.
-3. `studies` holds convergence, time step selection, engineering sweeps, and figure drivers. Person 2 owns numerical studies and Person 4 owns engineering studies. This folder is currently reserved.
+2. `tests` holds independent correctness checks. `tests/test_quaternion.py` contains 62 quaternion cases and `tests/test_dynamics.py` contains 62 dynamics cases. All 124 cases pass.
+3. `studies` holds convergence, time step selection, engineering sweeps, and figure drivers. Person 2 owns numerical studies and Person 4 owns engineering studies. Person 4 engineering drivers are implemented; numerical drivers remain pending.
 4. `configs` holds recorded parameters and initial conditions once implemented.
 5. `data/processed` holds reproducible case records once generated.
 6. `figures` holds generated report figures once available.
-7. `report` holds the Overleaf source. Person 1 owns the premise and report assembly. The current main document previews the premise, quaternion verification, and the reference.
+7. `report` holds the Overleaf source. Person 1 owns the premise and report assembly. The current main document previews the premise, quaternion and dynamics verification, and the reference.
 
 ## Quaternion API
 
@@ -57,13 +57,21 @@ Run the current checks from the repository root.
 .venv/bin/python -m pytest -q
 ```
 
-The observed result is 62 passing tests. These are algebraic and geometry checks. They do not establish time integration accuracy or convergence.
+The observed result is 124 passing tests. These are instantaneous algebraic, geometry, and interface checks. They do not establish time integration accuracy or convergence.
+
+## Dynamics API
+
+Import `angular_acceleration` and `rhs` from `src.dynamics`. The reusable derivative has signature `rhs(t, y, config)`. State order is the four scalar first quaternion components followed by three body angular velocity components. It returns seven derivatives without advancing time.
+
+The configuration must supply `inertia`, `field_model`, and `controller`. The inertia is a symmetric positive definite matrix of shape `(3, 3)`. The field and controller are pure callbacks, evaluated on every derivative call. Dynamics transforms the field and its derivative into body components and solves Euler's equation using the independently computed magnetic torque.
+
+See `docs/dynamics_interface.md` for exact callback signatures, units, output keys, validation, and integration instructions. The documented contract is ready for Person 3's modules, but production integration remains pending. Tests use labeled artificial callbacks only. Missing callbacks fail explicitly.
 
 ## Overleaf
 
 Upload the contents of `report` to a new Overleaf project and select `main.tex` as the main document. The source uses standard packages and BibTeX. The engineering premise can also be copied from `report/sections/premise.tex` into the shared report with `\input{sections/premise}`. The shared report must include the `nasa_gnc` entry from `report/references.bib` and load `amsmath`, `amssymb`, and `hyperref`.
 
-The current preview contains the premise and completed quaternion checks. Integration convergence, full model verification, and engineering results remain pending. The final report will combine every member's contributions.
+The current preview contains the premise and completed quaternion and dynamics checks. Both verification fragments sit under Correct implementation and verification. Integration convergence, full model verification, and engineering results remain pending. The final report will combine every member's contributions.
 
 ## Reproducibility required before submission
 
@@ -75,7 +83,7 @@ Before submission, a teammate must follow only this README in a clean clone and 
 
 ## Team progress records
 
-Each member should record completed work, checks, dependencies, and AI use as their contributions are added. The existing records in `report/WORKCHUNK_1.md` and `report/WORKCHUNK_2.md` document the first premise and quaternion contributions. Copyable report source for quaternion verification is in `report/sections/quaternion_verification.tex`. These records describe individual contributions within the shared project rather than limiting the repository's scope.
+Each member should record completed work, checks, dependencies, and AI use as their contributions are added. The existing records in `report/WORKCHUNK_1.md`, `report/WORKCHUNK_2.md`, and `report/WORKCHUNK_3.md` document the premise, quaternion, and dynamics contributions. Copyable report fragments are in `report/sections`. These records describe individual contributions within the shared project rather than limiting the repository's scope.
 
 
 ## Person 4 implementation and commands
@@ -96,7 +104,7 @@ Observed checks are recorded in `report/PERSON4_VERIFICATION.md`. Demonstration 
 
 ### Real engineering workflow after upstream integration
 
-1. Finalize `configs/study.json` assumptions with Person 1. The deadline currently uses six circular periods from radius 6871000 m and gravitational parameter 3.986004418e14 m³/s². Recompute the common deadline if these assumptions change. Match `configs/paired.json` except for field modes. The sampled initial attitudes are uniform on SO(3) via normalized Gaussian four-vectors. Spin directions are uniform on the sphere via normalized Gaussian three-vectors. Orbital phase is uniform on [0, 2 pi). Seed 3702026 is fixed. Geometries are shared across all settings and field modes.
+1. Finalize `configs/study.json` assumptions with Person 1. The deadline currently uses six circular periods from radius 6871000 m and gravitational parameter 3.986004418e14 mÂ³/sÂ². Recompute the common deadline if these assumptions change. Match `configs/paired.json` except for field modes. The sampled initial attitudes are uniform on SO(3) via normalized Gaussian four-vectors. Spin directions are uniform on the sphere via normalized Gaussian three-vectors. Orbital phase is uniform on [0, 2 pi). Seed 3702026 is fixed. Geometries are shared across all settings and field modes.
 2. Connect the physics and scratch RK4 through the documented adapter. Commit the integration. Person 2 supplies convergence, independent checks, output-grid refinement evidence, and an accepted step. `studies/convergence.py` and `studies/timestep_selection.py` are reserved for Person 2 and are not supplied by this contribution. Their executable commands must be added when those drivers exist. No external integrator is used by Person 4.
 3. Copy `configs/verification.example.json` to `configs/verification.json` and record actual evidence, its SHA256 digests, accepted step, adapter, tested commit and reviewer. Do not set completion flags for pending checks. Run the 108-case pilot using the command below.
 4. Review the pilot summary runtime and accuracy before production. Add its records path to verification.json. The tentative production grid has 1152 orbital cases. The paired grid has 216 cases. The same deadline is used for all cases. Synthetic runtime estimates do not estimate physics runtime.
@@ -115,4 +123,4 @@ The plots and `summary_table.json` report results for each gain, spin and dipole
 
 ### Final reproduction status
 
-A clean clone reproduction of the completed physics study, final tested commit, evaluator access, real pilot runtime and production runtime remain pending. The supplied GitHub repository was cloned successfully at base commit 79161bc. This local contribution is on branch `person4-experiments` and has not been pushed. Final publication must include the implementation, accepted configuration, verification evidence and either processed data or executable generation steps for all report figures. Do not include the ignored synthetic fixture directory as engineering evidence.
+A clean clone reproduction of the completed physics study, final tested commit, evaluator access, real pilot runtime and production runtime remain pending. The supplied GitHub repository was cloned successfully at base commit 79161bc. The Person 4 implementation is maintained on branch `person4-experiments`. Final publication must include the implementation, accepted configuration, verification evidence and either processed data or executable generation steps for all report figures. Do not include the ignored synthetic fixture directory as engineering evidence.
