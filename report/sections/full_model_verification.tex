@@ -11,21 +11,23 @@ Case & $h$ & Success & $t_d$ & Final rate & Saturation \\
 unsaturated & 2 & 1 & 16138.00 & 0.002165 & 0.000000 \\
 unsaturated & 1 & 1 & 16135.00 & 0.002165 & 0.000000 \\
 unsaturated & 0.5 & 1 & 16135.00 & 0.002165 & 0.000000 \\
+unsaturated & 0.25 & 1 & 16135.00 & 0.002165 & 0.000000 \\
 saturated & 2 & 1 & 24596.00 & 0.002638 & 0.367581 \\
 saturated & 1 & 1 & 24568.00 & 0.002717 & 0.367595 \\
 saturated & 0.5 & 1 & 24567.00 & 0.002719 & 0.367647 \\
+saturated & 0.25 & 1 & 24566.75 & 0.002719 & 0.367606 \\
 \end{tabular}
 \end{center}
 Times and steps are in seconds, final rates in radians per second, and
 saturation is a time fraction. Full precision records also include peak
 torque, effort, runtime, evaluation counts and norm diagnostics.
-No tested step passed all declared comparisons across both cases. Further refinement is required.
+The screening gate selects $1$ seconds for these two cases after two successive refinements.
 The declared relative tolerances are one percent for time, final rate
 and peak torque, with absolute floors of one second, $10^{-6}$ radians per
 second and $10^{-10}$ newton metres. Saturation fraction uses $0.005$ absolute.
 The JSON records every comparison and classification. Screening acceptance
 does not approve every gain, initial geometry or case near a success boundary.
 The metrics use sampled output; threshold intervals, saturation crossings
-and narrow torque peaks can be unresolved. Separate output grid refinement
-and representative engineering cases remain necessary before production sweeps.
+and narrow torque peaks can be unresolved. The independent output grid audit and accepted baseline setting are documented
+in the next subsection. Broader engineering cases still require their own audit.
 A deadline failure does not establish that eventual recovery is impossible.

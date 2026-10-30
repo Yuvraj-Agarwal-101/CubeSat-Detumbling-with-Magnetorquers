@@ -7,6 +7,7 @@ have sampling error. No claim of continuous event localization is made.
 import argparse
 import importlib
 import json
+import hashlib
 from pathlib import Path
 import time
 import numpy as np
@@ -147,6 +148,9 @@ def run(adapter, settings_path=None):
         result = dict(status='screening complete, team review required' if selected else 'further refinement or cases required',
                       adapter=adapter, settings=settings, cases=records, selected_step_s=selected,
                       limitation='Sampled events can miss intervening excursions and narrow saturation or torque peaks. Independent physics verification and team approval remain necessary.')
+        result['source_hashes']={name:hashlib.sha256((ROOT/name).read_bytes().replace(b'\r\n',b'\n')).hexdigest()
+                                for name in ['src/orbit_field.py','src/controller.py','team_adapter.py',
+                                             'src/dynamics.py','src/integrators.py'] if (ROOT/name).exists()}
     out = ROOT/'data/processed/timestep_selection.json'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2))

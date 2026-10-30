@@ -46,6 +46,17 @@
       "data": "data/processed/timestep_selection.json",
       "configuration": "configs/full_model_refinement.json; complete overridden cases stored in data",
       "seed": null
+    },
+    {
+      "artifact": "report/sections/production_step.tex",
+      "generator": "python -m studies.production_acceptance",
+      "configuration": "configs/baseline.json",
+      "data": [
+        "data/processed/production_validation/acceptance.json",
+        "data/processed/production_validation/confirmation.json",
+        "data/processed/production_validation/baseline.json"
+      ],
+      "seed": null
     }
   ]
 }

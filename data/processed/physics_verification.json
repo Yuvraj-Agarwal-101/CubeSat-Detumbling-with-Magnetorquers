@@ -60,7 +60,7 @@
     },
     "solver": {
       "method": "rk4",
-      "step_size_s": null
+      "step_size_s": 1
     },
     "provenance": {
       "physical.inertia_kg_m2": {
@@ -148,8 +148,8 @@
         "note": "Planned numerical method. This is not a completed convergence claim."
       },
       "solver.step_size_s": {
-        "classification": "pending",
-        "note": "Determine from the convergence and engineering metric refinement studies."
+        "classification": "derived",
+        "note": "Accepted from two successive real-model refinements and independent output sampling audit; see data/processed/production_validation/acceptance.json. Applies to the stated baseline and tested saturation regimes."
       }
     }
   },

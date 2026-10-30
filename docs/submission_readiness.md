@@ -1,7 +1,14 @@
 # Shared project readiness
 
-The idealized circular orbit, rotating tilted dipole and analytic total derivative, normalized B dot controller, vector saturation, quaternion and Euler dynamics, scratch RK4, exact and lecture verification are implemented. team_adapter connects the full model to numerical refinement and the documented Person 4 simulation interface.
+## Person 2 numerical contribution complete
 
-The complete test suite has 226 cases. Full model refinement results are stored in data/processed/timestep_selection.json and generated into report/sections/full_model_verification.tex when available. The settings in configs/full_model_refinement.json are declared numerical screening tolerances, not broad engineering acceptance.
+1. Scratch classical RK4 with per-stage forcing/control, completed-step quaternion projection and preprojection diagnostics.
+2. Method derivation, local/global error conventions and stability discussion aligned with the supplied lectures.
+3. Independent scalar and spherical exact cases, measured fourth order convergence, data and monochrome figure.
+4. Idealized orbital field, analytic total derivative, normalized B dot control and independent physical checks.
+5. Unsaturated and saturated six-orbit runs at 2, 1, 0.5 and 0.25 seconds.
+6. Two passing successive refinements support a 1-second production step. The failed coarser comparison is preserved.
+7. Separate fixed-trajectory output audit and all-stage confirmation of the true baseline actuator bound.
+8. Operational configuration, report parameter table, evidence fingerprints, copyable LaTeX and full reproduction commands.
 
-Remaining team work includes representative gain/rate/geometry checks, separate output event resolution, approval of a production setting, real pilot and production sweeps, final engineering interpretation and contribution percentages, LaTeX compilation and independent teammate reproduction. Historical records describe their named commits. New implementation has not been attributed as completed work by another student.
+The suite has 234 passing tests. The accepted step applies to the documented baseline geometry/gain and tested saturation regimes. New engineering parameter settings require their own numerical audit. The team still owns engineering sweeps, final interpretation, actual student contribution percentages, independent teammate reproduction and final combined submission. These are distinct from the completed numerical contribution.

@@ -1,11 +1,12 @@
 {
-  "status": "further refinement or cases required",
+  "status": "confirmed numerical step",
   "adapter": "team_adapter",
   "settings": {
     "step_sizes_s": [
       2,
       1,
-      0.5
+      0.5,
+      0.25
     ],
     "rate_threshold_rad_s": 0.008726646259971648,
     "hold_duration_s": 600,
@@ -250,6 +251,20 @@
           "runtime_s": 329.50310119998176,
           "max_preprojection_norm_error": 1.5919466855862652e-09,
           "rhs_evaluations": 272072
+        },
+        {
+          "step_s": 0.25,
+          "metrics": {
+            "success": true,
+            "detumbling_time_s": 16135.0,
+            "final_rate_rad_s": 0.0021654110271238053,
+            "peak_torque_Nm": 1.8137810456251983e-06,
+            "saturation_fraction": 0.0,
+            "dipole_effort_A_m2_s": 188.04025327254084
+          },
+          "runtime_s": 1581.1886031000176,
+          "max_preprojection_norm_error": 5.065992070285574e-11,
+          "rhs_evaluations": 544144
         }
       ],
       "comparisons": [
@@ -301,6 +316,34 @@
               "pass": true,
               "absolute_difference": 1.454052600648941e-09,
               "allowed_difference": 1.81378101182077e-08
+            },
+            "saturation_fraction": {
+              "pass": true,
+              "absolute_difference": 0.0,
+              "allowed_difference": 0.005
+            }
+          }
+        },
+        {
+          "pass": true,
+          "metrics": {
+            "success": {
+              "pass": true
+            },
+            "detumbling_time_s": {
+              "pass": true,
+              "absolute_difference": 0.0,
+              "allowed_difference": 161.35
+            },
+            "final_rate_rad_s": {
+              "pass": true,
+              "absolute_difference": 7.503053170085372e-11,
+              "allowed_difference": 2.1654110271238053e-05
+            },
+            "peak_torque_Nm": {
+              "pass": true,
+              "absolute_difference": 3.3804428474385004e-14,
+              "allowed_difference": 1.8137810456251983e-08
             },
             "saturation_fraction": {
               "pass": true,
@@ -531,6 +574,20 @@
           "runtime_s": 349.4896818000125,
           "max_preprojection_norm_error": 1.7021208886802697e-09,
           "rhs_evaluations": 272072
+        },
+        {
+          "step_s": 0.25,
+          "metrics": {
+            "success": true,
+            "detumbling_time_s": 24566.75,
+            "final_rate_rad_s": 0.0027185463116684862,
+            "peak_torque_Nm": 4.385722610737916e-07,
+            "saturation_fraction": 0.3676063448042441,
+            "dipole_effort_A_m2_s": 188.2193662627418
+          },
+          "runtime_s": 1581.6729368999368,
+          "max_preprojection_norm_error": 5.1987969484912355e-11,
+          "rhs_evaluations": 544144
         }
       ],
       "comparisons": [
@@ -589,10 +646,38 @@
               "allowed_difference": 0.005
             }
           }
+        },
+        {
+          "pass": true,
+          "metrics": {
+            "success": {
+              "pass": true
+            },
+            "detumbling_time_s": {
+              "pass": true,
+              "absolute_difference": 0.25,
+              "allowed_difference": 245.66750000000002
+            },
+            "final_rate_rad_s": {
+              "pass": true,
+              "absolute_difference": 1.604325070058213e-08,
+              "allowed_difference": 2.718546311668486e-05
+            },
+            "peak_torque_Nm": {
+              "pass": true,
+              "absolute_difference": 5.293955920339377e-23,
+              "allowed_difference": 4.385722610737916e-09
+            },
+            "saturation_fraction": {
+              "pass": true,
+              "absolute_difference": 4.043063333347696e-05,
+              "allowed_difference": 0.005
+            }
+          }
         }
       ]
     }
   ],
-  "selected_step_s": null,
+  "selected_step_s": 1,
   "limitation": "Sampled events can miss intervening excursions and narrow saturation or torque peaks. Independent physics verification and team approval remain necessary."
 }

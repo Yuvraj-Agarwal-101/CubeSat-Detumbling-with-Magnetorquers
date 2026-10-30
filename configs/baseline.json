@@ -27,14 +27,14 @@
       "phase_rad": 0
     },
     "magnetic": {
-      "equatorial_surface_field_t": 0.00003,
+      "equatorial_surface_field_t": 3e-05,
       "dipole_tilt_rad": 0.19198621771937624,
-      "earth_rotation_rate_rad_s": 0.00007292115,
+      "earth_rotation_rate_rad_s": 7.292115e-05,
       "earth_rotation_phase_rad": 0
     },
     "controller": {
       "law": "normalized_b_dot",
-      "gain_kg_m2_s": 0.00001,
+      "gain_kg_m2_s": 1e-05,
       "max_dipole_a_m2": 0.1,
       "saturation": "vector_norm"
     }
@@ -59,7 +59,7 @@
   },
   "solver": {
     "method": "rk4",
-    "step_size_s": null
+    "step_size_s": 1
   },
   "provenance": {
     "physical.inertia_kg_m2": {
@@ -147,8 +147,8 @@
       "note": "Planned numerical method. This is not a completed convergence claim."
     },
     "solver.step_size_s": {
-      "classification": "pending",
-      "note": "Determine from the convergence and engineering metric refinement studies."
+      "classification": "derived",
+      "note": "Accepted from two successive real-model refinements and independent output sampling audit; see data/processed/production_validation/acceptance.json. Applies to the stated baseline and tested saturation regimes."
     }
   }
 }

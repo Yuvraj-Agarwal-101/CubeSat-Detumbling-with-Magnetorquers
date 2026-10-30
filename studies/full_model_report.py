@@ -43,8 +43,8 @@ second and $10^{-10}$ newton metres. Saturation fraction uses $0.005$ absolute.
 The JSON records every comparison and classification. Screening acceptance
 does not approve every gain, initial geometry or case near a success boundary.
 The metrics use sampled output; threshold intervals, saturation crossings
-and narrow torque peaks can be unresolved. Separate output grid refinement
-and representative engineering cases remain necessary before production sweeps.
+and narrow torque peaks can be unresolved. The independent output grid audit and accepted baseline setting are documented
+in the next subsection. Broader engineering cases still require their own audit.
 A deadline failure does not establish that eventual recovery is impossible.
 '''
     (ROOT/'report/sections/full_model_verification.tex').write_text(text)
